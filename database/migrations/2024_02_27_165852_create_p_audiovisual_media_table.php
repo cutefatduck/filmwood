@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_audiovisual_type');
             $table->foreign('id_audiovisual_type')->references('id')->on('p_audiovisual_types')->onDelete('cascade');
             
-            # 
+            # Clave foranea genero
             $table->unsignedBigInteger('id_genere');
             $table->foreign('id_genere')->references('id')->on('p_genres')->onDelete('cascade');
 
