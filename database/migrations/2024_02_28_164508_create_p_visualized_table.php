@@ -19,9 +19,10 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
 
             # Clave foranea de el cliente
-            $table->unsignedBigInteger('id_audiovisual_media');
-            $table->foreign('id_audiovisual_media')->references('id')->on('p_audiovisual_media')->onDelete('cascade');
+            $table->unsignedBigInteger('id_media_show');
+            $table->foreign('id_media_show')->references('id')->on('p_media_show')->onDelete('cascade');
             
+
             $table->timestamps();
         });
     }

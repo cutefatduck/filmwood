@@ -10,13 +10,12 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {   
-        // Creamos la clave primaria de la tabla (Hace referencia a id_pais):
-        Schema::create('p_countries', function (Blueprint $table) {
-            // Creamos la clave primaria de la tabla (Hace referencia a id_pais):
+    {
+        // Crearemos la tabla sobre el tipo de media_show (Peli o serie) junto con su campo:
+        Schema::create('p_media_show_types', function (Blueprint $table) {
+            // Creamos la clave primaria de la tabla (Hace referencia a id_tipo_media_show)
             $table->id();
-            $table->string('nomenclature');
-            $table->string('name');
+            $table->string('types');
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_countries');
+        Schema::dropIfExists('p_media_show_types');
     }
 };

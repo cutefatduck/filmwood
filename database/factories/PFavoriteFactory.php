@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\p_audiovisual_tipe>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\p_favorite>
  */
-class PAudiovisualTypeFactory extends Factory
+class PFavoriteFactory extends Factory
 {
     /**
      * Define the model's default state.

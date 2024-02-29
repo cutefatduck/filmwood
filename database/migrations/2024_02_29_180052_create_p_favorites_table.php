@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_valorations', function (Blueprint $table) {
+        Schema::create('p_favorites', function (Blueprint $table) {
             $table->id();
 
-            # Clave foranea de el cliente
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
-
-            # Clave foranea de el cliente
+            # Clave foránea de la tabla media_show:
             $table->unsignedBigInteger('id_media_show');
             $table->foreign('id_media_show')->references('id')->on('p_media_show')->onDelete('cascade');
-
-            $table->integer('puntuacion');
-            $table->string('valoracion');
-                        
+            
+            # Clave foránea de el cliente
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_valorations');
+        Schema::dropIfExists('p_favorites');
     }
 };

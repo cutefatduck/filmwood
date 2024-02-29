@@ -11,20 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_valorations', function (Blueprint $table) {
+        Schema::create('p_roles', function (Blueprint $table) {
             $table->id();
 
             # Clave foranea de el cliente
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
 
-            # Clave foranea de el cliente
-            $table->unsignedBigInteger('id_media_show');
-            $table->foreign('id_media_show')->references('id')->on('p_media_show')->onDelete('cascade');
-
-            $table->integer('puntuacion');
-            $table->string('valoracion');
-                        
+            $table->string('role');
 
             $table->timestamps();
         });
@@ -35,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_valorations');
+        Schema::dropIfExists('p_roles');
     }
 };

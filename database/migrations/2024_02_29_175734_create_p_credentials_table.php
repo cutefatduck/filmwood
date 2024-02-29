@@ -11,9 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_audiovisual_types', function (Blueprint $table) {
+        Schema::create('p_credentials', function (Blueprint $table) {
             $table->id();
-            $table->string('types');
+
+            # Clave foranea de el cliente
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
+
+            $table->string('password');
+
+            $table->timestamps();
         });
     }
 
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_audiovisual_types');
+        Schema::dropIfExists('p_credentials');
     }
 };

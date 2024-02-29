@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\p_audiovisual_media>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\p_media_show>
  */
-class PAudiovisualMediaFactory extends Factory
+class PMediaShowFactory extends Factory
 {
     /**
      * Define the model's default state.

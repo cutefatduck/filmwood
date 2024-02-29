@@ -38,6 +38,13 @@ const model = ref([
         ]
     },
     {
+        label: 'Media',
+        items: [
+            { label: 'Multimedia ', icon: 'pi pi-fw pi-id-card', to: '/admin/media', permision: 'post-list' },
+        ]
+        
+    },
+    {
         label: 'Posts',
         items: [
             { label: 'Posts', icon: 'pi pi-fw pi-id-card', to: '/admin/posts', permision: 'post-list' }
