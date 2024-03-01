@@ -20,11 +20,28 @@ return new class extends Migration
 
             # Clave foranea del tipo media_show
             $table->unsignedBigInteger('id_media_show_type');
-            $table->foreign('id_media_show_type')->references('id')->on('p_media_show_types')->onDelete('cascade');
+            $table->foreign('id_media_show_type')->references('id')->on('p_media_show_type')->onDelete('cascade');
             
             # Clave foranea genero
             $table->unsignedBigInteger('id_genere');
             $table->foreign('id_genere')->references('id')->on('p_genres')->onDelete('cascade');
+
+            # Clave foranea de el pais
+            $table->unsignedBigInteger('id_pemi');
+            $table->foreign('id_pemi')->references('id')->on('p_pemi')->onDelete('cascade');
+
+            $table->string('nombre');
+            $table->time('duracion');
+            $table->string('actores');
+            $table->string('sinopsis_corta');
+            $table->string('portada_img');
+            $table->string('idioma');
+            $table->string('directores');
+            $table->string('sinopsis');
+            $table->string('trailer');
+            $table->integer('episodios');
+            $table->integer('temporadas');
+            $table->date('fecha_media_show');
 
             $table->timestamps();
         });

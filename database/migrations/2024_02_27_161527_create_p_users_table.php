@@ -19,6 +19,11 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('name');
+            
+            # Clave foranea del rol
+            $table->unsignedBigInteger('id_rol');
+            $table->foreign('id_rol')->references('id')->on('p_roles')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemis', function (Blueprint $table) {
+        Schema::create('p_roles', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_pemi');
+            
+            $table->string('role');
+
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemis');
+        Schema::dropIfExists('p_roles');
     }
 };

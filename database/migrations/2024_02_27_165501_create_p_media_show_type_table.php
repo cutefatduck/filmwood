@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_roles', function (Blueprint $table) {
+        // Crearemos la tabla sobre el tipo de media_show (Peli o serie) junto con su campo:
+        Schema::create('p_media_show_type', function (Blueprint $table) {
+            // Creamos la clave primaria de la tabla (Hace referencia a id_tipo_media_show)
             $table->id();
-
-            # Clave foranea de el cliente
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
-
-            $table->string('role');
-
-            $table->timestamps();
+            $table->string('type');
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_roles');
+        Schema::dropIfExists('p_media_show_type');
     }
 };
