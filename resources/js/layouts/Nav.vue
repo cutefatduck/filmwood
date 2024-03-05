@@ -22,6 +22,11 @@
                             >{{ $t('login') }}</router-link
                             >
                         </li>
+
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/login1">login1</router-link>
+                        </li>
+                        
                         <li class="nav-item">
                             <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
                         </li>
