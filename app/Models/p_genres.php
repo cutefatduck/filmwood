@@ -13,6 +13,7 @@ class p_genres extends Model
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_genres'; 
 
+    // Indicamos los atributos que son modificables:
     protected $fillable = [
         'name_genre'
     ];

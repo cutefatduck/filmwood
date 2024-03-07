@@ -13,6 +13,7 @@ class Serie extends Pelicula
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_media_show'; 
 
+    // Indicamos los atributos que son modificables:
     protected $fillable = [
         'episodios',
         'temporadas'

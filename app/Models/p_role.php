@@ -13,6 +13,7 @@ class p_role extends Model
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_role'; 
 
+    // Indicamos los atributos que son modificables:
     protected $fillable = [
         'rol'
     ];

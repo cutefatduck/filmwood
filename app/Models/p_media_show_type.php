@@ -11,8 +11,9 @@ class p_media_show_type extends Model
     use HasFactory;
     
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
-        protected $table = 'p_media_show_type'; 
+    protected $table = 'p_media_show_type'; 
 
+    // Indicamos los atributos que son modificables:
     protected $fillable = [
         'tipo'
     ];
