@@ -20,4 +20,9 @@ class p_credential extends Model
     
     // Indicamos a Laravel que no use las columnas created_at y updated_at
     public $timestamps = false;
+
+    public function id_user()
+    {
+        return $this->belongsTo(p_user::class, 'id_user');
+    }
 }

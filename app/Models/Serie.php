@@ -18,4 +18,7 @@ class Serie extends Pelicula
         'episodios',
         'temporadas'
     ];
+
+    // Indicamos a Laravel que no use las columnas created_at y updated_at
+    public $timestamps = false; 
 }

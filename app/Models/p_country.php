@@ -11,7 +11,7 @@ class p_country extends Model
     use HasFactory;
     
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
-    protected $table = 'p_users'; 
+    protected $table = 'p_countries'; 
 
     // Indicamos los atributos que son modificables:
     protected $fillable = [
