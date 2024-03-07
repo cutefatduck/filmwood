@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_pemi', function (Blueprint $table) {
+        Schema::create('p_pemis', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_pemi');
+            $table->string('number_pemi');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_pemi');
+        Schema::dropIfExists('p_pemis');
     }
 };

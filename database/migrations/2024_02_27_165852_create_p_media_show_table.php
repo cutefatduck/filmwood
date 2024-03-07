@@ -28,7 +28,7 @@ return new class extends Migration
 
             # Clave foranea de el pais
             $table->unsignedBigInteger('id_pemi');
-            $table->foreign('id_pemi')->references('id')->on('p_pemi')->onDelete('cascade');
+            $table->foreign('id_pemi')->references('id')->on('p_pemis')->onDelete('cascade');
 
             $table->string('nombre');
             $table->time('duracion');
