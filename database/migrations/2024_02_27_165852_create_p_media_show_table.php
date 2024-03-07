@@ -38,11 +38,12 @@ return new class extends Migration
             $table->string('idioma');
             $table->string('directores');
             $table->string('sinopsis');
-            $table->string('trailer');
-            $table->integer('episodios');
-            $table->integer('temporadas');
             $table->date('fecha_media_show');
-
+            $table->string('trailer');
+            $table->string('saga')->nullable();
+            $table->integer('episodios')->nullable();
+            $table->integer('temporadas')->nullable();
+            
             $table->timestamps();
         });
     }

@@ -14,19 +14,9 @@ class Pelicula extends Model
     protected $table = 'p_media_show'; 
     
     // Indicamos los atributos que son modificables:
-    protected $fillable = [
-        'nombre',
-        'duracion',
-        'actores',
-        'sinopsis_corta',
-        'sinopsis_larga',
-        'portada_img',
-        'idioma',
-        'directores',
-        'sinopsis',
-        'trailer',
-        'fecha_media_show'
-    ];
+        protected $fillable = [
+            'saga',
+        ];
 
     // Indicamos a Laravel que no use las columnas created_at y updated_at
     public $timestamps = false;
