@@ -9,6 +9,9 @@ class p_pemi extends Model
 {
     use HasFactory;
 
+    // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
+        protected $table = 'p_pemi'; 
+
     protected $fillable = [
         'number_pemi'
     ];
