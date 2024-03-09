@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Crearemos la tabla generos junto con sus campos:
+
         Schema::create('p_genres', function (Blueprint $table) {
-            // Creamos la clave primaria de la tabla (Hace referencia a id_genero)
+
+            // Creamos la clave primaria de la tabla:
             $table->id();
+
+            // Creamos el otro campo de la tabla:
             $table->string('name_genre');
         });
     }

@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {   
-        // Creamos la tabla usuarios:
+
         Schema::create('p_users', function (Blueprint $table) {
 
-            // Creamos la clave primaria de la tabla (Hace referencia a id_usuario)
+            // Creamos la clave primaria de la tabla:
             $table->id();
+
+            // Creamos el resto de campos de la tabla:
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('name');
             
-            # Clave foranea del rol
+            // Creamos la clave foránea del rol:
             $table->unsignedBigInteger('id_rol');
             $table->foreign('id_rol')->references('id')->on('p_roles')->onDelete('cascade');
             

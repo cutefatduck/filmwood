@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('p_favorites', function (Blueprint $table) {
+
+            // Creamos la clave primaria de la tabla:
             $table->id();
 
-            # Clave foránea de la tabla media_show:
+            // Creamos la clave foránea del id de la media show:
             $table->unsignedBigInteger('id_media_show');
             $table->foreign('id_media_show')->references('id')->on('p_media_show')->onDelete('cascade');
             
-            # Clave foránea de el cliente
+            // Creamos la clave foránea del id del usuario:
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
 

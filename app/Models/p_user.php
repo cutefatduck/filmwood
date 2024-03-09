@@ -23,6 +23,7 @@ class p_user extends Model
     // Indicamos a Laravel que no use las columnas created_at y updated_at
     public $timestamps = false;
 
+    // Definimos la clave foránea junto con su respectivo modelo:
     public function role()
     {
         return $this->belongsTo(p_role::class, 'id_rol');

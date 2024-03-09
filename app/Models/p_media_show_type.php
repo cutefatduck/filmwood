@@ -15,7 +15,7 @@ class p_media_show_type extends Model
 
     // Indicamos los atributos que son modificables:
     protected $fillable = [
-        'tipo'
+        'type'
     ];
     
     // Indicamos a Laravel que no use las columnas created_at y updated_at

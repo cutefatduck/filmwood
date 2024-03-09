@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Crearemos la tabla sobre el tipo de media_show (Peli o serie) junto con su campo:
+
         Schema::create('p_media_show_type', function (Blueprint $table) {
-            // Creamos la clave primaria de la tabla (Hace referencia a id_tipo_media_show)
+
+            // Creamos la clave primaria de la tabla:
             $table->id();
+
+            // Creamos el otro campo de la tabla:
             $table->string('type');
         });
     }

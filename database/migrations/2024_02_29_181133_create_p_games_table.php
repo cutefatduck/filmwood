@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('p_games', function (Blueprint $table) {
+            
+            // Creamos la clave primaria de la tabla:
             $table->id();
 
-            # Clave foranea de la tabla media_show:
+            # Clave foranea del id de la media show:
             $table->unsignedBigInteger('id_media_show');
             $table->foreign('id_media_show')->references('id')->on('p_media_show')->onDelete('cascade');
 

@@ -12,24 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('p_media_show', function (Blueprint $table) {
+
+            // Creamos la clave primaria de la tabla:
             $table->id();
 
-            # Clave foranea de el pais
+            // Creamos la clave foránea del pais:
             $table->unsignedBigInteger('id_country');
             $table->foreign('id_country')->references('id')->on('p_countries')->onDelete('cascade');
 
-            # Clave foranea del tipo media_show
+            // Creamos la clave foránea del tipo de media show:
             $table->unsignedBigInteger('id_media_show_type');
             $table->foreign('id_media_show_type')->references('id')->on('p_media_show_type')->onDelete('cascade');
             
-            # Clave foranea genero
+            // Creamos la clave foránea del tipo de géneros:
             $table->unsignedBigInteger('id_genere');
             $table->foreign('id_genere')->references('id')->on('p_genres')->onDelete('cascade');
 
-            # Clave foranea de el pais
+            // Creamos la clave foránea del pemi:
             $table->unsignedBigInteger('id_pemi');
             $table->foreign('id_pemi')->references('id')->on('p_pemis')->onDelete('cascade');
 
+            // Creamos el resto de campos de la tabla:
             $table->string('nombre');
             $table->time('duracion');
             $table->string('actores');

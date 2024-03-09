@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {   
-        // Creamos la clave primaria de la tabla (Hace referencia a id_pais):
+
         Schema::create('p_countries', function (Blueprint $table) {
-            // Creamos la clave primaria de la tabla (Hace referencia a id_pais):
+            
+            // Creamos la clave primaria de la tabla:
             $table->id();
+
+            // Creamos el resto de campos de la tabla:
             $table->string('nomenclature');
             $table->string('name');
         });

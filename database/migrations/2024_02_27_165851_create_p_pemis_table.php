@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('p_pemis', function (Blueprint $table) {
+
+            // Creamos la clave primaria de la tabla:
             $table->id();
+
+            // Creamos los otros campos de la tabla:
             $table->string('number_pemi');
             $table->timestamps();
         });
