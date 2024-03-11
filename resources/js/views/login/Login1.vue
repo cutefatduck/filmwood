@@ -12,11 +12,10 @@
                     <h2>Iniciar sesión</h2>
 
                         <label for="user">Usuario o email</label>
-                        <InputText v-model="loginForm.email" id="user" placeholder="Usuario o email"/>
+                        <InputText v-model="loginForm.email" id="user" placeholder="Usuario o email" required/>
 
                         <label for="password">Contraseña</label>
-                        <Password v-model="loginForm.password" :feedback="false" id="password" placeholder="Contraseña" toggleMask required/>
-
+                        <InputText v-model="loginForm.password" id="password" placeholder="Contraseña" required/>
                     
 
                     <div class="text-danger-600 mt-1">
@@ -25,7 +24,7 @@
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
-                        <button class="btn btn-primary" :class="{ 'opacity-25': processing }" :disabled="processing">login</button>
+                        <button class="btn btn-primary" :class="{ 'opacity-25': processing }">login</button>
                     </div>
                 </form>
             </div>
@@ -36,8 +35,7 @@
 <script setup>
 
 import useAuth from '@/composables/auth'
-import FloatLabel from 'primevue/floatlabel';
-import Password from 'primevue/password';
+import InputText from 'primevue/inputtext';
 
 const { loginForm, validationErrors, processing, submitLogin } = useAuth();
 

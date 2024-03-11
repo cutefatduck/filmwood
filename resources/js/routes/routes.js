@@ -10,8 +10,8 @@ const PostsEdit  = ()  => import('../views/admin/posts/Edit.vue');
 const ExercisesIndex  = ()  => import('../views/admin/exercises/Index.vue');
 const ExercisesCreate  = ()  => import('../views/admin/exercises/Create.vue');
 const ExercisesEdit  = ()  => import('../views/admin/exercises/Edit.vue');
-const MediaCreate = () => import('../views/admin/media/Index.vue')
-const Media = () => import('../views/admin/media/Create.vue')
+const MediaIndex = () => import('../views/admin/media/Index.vue')
+const MediaCreate = () => import('../views/admin/media/Create.vue')
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -115,19 +115,27 @@ export default [
                 component: () => import('../views/admin/profile/index.vue'),
                 meta: { breadCrumb: 'Profile' }
             },
+
             {
                 name: 'media',
                 path: 'media',
-                component: Media,
-                meta: { breadCrumb: 'Media' },
+                meta: { breadCrumb: 'Media'},
                 children: [
+                    {
+                        name: 'media.index',
+                        path: '',
+                        component: MediaIndex,
+                        meta: { breadCrumb: 'View' }
+                    },
+        
                     {
                         name: 'media.create',
                         path: 'create',
                         component: MediaCreate,
-                        meta: { breadCrumb: 'Create',
-                        linked: false,  }
+                        meta: { breadCrumb: 'Add new media',
+                        linked: false, }
                     },
+        
                 ]
             },
 

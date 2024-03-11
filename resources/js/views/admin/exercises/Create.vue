@@ -137,8 +137,13 @@ function submitForm() {
     })
 }
 
-onMounted(() => {
-    getCategoryList()
-})
+onMounted(async () => {
+  try {
+    const fetchedCountries = await fetchCountries();
+    countries.value = fetchedCountries;
+  } catch (error) {
+    console.error('Error fetching countries:', error);
+  }
+});
 
 </script>

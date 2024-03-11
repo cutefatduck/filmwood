@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pelicula; // Importa el modelo Pelicula
@@ -8,6 +8,28 @@ use Illuminate\Http\Request;
 
 class MediaShowController extends Controller
 {
+
+    public function index(){
+        $mediashow = Pelicula::all()->toArray();
+        return $mediashow;
+    }
+
+
+    public function create(Request $request){
+        
+        $request -> validate([
+            'nombre' => 'required',
+            'sinopsis_corta' => 'required',
+            'sinopsis' => 'required',
+            'fecha_media_show' => 'required'
+        ]);
+
+        $mediashow = $request->all();
+        $mediashowRequest= Pelicula::create($mediashow);
+
+        return response()->json(['success' => true, 'data' => $mediashowRequest]);
+    }
+
     public function agregarPelicula()
     {
         // // Crear una nueva instancia de Pelicula y asignar los valores manualmente
