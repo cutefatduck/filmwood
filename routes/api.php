@@ -20,6 +20,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'create']);
 Route::get('countries', [CountryController::class, 'view']);
+Route::post('/importar-peliculas', [MediaShowController::class, 'importarPeliculas']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('users', UserController::class);
