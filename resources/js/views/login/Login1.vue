@@ -15,7 +15,7 @@
                         <InputText v-model="loginForm.email" id="user" placeholder="Usuario o email" required/>
 
                         <label for="password">Contraseña</label>
-                        <InputText v-model="loginForm.password" id="password" placeholder="Contraseña" required/>
+                        <InputText v-model="loginForm.password" type="password" id="password" placeholder="Contraseña" required/>
                     
 
                     <div class="text-danger-600 mt-1">

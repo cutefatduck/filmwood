@@ -14,7 +14,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <strong>{{ strError }}</strong>
             </div>
-
+            {{ media }}
             <form @submit.prevent="addMedia">
                 <div class="form-group mb-2">
                     <label>Titulo pelicula</label><span class="text-danger"> *</span>
@@ -37,12 +37,31 @@
                 </div>
 
                 <div>
-        <select v-model="selectedCountry" v-if="!loading">
-            <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
-        </select>
-        <p v-else>Loading countries...</p>
-    </div>
+                    <select v-model="selectedCountry" v-if="!loading">
+                        <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
+                    </select>
+                    <p v-else>Loading countries...</p>
+                </div>
 
+
+                <Dropdown v-model="selectedCountry" :options="countries" filter optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem">
+                    <template #value="country">
+                        <div v-if="country.value" class="flex align-items-center">
+                            <img :alt="country.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${country.value.nomenclature.toLowerCase()}`" style="width: 18px" />
+                            <div>{{ country.value.name }}</div>
+                        </div>
+                        <span v-else>
+                            {{ country.placeholder }}
+                        </span>
+                    </template>
+                    <template #option="country">
+                        <div class="flex align-items-center">
+                            <img :alt="country.option.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${country.option.nomenclature.toLowerCase()}`" style="width: 18px" />
+                            <div>{{ country.option.name }}</div>
+                        </div>
+                    </template>
+                </Dropdown>
+    
                 <button type="submit" class="btn btn-primary mt-4 mb-4">Añadir Tarea</button>
             </form>
         </div>
@@ -50,8 +69,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { useGetCountries } from "@/composables/countries";
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useGetCountries } from '@/composables/countries';
 
 const { countries, loading, fetchCountries } = useGetCountries();
 const selectedCountry = ref(null);
@@ -78,4 +98,3 @@ onMounted(() => {
 
 <style>
 </style>
-
