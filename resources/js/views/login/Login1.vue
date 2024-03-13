@@ -5,26 +5,23 @@
                     <div class="background-image-login">
                         <div class="background-image-shadow-login"></div>
                     </div>
-                    
                 </div>
             <div class="col-8">
-                <form @submit.prevent="submitLogin" class="container container-form-login">
+                <form @submit.prevent="submitLogin" class="container container-form-login mb-2">
                     <h2>Iniciar sesión</h2>
-
-                        <label for="user">Usuario o email</label>
-                        <InputText v-model="loginForm.email" id="user" placeholder="Usuario o email" required/>
-
-                        <label for="password">Contraseña</label>
-                        <InputText v-model="loginForm.password" type="password" id="password" placeholder="Contraseña" required/>
-                    
-
-                    <div class="text-danger-600 mt-1">
+                        <label class="mb-2" for="user">Tu email</label>
+                        <InputText v-model="loginForm.email" id="user" placeholder="Tu email" required/>
+                    <div class="mb-3">
+                        <label class="mt-3 mb-2" for="password">Tu contraseña</label>
+                        <InputText v-model="loginForm.password" type="password" id="password" placeholder="Tu contraseña" required/>
+                    </div>
+                    <div class="text-danger mt-4">
                         <div v-for="message in validationErrors?.email">
                             {{ message }}
                         </div>
                     </div>
-                    <div class="flex items-center justify-end mt-4">
-                        <button class="btn btn-primary" :class="{ 'opacity-25': processing }">login</button>
+                    <div class="flex items-center justify-end mt-4 mb-3">
+                        <button class="btn btn-primary" :class="{ 'opacity-25': processing }">INICIAR SESIÓN</button>
                     </div>
                 </form>
             </div>
