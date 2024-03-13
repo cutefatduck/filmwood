@@ -1,54 +1,32 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center my-5">
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <form @submit.prevent="submitLogin">
-                            <div class="">
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">{{ $t('email') }}</label>
-                                    <input v-model="loginForm.email" id="email" type="email" class="form-control" required autofocus autocomplete="username">
-                                    <!-- Validation Errors -->
-                                    <div class="text-danger mt-1">
-                                        <div v-for="message in validationErrors?.email">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Password -->
-                                <div class="mb-4">
-                                    <label for="password" class="form-label">
-                                        {{ $t('password') }}
-                                    </label>
-                                    <input v-model="loginForm.password" id="password" type="password" class="form-control" required autocomplete="current-password">
-                                    <!-- Validation Errors -->
-                                    <div class="text-danger-600 mt-1">
-                                        <div v-for="message in validationErrors?.password">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Remember me -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" v-model="loginForm.remember" id="flexCheckIndeterminate">
-                                    <label class="form-check-label" for="flexCheckIndeterminate">
-                                        {{ $t('remember_me') }}
-                                    </label>
-                                </div>
-
-                                <!-- Buttons -->
-                                <div class="flex items-center justify-end mt-4">
-                                    <button class="btn btn-primary" :class="{ 'opacity-25': processing }" :disabled="processing">
-                                        {{ $t('login') }}
-                                    </button>
-                                </div>
-                            </div>
-                            <router-link :to="{name: 'auth.forgot-password'}">{{ $t('forgot_password')}}</router-link>
-                        </form>
+    <div class="background-pagina">
+        <div class="row height-100">
+                <div class="col-4">
+                    <div class="background-image-login">
+                        <div class="background-image-shadow-login"></div>
                     </div>
                 </div>
+            <div class="col-8">
+                <form @submit.prevent="submitLogin" class="container container-form-login mb-2">
+                    <h2>Iniciar sesión</h2>
+                        <label class="mb-2" for="user">Tu email</label>
+                        <InputText v-model="loginForm.email" class="input_formulario" id="user" placeholder="Tu email" required/>
+                    <div class="mb-3">
+                        <label class="mt-3 mb-2" for="password">Tu contraseña</label>
+                        <InputText v-model="loginForm.password" class="input_formulario" type="password" id="password" placeholder="Tu contraseña" required/>
+                    </div>
+                    <div class="mb-3">
+                        <a href="#">¿Olvidaste la contraseña?</a>
+                    </div>
+                    <div class="text-danger mt-3">
+                        <div v-for="message in validationErrors?.email">
+                            {{ message }}
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end mt-3 mb-2 ">
+                        <button class="btn btn-primary boton_iniciar_sesion" :class="{ 'opacity-25': processing }">INICIAR SESIÓN</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -57,6 +35,7 @@
 <script setup>
 
 import useAuth from '@/composables/auth'
+import InputText from 'primevue/inputtext';
 
 const { loginForm, validationErrors, processing, submitLogin } = useAuth();
 
