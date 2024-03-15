@@ -1,14 +1,14 @@
 <template>
     <div class="background-pagina">
-        <div class="row height-100">
-                <div class="col-4">
+        <div class="row">
+                <div class="col-4 my-0 py-0">
                     <div class="background-image-login">
                         <div class="background-image-shadow-login"></div>
                     </div>
                 </div>
-            <div class="col-8">
-                <form @submit.prevent="submitLogin" class="container container-form-login mb-2">
-                    <h2>Iniciar sesión</h2>
+            <div class="col-8 mb-0 pt-6">
+                <form @submit.prevent="submitLogin" class="container container-form-login mb-2 pt-5 mt-5">
+                    <h2 class="my-5">Iniciar sesión</h2>
                         <label class="mb-2" for="user">Tu email</label>
                         <InputText v-model="loginForm.email" class="input_formulario" id="user" placeholder="Tu email" required/>
                     <div class="mb-3">

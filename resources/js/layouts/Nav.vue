@@ -1,5 +1,5 @@
-<template>
-    <nav class="navbar height-10 navbar-expand-md navbar-light bg-white shadow-sm">
+<template style="z-index: 90 !important; ">
+    <nav class="navbar navbar-expand-md" style="height:7dvh !important; z-index: 80 !important;">
         <div class="container">
             <router-link to="/" class="navbar-brand">Filmwood</router-link>
             <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,25 +10,18 @@
                     <LocaleSwitcher />
                 </ul>
                 <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
-                        <li class="nav-item">
-                            <router-link to="/" class="nav-link" aria-current="page">{{ $t('home') }}</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Peliculas</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Series</router-link>
-                        </li>
                     <template v-if="!user?.name">
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/login"
-                            >{{ $t('login') }}</router-link
-                            >
-                        </li>
-                        
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
-                        </li>
+                        <template v-if="$route.name !== 'auth.login'">
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/login"
+                                >{{ $t('login') }}</router-link>
+                            </li>
+                        </template>
+                        <template v-if="$route.name !== 'auth.register'">
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
+                            </li>
+                        </template>
                     </template>
                     <li v-if="user?.name" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,6 +33,15 @@
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
                         </ul>
+                        <li class="nav-item">
+                            <router-link to="/" class="nav-link" aria-current="page">{{ $t('home') }}</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Peliculas</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Series</router-link>
+                        </li>
                     </li>
                 </ul>
             </div>
