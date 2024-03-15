@@ -40,6 +40,17 @@ label{
     font-size: 18px;
 }
 
+h3{
+    color: var(--color-titulo-pagina) ;
+    font-size: 25px ;
+    font-weight: 800 ;
+}
+.card-slider{
+    background-color: var(--color-fondo-pagina-difuminado-1);
+    border-radius: 5px;
+    margin: 10px;
+    height: 250px;
+}
 /*Utilidades*/
 .height-100{
     height: 100dvh;
