@@ -92,6 +92,9 @@ return [
         'zh-CN' => '中文',
     ],
 
+    'charset' => 'utf8mb4',
+    'collation' => 'utf8mb4_unicode_ci',
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale

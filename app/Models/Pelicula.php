@@ -11,21 +11,6 @@ class Pelicula extends p_media_show
 
     // Indicamos los atributos que son modificables:
     protected $fillable = [
-        'id_country',
-        'id_media_show_type',
-        'id_genere',
-        'id_pemi',
-        'nombre',
-        'duracion',
-        'actores',
-        'sinopsis_corta',
-        'sinopsis',
-        'portada_img',
-        'idioma',
-        'directores',
-        'sinopsis',
-        'trailer',
-        'fecha_media_show',
         'saga'
     ];
 

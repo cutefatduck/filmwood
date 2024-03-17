@@ -12,6 +12,7 @@ class p_credential extends Model
     
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_credentials'; 
+    protected $primaryKey = 'id'; // Especificamos la clave primaria personalizada
 
     // Indicamos los atributos que son modificables:
     protected $fillable = [
@@ -22,7 +23,7 @@ class p_credential extends Model
     public $timestamps = false;
 
     // Definimos la clave foránea junto con su respectivo modelo:
-    public function id_user()
+    public function user()
     {
         return $this->belongsTo(p_user::class, 'id_user');
     }

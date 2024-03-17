@@ -16,7 +16,7 @@ return new class extends Migration
             // Creamos la clave primaria de la tabla:
             $table->id();
 
-            // Creamos la clave foránea del pais:
+            // Creamos la clave foránea del país:
             $table->unsignedBigInteger('id_country');
             $table->foreign('id_country')->references('id')->on('p_countries')->onDelete('cascade');
 
@@ -35,12 +35,12 @@ return new class extends Migration
             // Creamos el resto de campos de la tabla:
             $table->string('nombre');
             $table->time('duracion');
-            $table->string('actores');
-            $table->string('sinopsis_corta');
+            $table->text('actores');
+            $table->text('sinopsis_corta');
             $table->string('portada_img');
             $table->string('idioma');
-            $table->string('directores');
-            $table->string('sinopsis');
+            $table->text('directores');
+            $table->text('sinopsis');
             $table->date('fecha_media_show');
             $table->string('trailer');
             $table->string('saga')->nullable();
@@ -59,3 +59,4 @@ return new class extends Migration
         Schema::dropIfExists('p_media_show');
     }
 };
+

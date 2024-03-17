@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\Models\User;
+use App\Models\p_user;
+use App\Models\p_credential;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,10 +65,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        // Crear primero el usuario en la tabla p_users
+        $user = p_user::create([
+            'nombre' => $data['name'],
             'email' => $data['email'],
+            'usuario' => $data['username'],
+        ]);
+
+        // Crear el registro de credencial en la tabla p_credential
+        p_credential::create([
+            'id_user' => $user->id, // Relacionar con el ID del usuario recién creado
             'password' => Hash::make($data['password']),
         ]);
+
+        return $user;
     }
+
 }

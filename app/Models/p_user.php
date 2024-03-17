@@ -12,6 +12,7 @@ class p_user extends Model
     
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_users'; 
+    protected $primaryKey = 'id'; // Especificamos la clave primaria personalizada
 
     // Indicamos los atributos que son modificables:
     protected $fillable = [
@@ -27,5 +28,10 @@ class p_user extends Model
     public function role()
     {
         return $this->belongsTo(p_role::class, 'id_rol');
+    }
+
+    public function credential()
+    {
+        return $this->hasOne(p_credential::class, 'id_user');
     }
 }
