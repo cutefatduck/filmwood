@@ -23,6 +23,9 @@
                             {{ message }}
                         </div>
                     </div>
+                    <video width="400" controls>
+                        <source src="/videos/trailer_south_park.webm" type="video/mp4">
+                    </video>
                     <div class="flex items-center justify-end mt-3 mb-2 ">
                         <button class="btn btn-primary boton_iniciar_sesion" :class="{ 'opacity-25': processing }">INICIAR SESIÓN</button>
                     </div>
