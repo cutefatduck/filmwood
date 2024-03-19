@@ -1,7 +1,7 @@
 <template>
-    <div class="relative flex items-top justify-center">
+    <div class="relative flex items-top justify-center fondo-pagina">
         <div class="">
-            <Carousel :value="medias" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular>
+            <Carousel :value="medias" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular>
                 <template #item="{ data }">
                     <div class="card-slider">
                         <div class="mb-3">

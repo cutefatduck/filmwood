@@ -1,5 +1,5 @@
 <template style="z-index: 90 !important; ">
-    <nav class="navbar navbar-expand-md" style="height:7dvh !important; z-index: 80 !important;">
+    <nav class="navbar navbar-expand-md gradient" style="height:7dvh !important; z-index: 80 !important;">
         <div class="container">
             <router-link to="/" class="navbar-brand">Filmwood</router-link>
             <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
