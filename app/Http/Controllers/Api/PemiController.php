@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\p_country;
+use App\Models\p_pemi;
 use Illuminate\Http\Request;
 
-class CountryController extends Controller
+class PemiController extends Controller
 {
 
     public function view(){
-        $country = p_country::all()->toArray();
-        return $country;
+        $pemi = p_pemi::all()->toArray();
+        return $pemi;
     }
 }

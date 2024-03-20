@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\ExerciseController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MediaShowController;
 use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\Api\PemiController;
+use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -20,7 +22,8 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'create']);
 Route::get('countries', [CountryController::class, 'view']);
-Route::post('/importar-peliculas', [MediaShowController::class, 'importarPeliculas']);
+Route::get('pemis', [PemiController::class, 'view']);
+Route::get('genres', [GenreController::class, 'view']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('users', UserController::class);
