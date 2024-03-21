@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <video width="400" controls>
-                                    <source src="/videos/trailer_south_park.webm" type="video/mp4">
+                                    <source src="/videos/trailer_rec_2.mp4" type="video/mp4">
                                 </video>
                                 <!-- Buttons -->
                                 <div class="flex items-center justify-end mt-4">

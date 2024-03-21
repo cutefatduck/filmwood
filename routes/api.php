@@ -23,6 +23,8 @@ Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'create']);
 // Eliminar Media Show
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
+// Editar Media Show
+// Route::get('/media/{id}', [MediaShowController::class, 'edit']);
 Route::get('countries', [CountryController::class, 'view']);
 Route::get('pemis', [PemiController::class, 'view']);
 Route::get('genres', [GenreController::class, 'view']);

@@ -24,6 +24,12 @@ class MediaShowController extends Controller
         return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
     }
 
+    public function edit($id)
+    {
+        $media = p_media_show::findOrFail($id);
+        return response()->json(['success' => true, 'data' => $media]);
+    }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -46,26 +52,6 @@ class MediaShowController extends Controller
             'episodios',
             'temporadas'
         ]);
-
-        $validator = Validator::make($request->all(), [
-            // Asegúrate de incluir todas las reglas de validación necesarias
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'message' => $validator->errors()], 400);
-        }
-
-        // Obtener el Pemi
-        $pemi = p_pemi::find($request->id_pemi);
-        if (!$pemi) {
-            return response()->json(['success' => false, 'message' => 'El Pemi especificado no existe'], 400);
-        }
-
-        // Obtener el Género
-        $genre = p_genres::find($request->id_genre);
-        if (!$genre) {
-            return response()->json(['success' => false, 'message' => 'El Género especificado no existe'], 400);
-        }
 
         // Crear el medio show
         $mediashowData = $request->all();
