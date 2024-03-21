@@ -40,28 +40,31 @@ class MediaShowController extends Controller
             'temporadas'
         ]);
 
+        $validator = Validator::make($request->all(), [
+            // Asegúrate de incluir todas las reglas de validación necesarias
+        ]);
+
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()], 400);
         }
 
-        // Verificamos si el Pemi existe
+        // Obtener el Pemi
         $pemi = p_pemi::find($request->id_pemi);
         if (!$pemi) {
             return response()->json(['success' => false, 'message' => 'El Pemi especificado no existe'], 400);
         }
 
-        // Verificamos si el Pemi existe
+        // Obtener el Género
         $genre = p_genres::find($request->id_genre);
         if (!$genre) {
-            return response()->json(['success' => false, 'message' => 'El Genero especificado no existe'], 400);
+            return response()->json(['success' => false, 'message' => 'El Género especificado no existe'], 400);
         }
 
+        // Crear el medio show
         $mediashowData = $request->all();
-        // Asignamos el Pemi al medio show
         $mediashowData['id_pemi'] = $pemi->id;
-
-        // Asignamos el Genero al medio show
-        $mediashowData['id_genero'] = $genre->id;
+        $mediashowData['id_genre'] = $genre->id;
+        // Asigna otros campos y lógica según sea necesario
 
         $mediashowRequest = p_media_show::create($mediashowData);
 

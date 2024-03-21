@@ -56,7 +56,9 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <video width="400" controls>
+                                    <source src="/videos/trailer_south_park.webm" type="video/mp4">
+                                </video>
                                 <!-- Buttons -->
                                 <div class="flex items-center justify-end mt-4">
                                     <button class="btn btn-primary" :class="{ 'opacity-25': processing }" :disabled="processing">
