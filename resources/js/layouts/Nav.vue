@@ -83,10 +83,17 @@
                 </li>
             </template>
         </template>
-        <template v-if="user?.name">
-            <Avatar label="P" class="mr-2" size="large" />
+        <template v-if="user?.name" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Avatar label="P" class="mr-2" size="large" />
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                    <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                    <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
+            </ul>
         </template>
-
       </div>
     </template>
   </Menubar>
@@ -105,18 +112,19 @@ const { processing, logout } = useAuth();
 const items = ref([
   {
     label: 'Home',
-    icon: 'pi pi-home',
     to: '/'
   },
   {
     label: 'Peliculas',
-    icon: 'pi pi-star',
     to: '/peliculas'
   },
   {
     label: 'Series',
-    icon: 'pi pi-star',
-    to: '/Series'
+    to: '/series'
+  },
+  {
+    label: 'Random',
+    to: '/random'
   },
  
 ]);

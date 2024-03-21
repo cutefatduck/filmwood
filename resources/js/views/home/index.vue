@@ -1,7 +1,10 @@
 <template>
+    <div class="banner-container">
+        <div class="banner-img"></div>
+    </div>
     <div class="relative flex items-top justify-center fondo-pagina">
         <div class="">
-            <Carousel :value="medias" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular>
+            <Carousel :value="medias" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions">
                 <template #item="{ data }">
                     <div class="card-slider">
                         <div class="mb-3">
