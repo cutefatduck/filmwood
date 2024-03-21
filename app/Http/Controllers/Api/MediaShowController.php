@@ -17,6 +17,13 @@ class MediaShowController extends Controller
         return $mediashow;
     }
 
+    public function destroy($id)
+    {
+        $media = p_media_show::findOrFail($id);
+        $media->delete();
+        return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
+    }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [

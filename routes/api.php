@@ -21,6 +21,8 @@ Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkE
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'create']);
+// Eliminar Media Show
+Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 Route::get('countries', [CountryController::class, 'view']);
 Route::get('pemis', [PemiController::class, 'view']);
 Route::get('genres', [GenreController::class, 'view']);
