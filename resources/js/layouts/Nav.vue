@@ -45,7 +45,7 @@
         </ul>
     </div>
 </nav>-->
-
+<div class="sticky-menu">
   <Menubar :model="items">
     <template #start>
       <svg width="35" height="40" viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-2rem">
@@ -97,6 +97,7 @@
       </div>
     </template>
   </Menubar>
+</div>
 </template>
 
 <script setup>

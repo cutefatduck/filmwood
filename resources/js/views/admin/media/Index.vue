@@ -18,7 +18,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(media, index) in medias" :key="media.id">
+                <tr v-for="(media, index) in Getmedias" :key="media.id">
                   <td class="text-center">{{ media.id }}</td>
                   <td>{{ media.nombre }}</td>
                   <td class="text-center">
@@ -36,47 +36,23 @@
   </template>
   
   <script setup>
-  import axios from "axios";
   import { ref, onMounted, inject } from "vue";
+  import { useDeleteMedia, useGetMedia } from '@/composables/media';
   
   const medias = ref();
   const swal = inject('$swal');
   
-  const deleteMedia = (id, index) => {
-    swal.fire({
-      title: '¿Estás seguro?',
-      text: 'Esta acción no se puede deshacer.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios.delete(`/api/media/${id}`)
-          .then(response => {
-            medias.value.splice(index, 1);
-            swal.fire('¡Eliminado!', 'El registro ha sido eliminado.', 'success');
-          })
-          .catch(error => {
-            swal.fire('Error', 'Hubo un problema al intentar eliminar el registro.', 'error');
-          });
-      }
-    });
-  };
-  
+  const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
+  const { deleteMedia } = useDeleteMedia(Getmedias);
+
   const editMedia = (id) => {
     // Redirige a la ruta de edición pasando el ID de la media show
     router.push({ name: 'media.edit', params: { id: id } });
   };
   
   onMounted(() => {
-    axios.get('/api/media')
-      .then(response => {
-        medias.value = response.data;
-      })
-      .catch(error => {
-        swal.fire('Error', 'Hubo un problema al cargar los datos.', 'error');
-      });
-  });
+    fetchMedia();
+});
+
   </script>
   
