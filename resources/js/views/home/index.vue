@@ -1,6 +1,8 @@
 <template>
     <div class="banner-container">
-        <div class="banner-img"></div>
+        <div class="banner-img">
+            <div class="sombra"></div>
+        </div>
     </div>
     <div class="relative flex items-top justify-center fondo-pagina">
         <Carousel :value="Getmedias" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions">

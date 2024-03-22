@@ -98,7 +98,6 @@ h3{
 }
 
 .input_formulario {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1rem;
     width: 50%;
     background-color: #0c0c1d !important;
@@ -112,7 +111,7 @@ h3{
 }
 
 .input_formulario:hover{
-    border-color: #3143E0 !important;
+    border-color: var(--color-boton-hover) !important;
 }
 
 .input_formulario::placeholder {
@@ -154,12 +153,19 @@ h3{
 .banner-container{
     width: 100%;
     height: 550px;
+    background: linear-gradient(var(--color-fondo-pagina), transparent 25%, transparent 60%, var(--color-fondo-pagina));
+    
 }
 .banner-img{
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('images/banner_pagina_inicial.jpg');
+    background-image: url('images/image.webp');
+}
+
+.sombra{
+    background: linear-gradient(var(--color-fondo-pagina), transparent 30%, transparent 60%, var(--color-fondo-pagina));
+    height: 100%;
 }
 
 /*MENU*/
@@ -172,9 +178,6 @@ h3{
 
   }
 
-.nav-inicio{
-
-}
 .p-menubar{
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)) !important; /* Degradado de negro a transparente */
     background-color: transparent !important;

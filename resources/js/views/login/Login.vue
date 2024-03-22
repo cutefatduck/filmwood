@@ -3,7 +3,8 @@
         <div class="row">
                 <div class="col-4 my-0 py-0">
                     <div class="background-image-login">
-                        <div class="background-image-shadow-login"></div>
+                        <div class="background-image-shadow-login">
+                        </div>
                     </div>
                 </div>
             <div class="col-8 mb-0 pt-6">
