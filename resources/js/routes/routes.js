@@ -12,6 +12,7 @@ const ExercisesCreate  = ()  => import('../views/admin/exercises/Create.vue');
 const ExercisesEdit  = ()  => import('../views/admin/exercises/Edit.vue');
 const MediaIndex = () => import('../views/admin/media/Index.vue')
 const MediaCreate = () => import('../views/admin/media/Create.vue')
+const MediaEdit = () => import('../views/admin/media/Edit.vue')
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -95,12 +96,12 @@ export default [
         //     name: 'admin.index'
         // },
         beforeEnter: requireLogin,
-        meta: { breadCrumb: 'Dashboard' },
+        meta: { breadCrumb: 'Panel' },
         children: [
             {
                 name: 'admin.index',
                 path: '',
-                component: () => import('../views/admin/index.vue'),
+                component: () => import('../views/admin/media/Index.vue'),
                 meta: { breadCrumb: 'Admin' }
             },
             {
@@ -119,17 +120,25 @@ export default [
                         name: 'media.index',
                         path: '',
                         component: MediaIndex,
-                        meta: { breadCrumb: 'View' }
+                        meta: { breadCrumb: 'View' },
+                        beforeEnter: requireLogin
                     },
         
                     {
                         name: 'media.create',
-                        path: 'create',
+                        path: 'create', 
                         component: MediaCreate,
-                        meta: { breadCrumb: 'Add new media',
-                        linked: false, }
+                        meta: { breadCrumb: 'Creando un nuevo media show', linked: false },
+                        beforeEnter: requireLogin
                     },
-        
+                    
+                    {
+                        path: 'edit/:mediaId',
+                        name: 'media.edit',
+                        meta: { breadCrumb: 'Editando un media show', linked: false },
+                        component: MediaEdit,
+                        beforeEnter: requireLogin
+                    }
                 ]
             },
 

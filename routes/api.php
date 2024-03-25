@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ExerciseController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MediaShowController;
+use App\Http\Controllers\Api\TypeMediaShowController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\PemiController;
 use App\Http\Controllers\Api\GenreController;
@@ -19,15 +20,17 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
+Route::get('/peliculas', [PeliculasController::class, 'index'])->name('peliculas.index');
+Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'create']);
-// Eliminar Media Show
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
-// Editar Media Show
-// Route::get('/media/{id}', [MediaShowController::class, 'edit']);
+Route::get('/media/{id}', [MediaShowController::class, 'edit']);
+Route::post('/agregar-media', [MediaController::class, 'store'])->name('media.store');
 Route::get('countries', [CountryController::class, 'view']);
 Route::get('pemis', [PemiController::class, 'view']);
 Route::get('genres', [GenreController::class, 'view']);
+Route::get('mediaShowType', [TypeMediaShowController::class, 'view']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('users', UserController::class);

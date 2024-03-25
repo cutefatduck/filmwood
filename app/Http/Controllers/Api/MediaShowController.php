@@ -32,6 +32,9 @@ class MediaShowController extends Controller
 
     public function create(Request $request)
     {
+
+        dd($request->all());
+        // Validar los datos del formulario
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
             'sinopsis_corta' => 'required',
@@ -43,24 +46,33 @@ class MediaShowController extends Controller
             'id_pemi' => 'required',
             'duracion' => 'required',
             'actores' => 'required',
-            'portada_img' => 'required',
+            'portada_img' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Validación para imágenes
             'idioma' => 'required',
             'directores' => 'required',
-            'trailer' => 'required',
-            'fecha_media_show' => 'required',
+            'trailer' => 'required|mimes:mp4|max:20480', // Validación para videos
             'saga',
             'episodios',
             'temporadas'
         ]);
 
-        // Crear el medio show
-        $mediashowData = $request->all();
-        $mediashowData['id_pemi'] = $pemi->id;
-        $mediashowData['id_genre'] = $genre->id;
-        // Asigna otros campos y lógica según sea necesario
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        $mediashowRequest = p_media_show::create($mediashowData);
+        // Subir y guardar la imagen
+        $coverImage = $request->file('portada_img')->store('public/images');
+        $coverImageUrl = Storage::url($coverImage);
 
-        return response()->json(['success' => true, 'data' => $mediashowRequest]);
+        // Subir y guardar el video
+        $trailer = $request->file('trailer')->store('public/videos');
+        $trailerUrl = Storage::url($trailer);
+
+        // Crear el Media Show
+        $mediaShowData = $request->all();
+        $mediaShowData['portada_img'] = $coverImageUrl;
+        $mediaShowData['trailer'] = $trailerUrl;
+        $mediaShow = p_media_show::create($mediaShowData);
+
+        return response()->json(['success' => true, 'data' => $mediaShow]);
     }
 }
