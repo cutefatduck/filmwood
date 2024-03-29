@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\p_media_show;
+use App\Models\p_genres;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // Filtrar las películas por el género de terror
+        $peliculasDeTerror = p_media_show::whereHas('genre', function ($query) {
+            $query->where('name_genre', 'Terror');
+        })->get();
+
+        return view('home.index', compact('peliculasDeTerror'));
     }
 }

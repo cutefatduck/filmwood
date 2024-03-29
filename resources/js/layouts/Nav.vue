@@ -14,13 +14,10 @@
           <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" />
           <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
           <i v-if="hasSubmenu" :class="['pi pi-angle-down', { 'pi-angle-down ml-2': root, 'pi-angle-right ml-auto': !root }]"></i>
-          <template v-if="!user?.name">
-      </template>
         </a>
       </template>
       <template #end>
         <div class="flex align-items-center gap-2">
-          <InputText placeholder="Search" type="text" class="w-8rem sm:w-auto" />
           <template v-if="!user?.name">
             <template v-if="$route.name !== 'auth.login'">
               <li class="nav-item">
@@ -38,15 +35,15 @@
             </template>
           </template>
           <template v-if="user?.name" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <Avatar label="P" class="mr-2" size="large" />
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
-              <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
-            </ul>
+            <div class="username-dropdown">
+                <span class="mr-2 username">{{ user.name }}</span>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                    <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" @click="logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
           </template>
         </div>
       </template>
@@ -55,17 +52,38 @@
 </template>
 
 <script setup>
-  import { useStore } from "vuex";
-  import { ref } from "vue";
-  import useAuth from "@/composables/auth";
-  import { computed } from "vue";
-  import { useRouter } from "vue-router";
+import { ref, computed } from 'vue';
+import { useStore } from "vuex";
+import useAuth from "@/composables/auth";
+import { useRouter } from "vue-router";
 
-  const router = useRouter(); 
-  const store = useStore();
-  const user = computed(() => store.getters["auth/user"]);
-  const { processing, logout } = useAuth();
+const router = useRouter();
+const store = useStore();
+const user = computed(() => store.getters["auth/user"]);
+const { processing, logout } = useAuth();
 
+// Define los elementos del menú
+const items = ref([
+  {
+    label: 'HOME',
+    to: '/'
+  },
+  {
+    label: 'PELICULAS',
+    to: 'admin/media'
+  },
+  {
+    label: 'SERIES',
+    to: 'admin/media'
+  },
+  {
+    label: 'RANDOM',
+    action: redirectToRandomView
+  }
+]);
+
+// Esta función maneja el redireccionamiento a una vista aleatoria
+function redirectToRandomView() {
   const vistas = [
     'admin/categories',
     'admin/media',
@@ -74,33 +92,8 @@
     'admin/users',
     'admin/roles',
   ];
-
-  const getRandomView = () => {
-    const randomIndex = Math.floor(Math.random() * vistas.length);
-    return vistas[randomIndex];
-  };
-
-  function redirectToRandomView() {
-    const randomView = getRandomView();
-    router.push(randomView); 
-  }
-  const items = ref([
-    {
-      label: 'Home',
-      to: '/'
-    },
-    {
-      label: 'Peliculas',
-      to: 'admin/media'
-    },
-    {
-      label: 'Series',
-      to: 'admin/media'
-    },
-    {
-      label: 'Random',
-      action: redirectToRandomView 
-    }
-  ]);
-
+  const randomIndex = Math.floor(Math.random() * vistas.length);
+  const randomView = vistas[randomIndex];
+  router.push(randomView);
+}
 </script>

@@ -13,6 +13,7 @@ const ExercisesEdit  = ()  => import('../views/admin/exercises/Edit.vue');
 const MediaIndex = () => import('../views/admin/media/Index.vue')
 const MediaCreate = () => import('../views/admin/media/Create.vue')
 const MediaEdit = () => import('../views/admin/media/Edit.vue')
+const MediaView = () => import('../views/admin/media/View.vue')
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -122,6 +123,13 @@ export default [
                         component: MediaIndex,
                         meta: { breadCrumb: 'View' },
                         beforeEnter: requireLogin
+                    },
+
+                    {
+                        path: 'view/:mediaId',
+                        name: 'media.view',
+                        meta: { breadCrumb: 'Ver el media show', linked: false },
+                        component: MediaView
                     },
         
                     {

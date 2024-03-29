@@ -101,7 +101,6 @@
                 </div>
 
                 <div v-else-if="media.id_media_show_type === 2">
-
                     <div class="form-group mb-2">
                         <label>Temporadas</label>
                         <input v-model="media.temporadas" class="input_formulario" type="number" name="seasons"/>
@@ -111,7 +110,6 @@
                         <input v-model="media.episodios" class="input_formulario" type="number" name="episodes"/>
                     </div>
                 </div>
-
                 <button type="submit" class="btn btn-primary mt-4 mb-4">Añadir Media Show</button>
             </form>
         </div>

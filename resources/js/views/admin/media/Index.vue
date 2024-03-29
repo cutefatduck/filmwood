@@ -22,6 +22,7 @@
                 <td class="text-center">{{ media.id }}</td>
                 <td>{{ media.nombre }}</td>
                 <td class="text-center">
+                  <button class="btn btn-success mr-1" @click="viewMedia(media.id, index)">Ver</button>
                   <button class="btn btn-warning mr-1" @click="editMedia(media.id)">Edit</button>
                   <button class="btn btn-danger" @click="deleteMedia(media.id, index)">Delete</button>
                 </td>
@@ -35,27 +36,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from "vue";
-import { useRouter } from "vue-router";
-import { useDeleteMedia, useGetMedia } from '@/composables/media';
+  import { ref, onMounted, inject } from "vue";
+  import { useRouter } from "vue-router";
+  import { useDeleteMedia, useGetMedia } from '@/composables/media';
 
-const { Getmedias, fetchMedia } = useGetMedia();
-const { deleteMedia } = useDeleteMedia(Getmedias);
-const router = useRouter();
+  const { Getmedias, fetchMedia } = useGetMedia();
+  const { deleteMedia } = useDeleteMedia(Getmedias);
+  const router = useRouter();
 
-const editMedia = async (id) => {
-  try {
-    const response = await axios.get(`/api/media/${id}/edit`);
-    const mediaData = response.data.data;
-    // Redirige a la ruta de edición pasando los datos del media show
-    router.push({ name: 'media.edit', params: { mediaId: id, mediaData: mediaData } });
-  } catch (error) {
-    console.error('Error fetching media data:', error);
-  }
-};
+  const editMedia = async (id) => {
+    try {
+      const response = await axios.get(`/api/media/${id}/edit`);
+      const mediaData = response.data.data;
+      // Redirige a la ruta de edición pasando los datos del media show
+      router.push({ name: 'media.edit', params: { mediaId: id, mediaData: mediaData } });
+    } catch (error) {
+      console.error('Error fetching media data:', error);
+    }
+  };
 
+  // Función para redirigir a la vista de ver media show
+  const viewMedia = async (id) => {
+    try {
+      const response = await axios.get(`/api/media/${id}/details`);
+      const mediaData = response.data.data;
+      // Redirigir a la vista de ver media show
+      router.push({ name: 'media.view', params: { mediaId: id, mediaData: mediaData } });
+    }catch (error) {
+      console.error('Error fetching media data:', error);
+    }
+  };
 
-onMounted(() => {
-  fetchMedia();
-});
+  onMounted(() => {
+    fetchMedia();
+  });
 </script>

@@ -1,7 +1,7 @@
 // composables/media.js
 import { ref } from 'vue';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Importa SweetAlert2
+import Swal from 'sweetalert2';
 
 export function useGetMedia() {
     const Getmedias = ref([]);

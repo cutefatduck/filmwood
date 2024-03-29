@@ -101,8 +101,8 @@
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Fecha estreno</label>
-                    <input v-model="media.fecha_estreno" class="input_formulario" type="datetime-local" name="release_date"/>
+                    <label>Fecha de estreno</label>
+                    <input v-model="media.fecha_estreno" class="input_formulario" type="date" name="release_date"/>
                 </div>
 
                 <!-- Campos específicos para películas -->
@@ -134,13 +134,14 @@
             </form>
         </div>
     </div>
+    <AppFooter />
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
     import axios from 'axios';
     import { useRouter } from 'vue-router';
-    import 'flatpickr/dist/flatpickr.css';
+    import AppFooter from '@/layouts/AppFooter.vue';
 
     const router = useRouter();
 
@@ -175,8 +176,12 @@
     onMounted(async () => {
         try {
             const response = await axios.get(`/api/media/${mediaId}`);
-            const data = response.data.data; 
-            console.log('Data del medio show:', data);
+            const data = response.data.data;
+
+            // Ajustar el formato de la fecha sin horas y minutos
+            const fechaEstreno = new Date(data.fecha_media_show);
+            const fechaSinHorasMinutos = new Date(fechaEstreno.getFullYear(), fechaEstreno.getMonth(), fechaEstreno.getDate());
+
             media.value.id_media_show_type = data.id_media_show_type;
             media.value.nombre = data.nombre;
             media.value.pemi_id = data.id_pemi;
@@ -187,7 +192,7 @@
             media.value.idioma = data.idioma;
             media.value.directores = data.directores;
             media.value.trailer = data.trailer;
-            media.value.fecha_estreno = data.fecha_media_show;
+            media.value.fecha_estreno = fechaSinHorasMinutos.toISOString().slice(0, 10);
             media.value.saga = data.saga;
             media.value.temporadas = data.temporadas;
             media.value.episodios = data.episodios;
@@ -195,7 +200,6 @@
             media.value.sinopsis_corta = data.sinopsis_corta;
             media.value.sinopsis = data.sinopsis;
             loading.value = false; // Indica que los datos han sido cargados
-            console.log('Tipo de medio show:', media.value.id_media_show_type);
         } catch (error) {
             console.error('Error al cargar los datos del medio show:', error);
             strError.value = 'Error al cargar los datos del medio show';

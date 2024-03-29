@@ -17,6 +17,24 @@ class MediaShowController extends Controller
         return $mediashow;
     }
 
+    public function view($id)
+    {
+        try {
+            $media = p_media_show::with('country', 'mediaShowType', 'genre', 'pemi')->findOrFail($id);
+            // Agregar la ruta completa de la imagen de portada
+            $media->portada_img = asset('images/' . $media->portada_img);
+            return response()->json(['success' => true, 'data' => $media], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al obtener los detalles del medio show.'], 500);
+        }
+    }
+
+    public function show($id)
+    {
+        $media = p_media_show::findOrFail($id);
+        return view('media.show', compact('media'));
+    }
+
     public function destroy($id)
     {
         $media = p_media_show::findOrFail($id);
