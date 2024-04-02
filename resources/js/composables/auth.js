@@ -53,11 +53,11 @@ export default function useAuth() {
                 await loginUser()
                 swal({
                     icon: 'success',
-                    title: 'Bienvenido',
+                    title: `Bienvenido ${user.name}`,
                     showConfirmButton: false,
                     timer: 1500
                 })
-                await router.push({ name: 'admin.index' })
+                await router.push({ name: 'home' })
             })
             .catch(error => {
                 if (error.response?.data) {
@@ -79,11 +79,11 @@ export default function useAuth() {
                 // await loginUser()
                 swal({
                     icon: 'success',
-                    title: 'Te has registrado correctamente',
+                    title: 'Registrado correctamente',
                     showConfirmButton: false,
                     timer: 1500
                 })
-                await router.push({ name: 'auth.login' })
+                await router.push({ name: 'home' })
             })
             .catch(error => {
                 if (error.response?.data) {

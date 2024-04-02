@@ -15,6 +15,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Filmwood</title>
+    <link rel="icon" href="{{ asset('images/logo.ico') }}" type="image/x-icon"/>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

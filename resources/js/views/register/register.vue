@@ -1,76 +1,68 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center my-5">
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header ">{{ $t('register') }}</div>
-                    <div class="card-body">
-                        <form @submit.prevent="submitRegister">
-                            <div class="">
-                                <!-- Name -->
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">{{ $t('name') }}</label>
-                                    <input v-model="registerForm.name" id="name" type="text" class="form-control" autofocus>
-                                    <div class="text-danger mt-1">
-                                        <div v-for="message in validationErrors?.name">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">{{ $t('email') }}</label>
-                                    <input v-model="registerForm.email" id="email" type="email" class="form-control" autocomplete="username">
-                                    <div class="text-danger mt-1">
-                                        <div v-for="message in validationErrors?.email">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Username -->
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">{{ $t('username') }}</label>
-                                    <input v-model="registerForm.username" id="username" type="text" class="form-control">
-                                    <div class="text-danger mt-1">
-                                        <div v-for="message in validationErrors?.username">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Password -->
-                                <div class="mb-4">
-                                    <label for="password" class="form-label">{{ $t('password') }}</label>
-                                    <input v-model="registerForm.password" id="password" type="password" class="form-control" autocomplete="new-password">
-                                    <div class="text-danger-600 mt-1">
-                                        <div v-for="message in validationErrors?.password">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="password_confirmation" class="form-label">{{ $t('confirm_password') }}</label>
-                                    <input v-model="registerForm.password_confirmation" id="password_confirmation" type="password" class="form-control" autocomplete="new-password">
-                                    <div class="text-danger-600 mt-1">
-                                        <div v-for="message in validationErrors?.password_confirmation">
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Buttons -->
-                                <div class="flex items-center justify-end mt-4">
-                                    <button class="btn btn-primary" :class="{ 'opacity-25': processing }" :disabled="processing">
-                                        {{ $t('register') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+    <div class="background-pagina">
+        <div class="row">
+            <div class="col-4 my-0 py-0">
+                <div class="background-image-login-register">
+                    <div class="background-image-shadow-login-register"></div>
                 </div>
+            </div>
+            <div class="col-8 mb-0 pt-6">
+                <form @submit.prevent="submitRegister" class="container container-form-login-register mb-2 pt-5 mt-5">
+                    <h2>Crea tu cuenta</h2>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Tu nombre</label>
+                        <InputText v-model="registerForm.name" id="name" type="text" class="input_formulario" required/>
+                        <div class="text-danger mt-1">
+                            <div v-for="message in validationErrors?.name" :key="message">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Tu email</label>
+                        <InputText v-model="registerForm.email" id="email" type="email" class="input_formulario" placeholder="Lo usarás para entrar" required/>
+                        <div class="text-danger mt-1">
+                            <div v-for="message in validationErrors?.email" :key="message">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Tu nombre de usuario</label>
+                        <InputText v-model="registerForm.username" id="username" type="text" class="input_formulario" required/>
+                        <div class="text-danger mt-1">
+                            <div v-for="message in validationErrors?.username" :key="message">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Elige una contraseña</label>
+                        <InputText v-model="registerForm.password" id="password" type="password" class="input_formulario" placeholder="Al menos 8 caracteres" required/>
+                        <div class="text-danger-600 mt-1">
+                            <div v-for="message in validationErrors?.password" :key="message">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password_confirmation" class="form-label">Confirma la contraseña</label>
+                        <InputText v-model="registerForm.password_confirmation" id="password_confirmation" type="password" class="input_formulario" required/>
+                        <div class="text-danger-600 mt-1">
+                            <div v-for="message in validationErrors?.password_confirmation" :key="message">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end mt-4">
+                        <button class="btn btn-primary boton_login_registro" :class="{ 'opacity-25': processing }">¡Allá vamos!</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </template>
-
+  
 <script setup>
 
 import useAuth from '@/composables/auth'

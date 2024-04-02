@@ -1,8 +1,11 @@
 <template>
-    <footer class="fondo_footer">
+    <footer>
         <div class="container">
             <div class="row">
-                <div class="col-md-12 text-center mb-3">
+                <div class="col-md-12 text-center mb-3 mt-4">
+                    <a href="/">
+                        <img src="/images/logo.svg" alt="Filmwood Logo" class="logo-footer" />
+                    </a>
                     <div class="additional-links">
                         <a href="#" class="footer-link">Política de privacidad</a>
                         <a href="#" class="footer-link">Política de cookies</a>

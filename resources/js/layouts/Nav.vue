@@ -1,11 +1,10 @@
 <template>
   <div class="sticky-menu">
-    <Menubar :model="items">
+    <Menubar :model="visibleItems">
       <template #start>
-        <svg width="35" height="40" viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-2rem">
-          <path d="..." fill="var(--primary-color)" />
-          <path d="..." fill="var(--text-color)" />
-        </svg>
+        <router-link to="/">
+          <img src="/images/logo.svg" alt="Filmwood Logo" class="logo" />
+        </router-link>
       </template>
       <template #item="{ item, props, hasSubmenu, root }">
         <a v-ripple class="flex align-items-center" v-bind="props.action" @click="redirectToRandomView(item)" :href="item.to">
@@ -52,48 +51,57 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useStore } from "vuex";
-import useAuth from "@/composables/auth";
-import { useRouter } from "vue-router";
+  import { ref, computed } from 'vue';
+  import { useStore } from "vuex";
+  import useAuth from "@/composables/auth";
+  import { useRouter } from "vue-router";
 
-const router = useRouter();
-const store = useStore();
-const user = computed(() => store.getters["auth/user"]);
-const { processing, logout } = useAuth();
+  const router = useRouter();
+  const store = useStore();
+  const user = computed(() => store.getters["auth/user"]);
+  const { processing, logout } = useAuth();
 
-// Define los elementos del menú
-const items = ref([
-  {
-    label: 'HOME',
-    to: '/'
-  },
-  {
-    label: 'PELICULAS',
-    to: 'admin/media'
-  },
-  {
-    label: 'SERIES',
-    to: 'admin/media'
-  },
-  {
-    label: 'RANDOM',
-    action: redirectToRandomView
+  // Define los elementos del menú
+  const getItems = () => {
+    if (user.value) {
+      return [
+        {
+          label: 'HOME',
+          to: '/'
+        },
+        {
+          label: 'PELICULAS',
+          to: 'admin/media'
+        },
+        {
+          label: 'SERIES',
+          to: 'admin/media'
+        },
+        {
+          label: 'RANDOM',
+          action: redirectToRandomView
+        }
+      ];
+    } else {
+      return [];
+    }
+  };
+
+  // Función para obtener los elementos del menú dependiendo del estado de autenticación del usuario
+  const visibleItems = ref(getItems());
+
+  // Esta función maneja el redireccionamiento a una vista aleatoria
+  function redirectToRandomView() {
+    const vistas = [
+      'admin/categories',
+      'admin/media',
+      'admin/permissions',
+      'admin/posts',
+      'admin/users',
+      'admin/roles',
+    ];
+    const randomIndex = Math.floor(Math.random() * vistas.length);
+    const randomView = vistas[randomIndex];
+    router.push(randomView);
   }
-]);
-
-// Esta función maneja el redireccionamiento a una vista aleatoria
-function redirectToRandomView() {
-  const vistas = [
-    'admin/categories',
-    'admin/media',
-    'admin/permissions',
-    'admin/posts',
-    'admin/users',
-    'admin/roles',
-  ];
-  const randomIndex = Math.floor(Math.random() * vistas.length);
-  const randomView = vistas[randomIndex];
-  router.push(randomView);
-}
 </script>

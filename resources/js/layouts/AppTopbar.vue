@@ -1,82 +1,109 @@
 <template>
-    <div class="layout-topbar">
-        <router-link to="/" class="layout-topbar-logo">
-            <img src="/images/logo.svg" alt="logo" />
-            <span></span>
+  <div class="sticky-menu">
+    <Menubar :model="items">
+      <template #start>
+        <router-link to="/">
+          <img src="/images/logo.svg" alt="Filmwood Logo" class="logo" />
         </router-link>
-
-        <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
-            <i class="pi pi-bars"></i>
-        </button>
-
-        <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()">
-            <i class="pi pi-ellipsis-v"></i>
-        </button>
-
-        <div class="layout-topbar-menu" :class="topbarMenuClasses">
-
-            <button class="p-link layout-topbar-button layout-topbar-button-c nav-item dropdown " role="button"
-                data-bs-toggle="dropdown">
-
-                <i class="pi pi-user"></i>
-                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
-                    <li>
-                        <router-link :to="{ name: 'profile.index' }" class="dropdown-item">Perfil</router-link>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">Preferencias</a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <a class="dropdown-item" :class="{ 'opacity-25': processing }" :disabled="processing"
-                            href="javascript:void(0)" @click="logout">Cerrar sessión</a>
-                    </li>
+      </template>
+      <template #item="{ item, props, hasSubmenu, root }">
+        <a v-ripple class="flex align-items-center" v-bind="props.action" @click="redirectToRandomView(item)" :href="item.to">
+          <span :class="item.icon" />
+          <span class="ml-2">{{ item.label }}</span>
+          <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" />
+          <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
+          <i v-if="hasSubmenu" :class="['pi pi-angle-down', { 'pi-angle-down ml-2': root, 'pi-angle-right ml-auto': !root }]"></i>
+        </a>
+      </template>
+      <template #end>
+        <div class="flex align-items-center gap-2">
+          <template v-if="!user?.name">
+            <template v-if="$route.name !== 'auth.login'">
+              <li class="nav-item">
+                <router-link class="nav-boton nav-link" to="/login">
+                  {{ $t('LOGIN') }}
+                </router-link>
+              </li>
+            </template>
+            <template v-if="$route.name !== 'auth.register'">
+              <li class="nav-item">
+                <router-link class="nav-boton nav-link" to="/register">
+                  {{ $t('REGISTER') }}
+                </router-link>
+              </li>
+            </template>
+          </template>
+          <template v-if="user?.name" class="nav-item dropdown">
+            <div class="username-dropdown">
+                <span class="mr-2 username">{{ user.name }}</span>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                    <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" @click="logout">Cerrar sesión</a></li>
                 </ul>
-
-                <span class="nav-link dropdown-toggle ms-3 me-2" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Hola, {{ user.name }}
-                </span>
-            </button>
+            </div>
+          </template>
         </div>
-    </div>
+      </template>
+    </Menubar>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useLayout } from '../composables/layout';
-import { useStore } from 'vuex';
-import useAuth from "@/composables/auth";
+  import { ref, computed } from 'vue';
+  import { useStore } from "vuex";
+  import useAuth from "@/composables/auth";
+  import { useRouter } from "vue-router";
 
-const { onMenuToggle } = useLayout();
-const store = useStore();
-const user = computed(() => store.state.auth.user)
-const { processing, logout } = useAuth();
+  const router = useRouter();
+  const store = useStore();
+  const user = computed(() => store.getters["auth/user"]);
+  const { processing, logout } = useAuth();
 
-const topbarMenuActive = ref(false);
+  // Define los elementos del menú
+  const items = ref([
+    {
+      label: 'HOME',
+      to: '/'
+    },
+    {
+      label: 'PELICULAS',
+      to: 'admin/media'
+    },
+    {
+      label: 'SERIES',
+      to: 'admin/media'
+    },
+    {
+      label: 'RANDOM',
+      action: redirectToRandomView
+    }
+  ]);
 
-const onTopBarMenuButton = () => {
-    topbarMenuActive.value = !topbarMenuActive.value;
-};
-
-const topbarMenuClasses = computed(() => {
-    return {
-        'layout-topbar-menu-mobile-active': topbarMenuActive.value
-    };
+  // Filtra los elementos del menú dependiendo del estado de autenticación del usuario
+const visibleItems = computed(() => {
+  if (user.value) {
+    // Si el usuario está autenticado, se muestran todos los elementos del menú
+    return items;
+  } else {
+    // Si el usuario no está autenticado, no se muestra ningún elemento del menú
+    return [];
+  }
 });
 
-
+  // Esta función maneja el redireccionamiento a una vista aleatoria
+  function redirectToRandomView() {
+    const vistas = [
+      'admin/categories',
+      'admin/media',
+      'admin/permissions',
+      'admin/posts',
+      'admin/users',
+      'admin/roles',
+    ];
+    const randomIndex = Math.floor(Math.random() * vistas.length);
+    const randomView = vistas[randomIndex];
+    router.push(randomView);
+  }
 </script>
-
-<style lang="scss" scoped>
-.layout-topbar-button-c,
-.layout-topbar-button-c:hover {
-    width: auto;
-    background-color: rgb(255, 255, 255, 0);
-    border: 0;
-    border-radius: 0%;
-    padding: 1em;
-}
-</style>

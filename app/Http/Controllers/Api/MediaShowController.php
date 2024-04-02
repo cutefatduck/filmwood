@@ -29,6 +29,26 @@ class MediaShowController extends Controller
         }
     }
 
+    // Función para obtener las peliculas de terror:
+    public function getTerrorMedia()
+    {
+        $terrorMovies = p_media_show::whereHas('genre', function ($query) {
+            $query->where('name_genre', 'Terror');
+        })->get();
+
+        return response()->json($terrorMovies);
+    }
+
+    // Función para obtener las películas de western:
+    public function getWesternMedia()
+    {
+        $terrorMovies = p_media_show::whereHas('genre', function ($query) {
+            $query->where('name_genre', 'Western');
+        })->get();
+
+        return response()->json($terrorMovies);
+    }
+
     public function show($id)
     {
         $media = p_media_show::findOrFail($id);

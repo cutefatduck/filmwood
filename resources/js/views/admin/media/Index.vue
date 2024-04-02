@@ -3,9 +3,6 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <div class="d-flex justify-content-between pb-2 mb-2">
-            <h5 class="card-title">Todas las Media Shows</h5>
-          </div>
           <div>
             <router-link :to="{ name: 'media.create' }" class="btn btn-success mb-4">Nueva Media Show</router-link>
           </div>

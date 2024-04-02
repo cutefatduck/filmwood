@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\p_media_show;
 use App\Models\p_genres;
+use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
 {
@@ -26,10 +27,11 @@ class HomeController extends Controller
     public function index()
     {
         // Filtrar las películas por el género de terror
-        $peliculasDeTerror = p_media_show::whereHas('genre', function ($query) {
+        $terrorMovies = p_media_show::whereHas('genre', function ($query) {
             $query->where('name_genre', 'Terror');
         })->get();
 
-        return view('home.index', compact('peliculasDeTerror'));
+        // Pasar las películas de terror a la vista
+        return View::make('home')->with('terrorMovies', $terrorMovies);
     }
 }

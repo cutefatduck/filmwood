@@ -1,12 +1,14 @@
 <template>
     <div class="d-flex align-items-center justify-content-center vh-100">
         <div class="text-center">
-            <h1 class="display-1 fw-bold">404</h1>
-            <p class="fs-3"> <span class="text-danger">Opps!</span> Page not found.</p>
+            <router-link to="/">
+                <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
+            </router-link>
+            <p class="fs-3"> <span class="text-danger">Opps!</span> No hemos encontrado tu página.</p>
             <p class="lead">
-                The page you’re looking for does’t exist.
+                ¿Qué dijo la palomita de maíz al hervir? ¡No puedo soportar la presión! 🍿
             </p>
-            <router-link to="/" class="btn btn-primary">Go Home</router-link>
+            <router-link to="/" class="btn btn-primary boton_login_registro mt-2">Ir al inicio</router-link>
         </div>
     </div>
 </template>

@@ -12,13 +12,11 @@
         </div>
         </div>
     </div>
-    <section class="pagina-inicial">   
-        <div class="slider-container">
-        <h3 class="titulo_slider mt-2">Nuevo en Filmwood</h3>
-        <div class="relative flex items-top justify-center fondo-pagina mt-3">
+    <section>   
+        <h3 class="titulo_slider mt-6">Nuevo en Filmwood</h3>
             <Carousel :value="Getmedias" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
                 <template #item="{ data }">
-                    <div class="card-slider mt-4 p-5 mb-2" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+                    <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
                         <div class="mb-1">
                             <div class="font-medium mt-1">
                                 <h3>{{ data.nombre }}</h3>
@@ -49,9 +47,8 @@
                     </div>
                 </template>
             </Carousel>
-        </div>
-    </div>
-        <div class="slider-container">
+        </section>
+        <section>
             <h3 class="titulo_slider">Géneros</h3>
             <div class="genres-wrapper" :responsiveOptions="responsiveOptions" :showIndicators="false">
                 <div class="genres-container">
@@ -60,44 +57,79 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="slider-container">
-            <h3 class="titulo_slider">Nuevo en Filmwood</h3>
-            <div class="relative flex items-top justify-center fondo-pagina mt-3">
-                <Carousel :value="Getmedias" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
-                    <template #item="{ data }">
-                        <div class="card-slider mt-4 p-5 mb-2" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
-                            <div class="mb-1">
-                                <div class="font-medium mt-1">
-                                    <h3>{{ data.nombre }}</h3>
-                                </div>
-                                <div class="d-flex align-items-center mt-5">
-                                    <button class="play-button me-3"></button>
-                                    <span class="me-5 visitar">Visitar</span>
-                                    <div class="ms-auto">
-                                        <button class="star-button me-3"></button>
-                                        <button class="plus-button"></button>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mt-5">
-                                    <div class="me-3">
-                                        <p>{{ data.fecha_media_show }}</p>
-                                    </div>
-                                    <div class="me-3">
-                                        <p>{{ formateoDuracion(data.duracion) }}</p>
-                                    </div>
-                                    <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded">
-                                        <p class="m-0">{{ getPemiText(data.id_pemi) }}</p>
-                                    </div>
-                                </div>
-                                <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
+        </section>
+        <section> 
+            <h3 class="titulo_slider">Peliculas de terror</h3>
+            <Carousel :value="terrorMovies" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
+                <template #item="{ data }">
+                    <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+                        <div class="mb-1">
+                            <div class="font-medium mt-1">
+                                <h3>{{ data.nombre }}</h3>
                             </div>
+                            <div class="d-flex align-items-center mt-5">
+                                <router-link :to="{ name: 'media.view', params: { mediaId: data.id } }">
+                                    <button class="play-button me-3" @click="viewMedia(data.id)"></button>
+                                </router-link>
+                                <span class="me-5 visitar">Visitar</span>
+                                <div class="ms-auto">
+                                    <button class="star-button me-3"></button>
+                                    <button class="plus-button"></button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mt-5">
+                                <div class="me-3">
+                                    <p>{{ data.fecha_media_show }}</p>
+                                </div>
+                                <div class="me-3">
+                                    <p>{{ formateoDuracion(data.duracion) }}</p>
+                                </div>
+                                <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded">
+                                    <p class="m-0">{{ getPemiText(data.id_pemi) }}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
                         </div>
-                    </template>
-                </Carousel>
-            </div>
-        </div>
-    </section>
+                    </div>
+                </template>
+            </Carousel>
+        </section>
+        <section> 
+            <h3 class="titulo_slider">Peliculas de Western</h3>
+            <Carousel :value="westernMovies" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
+                <template #item="{ data }">
+                    <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+                        <div class="mb-1">
+                            <div class="font-medium mt-1">
+                                <h3>{{ data.nombre }}</h3>
+                            </div>
+                            <div class="d-flex align-items-center mt-5">
+                                <router-link :to="{ name: 'media.view', params: { mediaId: data.id } }">
+                                    <button class="play-button me-3" @click="viewMedia(data.id)"></button>
+                                </router-link>
+                                <span class="me-5 visitar">Visitar</span>
+                                <div class="ms-auto">
+                                    <button class="star-button me-3"></button>
+                                    <button class="plus-button"></button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mt-5">
+                                <div class="me-3">
+                                    <p>{{ data.fecha_media_show }}</p>
+                                </div>
+                                <div class="me-3">
+                                    <p>{{ formateoDuracion(data.duracion) }}</p>
+                                </div>
+                                <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded">
+                                    <p class="m-0">{{ getPemiText(data.id_pemi) }}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
+                        </div>
+                    </div>
+                </template>
+            </Carousel>
+        </section>
     <AppFooter />
 </template>
 
@@ -105,15 +137,14 @@
     import { ref, onMounted, computed } from 'vue';
     import axios from 'axios';
     import { useGetMedia } from '@/composables/media';
+    import { useGetGenres } from '@/composables/genres';
     import AppFooter from '@/layouts/AppFooter.vue';
     import { useRouter } from "vue-router";
 
     // Obtenemos todas las media shows:
-
     const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
 
     // Al darle clic al botón de play, nos lleve a la vista de la media show en particular:
-
     const router = useRouter();
 
     // Función para redirigir a la vista de ver media show
@@ -127,25 +158,20 @@
     };
 
     // Buscador
-    
     const searchBarFixed = ref(false);
-
     window.addEventListener('scroll', () => {
         // Verificamos si el usuario ha hecho scroll hacia abajo
         searchBarFixed.value = window.scrollY > 0;
     });
-
     const searchBarClass = computed(() => ({
         'search-bar': true,
         'search-bar-fixed': searchBarFixed.value,
     }));
-
     const search = () => {
-    // Lógica para realizar la búsqueda
+        // Lógica para realizar la búsqueda
     };
 
     // Sección de géneros:
-
     const genres = ref([
         { id: 1, name_genre: 'Acción' },
         { id: 2, name_genre: 'Aventura' },
@@ -160,6 +186,30 @@
         { id: 11, name_genre: 'Suspense' },
         { id: 12, name_genre: 'Familiar' },
     ]);
+
+    // Variable para almacenar las películas de género terror:
+    const terrorMovies = ref([]);
+    const westernMovies = ref([]);
+
+    // Función para cargar las películas de terror
+    const loadTerrorMovies = async () => {
+        try {
+            const response = await axios.get('api/terror-media');
+            terrorMovies.value = response.data;
+        } catch (error) {
+            console.error('Error fetching terror movies:', error);
+        }
+    };
+
+    // Función para cargar las películas de género western:
+    const loadWesternMovies = async () => {
+        try {
+            const response = await axios.get('api/western-media');
+            westernMovies.value = response.data;
+        } catch (error) {
+            console.error('Error fetching western movies:', error);
+        }
+    };
 
     // Formateamos el pemi que mostraremos:
     const getPemiText = (id_pemi) => {
@@ -210,6 +260,8 @@
     onMounted(async () => {
         try {
             await fetchMedia();
+            await loadTerrorMovies();
+            await loadWesternMovies();
         } catch (error) {
             console.error('Error fetching media:', error);
         }
