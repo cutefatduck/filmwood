@@ -117,6 +117,7 @@
 </template>
 
 <script setup>
+
     import axios from 'axios';
     import { onMounted, ref } from 'vue';
     import { useAddMedia } from '@/composables/media';
@@ -136,7 +137,7 @@
             strError.value = error.response.data.message;
             strSuccess.value = '';
         });
-};
+    };
 
     const genres = ref([]);
     const countries = ref([]);
@@ -162,8 +163,4 @@
         }
     });
 
-    
-
-    
-    
 </script>

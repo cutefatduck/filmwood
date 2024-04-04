@@ -42,11 +42,11 @@ class MediaShowController extends Controller
     // Función para obtener las películas de western:
     public function getWesternMedia()
     {
-        $terrorMovies = p_media_show::whereHas('genre', function ($query) {
+        $westernMovies = p_media_show::whereHas('genre', function ($query) {
             $query->where('name_genre', 'Western');
         })->get();
 
-        return response()->json($terrorMovies);
+        return response()->json($westernMovies);
     }
 
     public function show($id)

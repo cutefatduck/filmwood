@@ -175,12 +175,13 @@ h3{
 
 .p-menuitem-content:hover{
     background: none !important;
-    
 }
+
 .p-menuitem-link{
     font-size: 20px;
     color: var(--color-p-pagina) !important;
 }
+
 .p-menuitem-link:hover{
     color: var(--color-boton-hover) !important;
 }
@@ -278,7 +279,6 @@ h3{
 
 /* Aumentar el radio de detección alrededor del nombre de usuario */
 .username::before {
-
     position: absolute;
     top: -20px;
     right: -20px;

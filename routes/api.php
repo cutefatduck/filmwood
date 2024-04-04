@@ -30,7 +30,7 @@ Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 Route::get('/media/{id}', [MediaShowController::class, 'edit']);
 Route::get('/api/media/{id}/details', [MediaShowController::class, 'view']);
 
-// Obtener media shows de distintos generos:
+// Obtener media shows de distintos géneros:
 Route::get('/terror-media', [MediaShowController::class, 'getTerrorMedia']);
 Route::get('/western-media', [MediaShowController::class, 'getWesternMedia']);
 

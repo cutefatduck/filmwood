@@ -144,10 +144,10 @@
     // Obtenemos todas las media shows:
     const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
 
-    // Al darle clic al botón de play, nos lleve a la vista de la media show en particular:
+    // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
 
-    // Función para redirigir a la vista de ver media show
+    // Función para redirigir a la vista de ver una media show en concreto:
     const viewMedia = async (id) => {
         try {
             // Redirigir a la vista de ver media show

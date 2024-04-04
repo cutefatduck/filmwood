@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+
   import { ref, onMounted, inject } from "vue";
   import { useRouter } from "vue-router";
   import { useDeleteMedia, useGetMedia } from '@/composables/media';
@@ -58,7 +59,7 @@
       const response = await axios.get(`/api/media/${id}/details`);
       const mediaData = response.data.data;
       // Redirigir a la vista de ver media show
-      router.push({ name: 'media.view', params: { mediaId: id, mediaData: mediaData } });
+      router.push({ name: 'admin.media.view', params: { mediaId: id, mediaData: mediaData } });
     }catch (error) {
       console.error('Error fetching media data:', error);
     }
