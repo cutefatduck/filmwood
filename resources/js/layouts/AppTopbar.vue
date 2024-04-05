@@ -7,7 +7,7 @@
         </router-link>
       </template>
       <template #item="{ item, props, hasSubmenu, root }">
-        <a v-ripple class="flex align-items-center" v-bind="props.action" @click="redirectToRandomView(item)" :href="item.to">
+        <a v-ripple class="flex align-items-center" v-bind="props.action" :href="item.to">
           <span :class="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
           <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" />
@@ -37,6 +37,7 @@
             <div class="username-dropdown">
                 <span class="mr-2 username">{{ user.name }}</span>
                 <ul class="dropdown-menu dropdown-menu-end">
+                  <li><router-link class="dropdown-item" to="/users/perfil">Perfil</router-link></li>
                     <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
                     <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
                     <li><hr class="dropdown-divider"></li>
@@ -51,17 +52,19 @@
 </template>
 
 <script setup>
+
   import { ref, computed } from 'vue';
   import { useStore } from "vuex";
   import useAuth from "@/composables/auth";
   import { useRouter } from "vue-router";
+  import { useGetRandomMedia } from '@/composables/media';
 
+  const { randomMedia, fetchRandomMedia } = useGetRandomMedia();
   const router = useRouter();
   const store = useStore();
   const user = computed(() => store.getters["auth/user"]);
-  const { processing, logout } = useAuth();
+  const { logout } = useAuth();
 
-  // Define los elementos del menú
   const items = ref([
     {
       label: 'HOME',
@@ -69,41 +72,34 @@
     },
     {
       label: 'PELICULAS',
-      to: 'admin/media'
+      to: '/media/peliculas'
     },
     {
       label: 'SERIES',
-      to: 'admin/media'
+      to: '/media/series'
     },
     {
       label: 'RANDOM',
-      action: redirectToRandomView
+      command: () => redirectToRandomView() 
     }
   ]);
 
-  // Filtra los elementos del menú dependiendo del estado de autenticación del usuario
-const visibleItems = computed(() => {
-  if (user.value) {
-    // Si el usuario está autenticado, se muestran todos los elementos del menú
-    return items;
-  } else {
-    // Si el usuario no está autenticado, no se muestra ningún elemento del menú
-    return [];
-  }
-});
-
-  // Esta función maneja el redireccionamiento a una vista aleatoria
+  // Esta función maneja el redireccionamiento a una vista aleatoria de película o serie
   function redirectToRandomView() {
-    const vistas = [
-      'admin/categories',
-      'admin/media',
-      'admin/permissions',
-      'admin/posts',
-      'admin/users',
-      'admin/roles',
-    ];
-    const randomIndex = Math.floor(Math.random() * vistas.length);
-    const randomView = vistas[randomIndex];
-    router.push(randomView);
-  }
+    fetchRandomMedia().then(() => {
+      if (randomMedia.value) {
+        router.push({ name: 'media.view', params: { mediaId: randomMedia.value.id.toString() } });
+        // Forzaremos la recarga de la página:
+        setTimeout(() => {
+          location.reload();
+        }, 10);
+      } else {
+        console.error('No se encontraron datos de media shows disponibles.');
+      }
+    }).catch((error) => {
+      console.error('Error al consultar la base de datos:', error);
+  });
+}
+
+
 </script>

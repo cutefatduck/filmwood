@@ -1,47 +1,80 @@
 <template>
   <div class="contenedor-general-movie">
-    <div class="movie-details">
-      <img :src="media.portada_img" alt="Portada del Media Show" class="poster-image">
-      <div class="details-right">
-        <h1 class="movie-title">{{ media.nombre }}</h1>
-        <p class="movie-genre">{{ getGenreName(media.genre_id) }}</p>
-        <div class="meta-container">
-          <p class="meta-item">{{ media.fecha_estreno }}</p>
-          <p class="meta-item" v-if="media.id_media_show_type == 1">{{ media.saga }}</p>
-          <p class="meta-item" v-if="media.id_media_show_type == 2">{{ media.episodios }} episodios</p>
-          <p class="meta-item" v-if="media.id_media_show_type == 2"> {{ media.temporadas }} temporadas</p>
-          <p class="meta-item">{{ formateoDuracion(media.duracion) }}</p>
-          <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded mb-3">
-            <p class="m-0">{{ getPemiText(media.pemi_id) }}</p>
+    <div class="row">
+    <div class="col-xxl-8">
+        <div class="movie-details">
+          <img :src="media.portada_img" alt="Portada del Media Show" class="poster-image">
+          <div class="details-right">
+            <h1 class="movie-title">{{ media.nombre }}</h1>
+            <p class="movie-genre">{{ getGenreName(media.genre_id) }}</p>
+            <div class="meta-container">
+              <p class="meta-item">{{ media.fecha_estreno }}</p>
+              <p class="meta-item" v-if="media.id_media_show_type == 1">{{ media.saga }}</p>
+              <p class="meta-item" v-if="media.id_media_show_type == 2">{{ media.temporadas }} temporadas</p>
+              <p class="meta-item" v-if="media.id_media_show_type == 2">{{ media.episodios }} episodios</p>
+              <p class="meta-item">{{ formateoDuracion(media.duracion) }}</p>
+              <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded mb-3">
+                <p class="m-0">{{ getPemiText(media.pemi_id) }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="col-xxl-4 d-flex align-items-center justify-content-around">
+          <img src="/images/favorite.svg" alt="VALORAR">
+          <p>VALORAR</P>
+          <img src="/images/like.svg" alt="FAVORITOS">
+          <P>FAVORITOS</P>
+          <img src="/images/visualization.svg" alt="VISUALIZAR">
+          <P>VISUALIZADA</P>
+          <img src="/images/share.svg" alt="COMPARTIR">
+          <P>COMPARTIR</P>
+      </div>
     </div>
-    <div class="watch-button">
-      <h2 class="introduccion">Introducción</h2>
-      <p class="movie-synopsis">{{ media.sinopsis_corta }}</p>
-      <button class="play-button-trailer" @click="playTrailer">
-        <span>VER TRAILER</span>
-      </button>
-      <video v-if="showTrailer" class="movie-trailer" controls>
-        <source :src="media.trailer" type="video/mp4">
-      </video>
+    <div class="watch-button row">
+      <div class="col-md-6">
+        <h2 class="introduccion">Introducción</h2>
+        <p class="movie-synopsis">{{ media.sinopsis_corta }}</p>
+      </div>
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <button class="play-button-trailer" @click="playTrailer">
+          <span>VER TRAILER</span>
+        </button>
+      </div>
     </div>
+    <h2>Valoraciones</h2>
+    <h2>Detalles</h2>
     <div class="movie-info">
-      <div class="details">
-        <h2>Detalles</h2>
-        <h2>Valoraciones</h2>
-        <h2>Sinopsis</h2>
-        <p>{{ media.sinopsis }}</p>
-        <h2>Dirección y reparto</h2>
-        <p>Directores: {{ media.directores }}</p>
-        <p>Actores: {{ media.actores }}</p>
-        <h2>Audio y Región</h2>
-        <p>Idioma: {{ media.idioma }}</p>
-        <p>Pais de Origen: {{ media.pais_origen }}</p>
-        <h2>Géneros y Edad</h2>
-        <p>Géneros: {{ getGenreName(media.genre_id) }}</p>
-        <p>Edad: {{ getPemiText(media.pemi_id) }}</p>
+      <div class="justify-content-between row">
+        <div class="details col-lg-8">
+          <h2>Sinopsis</h2>
+          <p>{{ media.sinopsis }}</p>
+        </div>
+        <div class="details col-lg-3">
+          <h2>Dirección y reparto</h2>
+          <p>Directores: {{ media.directores }}</p>
+          <p>Actores: {{ media.actores }}</p>
+        </div>
+      </div>
+      <div class=" justify-content-between row">
+        <div class="details col-lg-4">
+          <h2 v-if="media.id_media_show_type == 1">Películas relacionadas</h2>
+          <h2 v-if="media.id_media_show_type == 2">Episodios y temporadas</h2>
+          <p class="meta-item" v-if="media.saga == ''">No hay películas relacionadas</p>
+          <p class="meta-item" v-if="media.id_media_show_type == 1">{{ media.saga }}</p>
+          <p class="meta-item" v-if="media.id_media_show_type == 2">{{ media.temporadas }} temporadas</p>
+          <p class="meta-item" v-if="media.id_media_show_type == 2">{{ media.episodios }} episodios</p>
+        </div>
+        <div class="details col-lg-4">
+          <h2>Audio y Región</h2>
+          <p>Idioma: {{ media.idioma }}</p>
+          <p>Pais de Origen: {{ media.pais_origen }}</p>
+        </div>
+        <div class="details col-lg-3">
+          <h2>Géneros y Edad</h2>
+          <p>Géneros: {{ getGenreName(media.genre_id) }}</p>
+          <p>Edad: {{ getPemiText(media.pemi_id) }}</p>
+        </div>
       </div>
     </div>
     <AppFooter />
@@ -64,8 +97,8 @@
 }
 
 .poster-image {
-  max-width: 450px;
-  height: auto;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 .details-right {
@@ -74,7 +107,7 @@
 }
 
 .movie-title {
-  font-size: 70px;
+  font-size: 50px;
   font-weight: bold;
   color: white;
 }
@@ -103,6 +136,7 @@
 
 .introduccion{
   font-size: 30px;
+  white-space: pre-wrap; /* Esta propiedad permite el salto de línea */
 }
 
 .movie-synopsis{
@@ -172,8 +206,8 @@
 }
 
 .movie-trailer {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 50%;
+  max-height: 50%;
 }
 
 </style>
