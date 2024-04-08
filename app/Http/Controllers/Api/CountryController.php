@@ -13,4 +13,5 @@ class CountryController extends Controller
         $country = p_country::all()->toArray();
         return $country;
     }
+
 }

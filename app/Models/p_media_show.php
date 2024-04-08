@@ -32,9 +32,6 @@ class p_media_show extends Model
 
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_media_show';
-
-    // Indicamos a Laravel que no use las columnas created_at y updated_at
-    public $timestamps = false; 
     
     // Definimos las claves foráneas junto con su respectivo modelo:
     public function country()
@@ -47,13 +44,14 @@ class p_media_show extends Model
         return $this->belongsTo(p_media_show_type::class, 'id_media_show_type');
     }
 
-    public function genre()
-    {
-        return $this->belongsTo(p_genres::class, 'id_genere');
-    }
 
     public function pemi()
     {
         return $this->belongsTo(p_pemi::class, 'id_pemi');
+    }
+
+    public function genres()
+    {
+        return $this->belongsToMany(p_genres::class, 'p_media_show_genre', 'id_media_show', 'id_genre');
     }
 }

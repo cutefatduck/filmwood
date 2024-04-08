@@ -19,7 +19,19 @@ export function useGetMedia() {
     }
   };
 
-  return { Getmedias, loading, fetchMedia };
+  const fetchMediaById = async (id) => {
+    try {
+      loading.value = true;
+      const response = await axios.get(`/api/media/${id}`);
+      Getmedias.value = response.data; // Asignamos el resultado a un array para mantener la consistencia con la lista de medios
+    } catch (error) {
+      console.error(`Error fetching media with ID ${id}:`, error);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  return { Getmedias, loading, fetchMedia, fetchMediaById };
 }
 
 export function useGetRandomMedia() {
