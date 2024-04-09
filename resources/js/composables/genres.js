@@ -3,14 +3,14 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 export function useGetGenres() {
-    const genres = ref([]);
+    const GetGenres = ref([]);
     const loading = ref(false);
 
     const fetchGenres = async () => {
         try {
             loading.value = true;
             const response = await axios.get('/api/genres');
-            genres.value = response.data;
+            GetGenres.value = response.data;
         } catch (error) {
             console.error('Error fetching genres:', error);
         } finally {
@@ -19,5 +19,5 @@ export function useGetGenres() {
     };
     
 
-    return { genres, loading, fetchGenres };
+    return { GetGenres, loading, fetchGenres };
 }

@@ -14,11 +14,11 @@ class GenreSeeder extends Seeder
     public function run()
     {
         $genres = [
-            ["name_genre" => "Accion"],
+            ["name_genre" => "Acción"],
             ["name_genre" => "Aventura"],
-            ["name_genre" => "Animacion"],
+            ["name_genre" => "Animación"],
             ["name_genre" => "Terror"],
-            ["name_genre" => "Ciencia_Ficcion"],
+            ["name_genre" => "Ciencia Ficción"],
             ["name_genre" => "Comedia"],
             ["name_genre" => "Drama"],
             ["name_genre" => "Belico"],

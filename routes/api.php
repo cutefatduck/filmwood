@@ -22,15 +22,15 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
-Route::get('/peliculas', [PeliculasController::class, 'index'])->name('peliculas.index');
-Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
+// Route::get('/peliculas', [PeliculasController::class, 'index'])->name('peliculas.index');
+// Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
-Route::post('media/', [MediaShowController::class, 'create']);
+Route::post('media/', [MediaShowController::class, 'store']);
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
-Route::get('/media/{id}', [MediaShowController::class, 'edit']);
-Route::get('/api/media/{id}/details', [MediaShowController::class, 'view']);
+#Route::get('/media/{id}', [MediaShowController::class, 'edit']);
+Route::get('/media/{id}', [MediaShowController::class, 'show']);
 
-// Obtener media shows de distintos generos:
+// Obtener media shows de distintos géneros:
 Route::get('/terror-media', [MediaShowController::class, 'getTerrorMedia']);
 Route::get('/western-media', [MediaShowController::class, 'getWesternMedia']);
 

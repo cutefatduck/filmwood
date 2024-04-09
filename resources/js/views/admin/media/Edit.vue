@@ -105,14 +105,6 @@
                     <input v-model="media.fecha_estreno" class="input_formulario" type="date" name="release_date"/>
                 </div>
 
-                <!-- Campos específicos para películas -->
-                <div v-if="media.id_media_show_type === 'Pelicula'">
-                    <div class="form-group mb-2">
-                        <label>Saga</label>
-                        <input v-model="media.saga" class="input_formulario" type="text" name="saga"/>
-                    </div>
-                </div>
-
                 <div class="form-group mb-2" v-if="media.id_media_show_type === 1">
                     <label>Saga</label>
                     <input v-model="media.saga" class="input_formulario" type="text" name="saga"/>
@@ -138,6 +130,7 @@
 </template>
 
 <script setup>
+
     import { onMounted, ref } from 'vue';
     import axios from 'axios';
     import { useRouter } from 'vue-router';

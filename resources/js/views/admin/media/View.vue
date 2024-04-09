@@ -64,7 +64,6 @@
                     <input v-model="media.fecha_estreno" class="input_formulario" type="date" name="release_date" disabled/>
                 </div>
 
-                <!-- Campos específicos para películas -->
                 <div v-if="media.id_media_show_type === 'Pelicula'">
                     <div class="form-group mb-2">
                         <label>Saga</label>
@@ -89,6 +88,7 @@
 </template>
 
 <script setup>
+
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
     import { useRouter } from 'vue-router';
@@ -127,7 +127,7 @@
 
     const loading = ref(true);
 
-    // Función para obtener el nombre del tipo de Media Show
+    // Función para obtener el nombre del tipo de Media Show:
     const getMediaShowTypeName = (id_media_show_type) => {
         switch (id_media_show_type) {
             case 1:
@@ -139,7 +139,7 @@
         }
     };
 
-    // Función para obtener el nombre del género
+    // Función para obtener el nombre del género:
     const getGenreName = (genre_id) => {
         switch (genre_id) {
             case 1:
@@ -182,6 +182,7 @@
 
             media.value.nombre = data.nombre;
             media.value.pemi_id = data.id_pemi;
+            media.value.id_media_show_type = data.id_media_show_type;
             media.value.genre_id = data.id_genere;
             media.value.duracion = data.duracion;
             media.value.actores = data.actores;
@@ -196,7 +197,9 @@
             media.value.pais_origen = data.id_country;
             media.value.sinopsis_corta = data.sinopsis_corta;
             media.value.sinopsis = data.sinopsis;
-            loading.value = false; // Indica que los datos han sido cargados
+            
+            // Indica que los datos han sido cargados
+            loading.value = false; 
 
             const genresResponse = await axios.get('/api/genres');
             genres.value = genresResponse.data;

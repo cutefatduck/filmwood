@@ -11,9 +11,13 @@ const ExercisesIndex  = ()  => import('../views/admin/exercises/Index.vue');
 const ExercisesCreate  = ()  => import('../views/admin/exercises/Create.vue');
 const ExercisesEdit  = ()  => import('../views/admin/exercises/Edit.vue');
 const MediaIndex = () => import('../views/admin/media/Index.vue')
+const MediaShows = () => import('../views/media/MediaShows.vue')
 const MediaCreate = () => import('../views/admin/media/Create.vue')
 const MediaEdit = () => import('../views/admin/media/Edit.vue')
-const MediaView = () => import('../views/admin/media/View.vue')
+const MediaAdminView = () => import('../views/admin/media/View.vue')
+const MediaView = () => import('../views/media/View.vue')
+const PerfilView = () => import('../views/users/View.vue')
+
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -48,6 +52,26 @@ export default [
                 path: '/',
                 name: 'home',
                 component: () => import('../views/home/index.vue'),
+            },
+            {
+                name: 'perfil.view',
+                path: 'users/perfil',
+                component: PerfilView,
+            },
+            {
+                name: 'media.peliculas',
+                path: 'media/peliculas',
+                component: MediaShows,
+            },
+            {
+                name: 'media.series',
+                path: 'media/series',
+                component: MediaShows,
+            },
+            {
+                path: 'view/:mediaId',
+                name: 'media.view',
+                component: MediaView,
             },
             {
                 path: 'posts',
@@ -127,9 +151,9 @@ export default [
 
                     {
                         path: 'view/:mediaId',
-                        name: 'media.view',
+                        name: 'admin.media.view',
                         meta: { breadCrumb: 'Ver el media show', linked: false },
-                        component: MediaView
+                        component: MediaAdminView
                     },
         
                     {

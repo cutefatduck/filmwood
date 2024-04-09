@@ -2,7 +2,7 @@
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-md-12 text-center mb-3 mt-4">
+                <div class="text-center mb-3 mt-4">
                     <a href="/">
                         <img src="/images/logo.svg" alt="Filmwood Logo" class="logo-footer" />
                     </a>
