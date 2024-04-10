@@ -6,7 +6,7 @@
           <img alt="Portada del Media Show" class="poster-image col-sm-4">
           <div class="details-right col-sm-8">
             <h1 class="movie-title">{{ Getmedias.nombre }}</h1>
-            <p class="movie-genre">{{ Getmedias.genres_name }}</p>
+            <p><span v-for="(genre, index) in Getmedias.genres_name" :key="index" class="movie-genre">{{ genre }}<span v-if="index !== Getmedias.genres_name.length - 1">, </span></span></p>
             <div class="meta-container">
               <p class="meta-item">{{Getmedias.fecha_media_show}}</p>
               <p class="meta-item" v-if="Getmedias.mediashowtype_name == 'Serie'">{{Getmedias.temporadas}} temporadas</p>

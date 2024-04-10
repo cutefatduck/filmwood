@@ -23,10 +23,6 @@ return new class extends Migration
             // Creamos la clave foránea del tipo de media show:
             $table->unsignedBigInteger('id_media_show_type');
             $table->foreign('id_media_show_type')->references('id')->on('p_media_show_type')->onDelete('cascade');
-            
-            // Creamos la clave foránea del tipo de géneros:
-            $table->unsignedBigInteger('id_genere');
-            $table->foreign('id_genere')->references('id')->on('p_genres')->onDelete('cascade');
 
             // Creamos la clave foránea del pemi:
             $table->unsignedBigInteger('id_pemi');

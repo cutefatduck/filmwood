@@ -12,7 +12,6 @@ class p_media_show extends Model
     protected $fillable = [
         'id_country',
         'id_media_show_type',
-        'id_genere',
         'id_pemi',
         'nombre',
         'duracion',
@@ -27,7 +26,7 @@ class p_media_show extends Model
         'fecha_media_show',
         'saga',
         'episodios',
-        'temporadas'
+        'temporadas',
     ];
 
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
