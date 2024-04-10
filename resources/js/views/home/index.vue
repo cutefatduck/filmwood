@@ -1,19 +1,18 @@
 <template>
     <div class="banner-container">
         <div class="banner-img relative">
-        <div class="sombra"></div>
-        <div :class="searchBarClass">
-            <InputText placeholder="Search" type="text" class="custom-search-input" />
-            <div class="search-icon">
-                <button @click="search" class="search-button">
-                    <i class="pi pi-search"></i>
-                </button>
+            <div class="sombra"></div>
+            <div :class="searchBarClass">
+                <InputText placeholder="Search" type="text" class="custom-search-input" />
+                <div class="search-icon">
+                    <button @click="search" class="search-button">
+                        <i class="pi pi-search"></i>
+                    </button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
     <section>   
-        
         <h3 class="titulo_slider mt-6">Nuevo en Filmwood</h3>
             <Carousel :value="Getmedias" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
                 <template #item="{ data }">
@@ -39,8 +38,8 @@
                                 <div class="me-3">
                                     <p>{{ formateoDuracion(data.duracion) }}</p>
                                 </div>
-                                <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded">
-                                    <p class="m-0">{{ data.pemi_name }}</p>
+                                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                                    <p class="m-0">+{{ data.pemi_name }}</p>
                                 </div>
                             </div>
                             <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
@@ -85,8 +84,8 @@
                                 <div class="me-3">
                                     <p>{{ formateoDuracion(data.duracion) }}</p>
                                 </div>
-                                <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded">
-                                    <p class="m-0">{{ getPemiText(data.id_pemi) }}</p>
+                                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                                    <p class="m-0">+{{ getPemiText(data.id_pemi) }}</p>
                                 </div>
                             </div>
                             <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
@@ -121,8 +120,8 @@
                                 <div class="me-3">
                                     <p>{{ formateoDuracion(data.duracion) }}</p>
                                 </div>
-                                <div class="id-pemi-box fondo_pemi text-light px-2 py-1 rounded">
-                                    <p class="m-0">{{ getPemiText(data.id_pemi) }}</p>
+                                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                                    <p class="m-0">+{{ getPemiText(data.id_pemi) }}</p>
                                 </div>
                             </div>
                             <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
@@ -161,8 +160,6 @@
     // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
 
-
-
     // Función para redirigir a la vista de ver una media show en concreto:
     const viewMedia = async (id) => {
         try {
@@ -178,7 +175,16 @@
     window.addEventListener('scroll', () => {
         // Verificamos si el usuario ha hecho scroll hacia abajo
         searchBarFixed.value = window.scrollY > 0;
-    });  import axios from 'axios';
+    }); 
+    const searchBarClass = computed(() => ({
+        'search-bar': true,
+        'search-bar-fixed': searchBarFixed.value,
+    }));
+    const search = () => {
+        // Lógica para realizar la búsqueda
+    }; 
+    
+    
     const formateoDuracion = (duration) => {
         if (!duration) return '';
         const [hours, minutes, seconds] = duration.split(':');
