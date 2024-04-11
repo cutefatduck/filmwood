@@ -1,6 +1,38 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
+export function useGetUser() {
+    const Getusers = ref([]);
+    const loading = ref(false);
+  
+    const fetchUser = async () => {
+      try {
+        loading.value = true;
+        const response = await axios.get('/api/user');
+        Getusers.value = response.data;
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      } finally {
+        loading.value = false;
+      }
+    };
+  
+    const fetchUserById = async (id) => {
+      try {
+        loading.value = true;
+        const response = await axios.get(`/api/user/${id}`);
+        Getusers.value = response.data; // Asignamos el resultado a un array para mantener la consistencia con la lista de users
+      } catch (error) {
+        console.error(`Error fetching user with ID ${id}:`, error);
+      } finally {
+        loading.value = false;
+      }
+    };
+  
+    return { Getusers, loading, fetchUser, fetchUserById };
+  }
+
+// Esta parte es la que sirve para modificar y administrar usuarios en: http://127.0.0.1:8000/admin/botón de user
 export default function useUsers() {
     const users = ref([])
     const user = ref({

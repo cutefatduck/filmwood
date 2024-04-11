@@ -16,6 +16,8 @@ return new class extends Migration
             // Definición de claves foráneas
             $table->foreign('id_media_show')->references('id')->on('p_media_show');
             $table->foreign('id_genre')->references('id')->on('p_genres');
+
+            $table->timestamps();
         });
     }
 

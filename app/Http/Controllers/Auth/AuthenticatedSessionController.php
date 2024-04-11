@@ -80,10 +80,16 @@ class AuthenticatedSessionController extends Controller
             return response(['error' => 1, 'message' => 'user already exists'], 409);
         }
 
+        $user = User::where('name_user', $request['name_user'])->first();
+        if ($user) {
+            return response(['error' => 1, 'message' => 'Name user already exists'], 409);
+        }
+
         $user = User::create([
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'name' => $request['name'],
+            'name_user' => $request['name_user'],
         ]);
 
         return $this->successResponse($user, 'Registration Successfully');

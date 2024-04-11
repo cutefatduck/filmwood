@@ -60,6 +60,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->name_user = $request->name_user;
         $user->password = Hash::make($request->password);
 
         if ($user->save()) {
@@ -95,6 +96,7 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->name_user = $request->name_user;
         if(!empty($request->password)) {
             $user->password = Hash::make($request->password) ?? $user->password;
         }

@@ -54,8 +54,8 @@ export default [
                 component: () => import('../views/home/index.vue'),
             },
             {
+                path: 'user/perfil',
                 name: 'perfil.view',
-                path: 'users/perfil',
                 component: PerfilView,
             },
             {

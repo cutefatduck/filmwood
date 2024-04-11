@@ -13,7 +13,7 @@
               <p class="meta-item" v-if="Getmedias.mediashowtype_name == 'Serie'">{{Getmedias.episodios}} episodios</p>
               <p class="meta-item">{{formateoDuracion(Getmedias.duracion)}}</p>
               <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded mb-3">
-                <p class="m-0">{{ Getmedias.pemi_name }} +</p>
+                <p class="m-0">+{{ Getmedias.pemi_name }}</p>
               </div>
             </div>
           </div>
@@ -99,137 +99,6 @@
     <AppFooter />
   </div>
 </template>
-
-<style>
-
-.contenedor-general-movie {
-  height: 100vh;
-  width: 100%;
-  padding-left: 10%;
-  padding-right: 10%;
-  padding-top: 5%;
-}
-
-.movie-details {
-  display: flex;
-  align-items: center;
-}
-
-.poster-image {
-  max-width: 400px;
-  max-height: 400px;
-}
-
-.details-right {
-  margin-left: 50px;
-  padding: 20px;
-}
-
-.movie-title {
-  font-size: 50px;
-  font-weight: bold;
-  color: white;
-}
-
-.movie-genre {
-  font-size: 30px;
-  margin-bottom: 10px;
-}
-
-.meta-container {
-  display: flex;
-  align-items: center;
-}
-
-.meta-item {
-  font-size: 16px;
-  margin-bottom: 10px;
-  margin-right: 20px;
-}
-
-/* Botón de reproducción */
-
-.watch-button {
-  margin-top: 40px;
-}
-
-.introduccion{
-  font-size: 30px;
-  white-space: pre-wrap; /* Esta propiedad permite el salto de línea */
-}
-
-.movie-synopsis{
-  font-size: 20px;
-}
-
-.play-button-trailer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 80px;
-  border-radius: 20px;
-  background-color: #0b0918;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  border: 2px solid white;
-  margin-bottom: 50px;
-  margin-top: 50px;
-}
-
-.play-button-trailer:hover {
-  background-color: white;
-}
-
-/* Invertir los colores del icono al hacer hover */
-.play-button-trailer:hover .play-icon {
-  filter: invert(1); 
-}
-
-.play-button-trailer span {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* Cambiar el color del texto al hacer hover */
-.play-button-trailer:hover span {
-  color: black; 
-}
-
-.movie-trailer {
-  max-width: 800px;
-  margin-top: 20px;
-}
-
-.movie-info {
-  flex: 1;
-}
-
-.details {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.details h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.details p {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.movie-trailer {
-  max-width: 50%;
-  max-height: 50%;
-}
-
-</style>
 
 <script setup>
 

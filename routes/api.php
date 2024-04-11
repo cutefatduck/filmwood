@@ -26,6 +26,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'store']);
+
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 #Route::get('/media/{id}', [MediaShowController::class, 'edit']);
 Route::get('/media/{id}', [MediaShowController::class, 'show']);
