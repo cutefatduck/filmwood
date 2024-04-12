@@ -50,32 +50,6 @@
   <AppFooter />
 </template>
 
-<style>
-
-@media screen and (max-width: 887px) {
-  #perfil-user .modificar-campo {
-    width: auto;
-  }
-  #perfil-user .input-formulario-user {
-    width: auto;
-  }
-}
-
-@media screen and (max-width: 816px) {
-  #perfil-user .modificar-campo {
-    margin-top: 20px;
-  }
-}
-
-@media screen and (max-width: 575px) {
-  #perfil-user .modificar-campo {
-    margin-top: 0px !important;
-  }
-}
-
-</style>
-
-
 <script setup>
 
   import { ref, onMounted, computed } from 'vue';
