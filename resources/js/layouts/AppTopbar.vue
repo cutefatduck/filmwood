@@ -37,12 +37,12 @@
             <div class="username-dropdown">
                 <span class="mr-2 username">{{ user.name }}</span>
                 <ul class="dropdown-menu dropdown-menu-end">
-                  <li><router-link class="dropdown-item" to="/users/perfil">Perfil</router-link></li>
-                    <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
-                    <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" @click="logout">Cerrar sesión</a></li>
-                </ul>
+                  <li><router-link class="dropdown-item" to="/user/perfil" >Perfil</router-link></li>
+                  <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                  <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#" @click="logout">Cerrar sesión</a></li>
+              </ul>
             </div>
           </template>
         </div>
