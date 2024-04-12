@@ -13,4 +13,5 @@ class GenreController extends Controller
         $genre = p_genres::all()->toArray();
         return $genre;
     }
+    
 }

@@ -51,6 +51,6 @@ class p_media_show extends Model
 
     public function genres()
     {
-        return $this->belongsToMany(p_genres::class, 'p_media_show_genre', 'id_media_show', 'id_genre');
+        return $this->belongsToMany(p_genres::class, 'p_media_show_genres', 'id_media_show', 'id_genre');
     }
 }

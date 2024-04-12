@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\p_media_show;
+use App\Models\p_media_show_genres;
 use App\Models\p_pemi;
 use App\Models\p_genres;
 use Illuminate\Http\Request;
@@ -67,12 +68,15 @@ class MediaShowController extends Controller
                 'genres_name' => $media->genres->pluck('name_genre')->toArray() ?? [],
         ]);
     }
+
     public function destroy($id)
     {
         $media = p_media_show::findOrFail($id);
         $media->delete();
         return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
     }
+
+
 
 
     public function store(Request $request)
@@ -125,4 +129,27 @@ class MediaShowController extends Controller
         'genres_name' => $mediaShowGenres
     ], 201);
     }
+
+
+    public function viewByGenreID($id){
+        // Buscar los registros de la tabla p_mediashow_genre donde genre_id coincida con $id
+        $media = p_media_show_genres::where('id_genre', $id)->get();
+    
+        if($media->isEmpty()) {
+            // Manejar el caso en el que no se encuentren registros para el genre_id dado
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontraron registros para el genre_id proporcionado.',
+            ], 404);
+        }
+
+        $mediaIds = $media->pluck('id_media_show')->toArray();
+
+        return response()->json([
+            'success' => true, 
+            'data' => $mediaIds
+        ], 201);
+        
+    }
+
 }
