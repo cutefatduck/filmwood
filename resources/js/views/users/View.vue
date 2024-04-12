@@ -1,5 +1,5 @@
 <template>
-  <div id="perfil-usuario" class="contenedor-global">
+  <div id="perfil-user" class="contenedor-global-perfil-user mb-5">
     <div class="row col-sm-6">
       <div class="card">
         <div class="card-header">
@@ -7,35 +7,35 @@
           <hr>
         </div>
         <div class="card-body">
-          <ul class="list-unstyled row col-lg-12">
+          <ul class="list-unstyled row col-lg-12 mb-5">
             <h2 class="subtitulo-datos col-xxl-3">DATOS</h2>
-            <div class=" col-xxl-8">
-              <li class="row justify-content-between">
+            <div class="col-xxl-8">
+              <li class="row justify-content-between align-items-center">
                 <input class="dato col-md-6 input-formulario-user" type="text" :value="`${user.email}`" disabled />
                 <a href="#" class="modificar-campo col-md-4">Modificar</a>
               </li>
-              <li class="row mt-5 justify-content-between">
-                <input class="dato  col-md-6 input-formulario-user" type="text" :value="`${user.name}`" disabled />
+              <li class="row mt-5 justify-content-between align-items-center">
+                <input class="dato col-md-6 input-formulario-user" type="text" :value="`${user.name}`" disabled />
                 <a href="#" class="modificar-campo col-md-4">Modificar</a>
               </li>
-              <li class="row mt-5 justify-content-between">
+              <li class="row mt-5 justify-content-between align-items-center">
                 <input class="dato col-md-6 input-formulario-user" type="password" :value="`${user.password}`" disabled />
                 <a href="#" class="modificar-campo col-md-4">Modificar</a>
               </li>
             </div>
           </ul>
           <hr>
-          <ul class="list-unstyled row">
+          <ul class="list-unstyled row mb-3 mt-5 mb-5">
             <h2 class="subtitulo-datos col-xxl-3">PERFIL SOCIAL</h2>
             <div class="col-xxl-8">
-              <li class="row justify-content-between">
+              <li class="row justify-content-between align-items-center">
                 <input class="dato col-md-6 input-formulario-user" type="text" :value="`${user.name_user}`" disabled />
                 <a href="#" class="modificar-campo col-md-4">Modificar</a>
               </li>
             </div>
           </ul>
           <hr>
-          <ul class="list-unstyled row">
+          <ul class="list-unstyled row mt-5">
             <h2 class="subtitulo-datos col-xxl-3">CONFIGURACIÓN</h2>
             <div class="col-xxl-8">
               <li class="row">
@@ -47,107 +47,54 @@
       </div>
     </div>
   </div>
+  <AppFooter />
 </template>
+
 <style>
 
-
-  .contenedor-global {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 50px;
+@media screen and (max-width: 887px) {
+  #perfil-user .modificar-campo {
+    width: auto;
   }
-    
-.titulo-principal-cuenta {
-  font-size: 40px;
-  color: white;
-  font-weight: bold;
-}
-    
-.subtitulo-datos {
-  font-size: 22px;
-  margin-top: 20px;
-  color: white;
-  font-weight: normal;
-}
-    
-.list-unstyled {
-  padding: 0;
-  list-style: none;
-}
-    
-.dato, .modificar-campo {
-  color: white;
-  font-size: 20px;
+  #perfil-user .input-formulario-user {
+    width: auto;
+  }
 }
 
-.eliminar-cuenta {
-  color: red;
-  font-size: 20px;
+@media screen and (max-width: 816px) {
+  #perfil-user .modificar-campo {
+    margin-top: 20px;
+  }
 }
 
-.modificar-campo:hover,
-.eliminar-cuenta:hover {
-  text-decoration: underline !important;
+@media screen and (max-width: 575px) {
+  #perfil-user .modificar-campo {
+    margin-top: 0px !important;
+  }
 }
-
-.input-formulario-user {
-    font-size: 1rem;
-    background-color: #0c0c1d !important;
-    background: #fff;
-    padding: .75rem .75rem;
-    border: 1px solid #000000;
-    color: #fff !important;
-    transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
-    appearance: none;
-    border-radius: 6px
-}
-
-.input-formulario-user :hover{
-    border-color: var(--color-boton-hover) !important;
-}
-
-.input-formulario-user ::placeholder {
-    color: #828282;
-}
-
-.input-formulario-user :focus {
-    border-color: #0c0c1d !important;
-}
-
 
 </style>
 
+
 <script setup>
+
   import { ref, onMounted, computed } from 'vue';
   import { useStore } from "vuex";
   import { useRouter } from 'vue-router';
   import useAuth from "@/composables/auth";
   import { useGetUser } from '@/composables/users';
+  import AppFooter from '@/layouts/AppFooter.vue';
 
   const { Getusers, loading, fetchUser, fetchUserById } = useGetUser();
   const router = useRouter();
   const store = useStore();
   const userId = router.currentRoute.value.params.userId;
   const user = computed(() => store.getters["auth/user"]);
-  
-  const togglePasswordVisibility = () => {
-        const passwordField = document.querySelector('.dato[type="password"]');
-        passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
-    };
-
-  const userData = ref({
-    email: '',
-    name: '',
-    password: ''
-  });
-
 
   // Función para obtener el ID del usuario desde la ruta, ajusta según sea necesario
   onMounted(async () => {
     try {
       await fetchUserById(userId);
-      console.log(Getusers.value)
     } catch (error) {
       console.error('Error al cargar los datos del user:', error);
       strError.value = 'Error al cargar los datos del user';

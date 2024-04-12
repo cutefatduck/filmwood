@@ -3,7 +3,7 @@
     <div class="row">
     <div class="col-xxl-7">
         <div class="movie-details row">
-          <img alt="Portada del Media Show" class="poster-image col-sm-4">
+          <img alt="Portada del Media Show" class="poster-image col-sm-4"> {{Getmedias.portada_img}}
           <div class="details-right col-sm-8">
             <h1 class="movie-title">{{ Getmedias.nombre }}</h1>
             <p><span v-for="(genre, index) in Getmedias.genres_name" :key="index" class="movie-genre">{{ genre }}<span v-if="index !== Getmedias.genres_name.length - 1">, </span></span></p>
@@ -20,22 +20,22 @@
         </div>
       </div>
       <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
+        <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.valoration', params: { mediaId: Getmedias.id } }">
           <img src="/images/favorite.svg" alt="VALORAR">
           <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
-        </div>  
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
+        </router-link>
+        <!-- <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.like', params: { mediaId: Getmedias.id } }"> -->
           <img src="/images/like.svg" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
-        </div>
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
+        <!-- </router-link> -->
+        <!-- <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.visualization', params: { mediaId: Getmedias.id } }"> -->
           <img src="/images/visualization.svg" alt="VISUALIZAR">
           <p class="mt-1 titulo-interactuar-media-show">VISUALIZADA</p>
-        </div>
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
+        <!-- </router-link> -->
+        <!-- <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.share', params: { mediaId: Getmedias.id } }"> -->
           <img src="/images/share.svg" alt="COMPARTIR">
           <p class="mt-1 titulo-interactuar-media-show">COMPARTIR</p>
-        </div>
+        <!-- </router-link> -->
       </div>
     </div>
     <div class="row watch-button">
@@ -48,21 +48,19 @@
           <span>VER TRAILER</span>
         </button>
       </div>
-      <div v-if="showTrailerPopup" class="popup-trailer">
+      <div v-if="showTrailer" class="popup-trailer">
         <div class="popup-content">
           <span class="close-button" @click="closeTrailerPopup" title="Salir del trailer">&times;</span>
-          <iframe width="560" height="315" :src="media.trailer" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" :src="Getmedias.trailer" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-sm-3 d-flex mt-4">
         <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones">Detalles</h2>
         <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones">Valoraciones</h2>
       </div>
     </div>
-
     <div class="row movie-info">
       <div class="justify-content-between row">
         <div class="details col-lg-8">
@@ -79,8 +77,8 @@
         <div class="details col-lg-3">
           <h2 v-if="Getmedias.mediashowtype_name == 'Pelicula'">Películas relacionadas</h2>
           <h2 v-if="Getmedias.mediashowtype_name == 'Serie'">Episodios y temporadas</h2>
-          <p class="meta-item" v-if="Getmedias.mediashowtype_name == null">No hay películas relacionadas</p>
-          <p class="meta-item" v-else>{{Getmedias.saga}}</p>
+          <p class="meta-item" v-if="Getmedias.saga != null">{{Getmedias.saga}}</p>
+          <p class="meta-item" v-if="Getmedias.mediashowtype_name == 'Pelicula' && Getmedias.saga == null">No hay películas relacionadas</p>
           <p class="meta-item" v-if="Getmedias.mediashowtype_name == 'Serie'">{{Getmedias.temporadas}} temporadas</p>
           <p class="meta-item" v-if="Getmedias.mediashowtype_name == 'Serie'">{{Getmedias.episodios}} episodios</p>
         </div>
@@ -112,10 +110,20 @@
   const router = useRouter();
   const mediaId = router.currentRoute.value.params.mediaId;
   
-  // Reproducir el trailer al pulsar el play:
+  // Variable para almacenar la URL del trailer
+  const trailerUrl = ref('');
   const showTrailer = ref(false);
-  const playTrailer = () => {
+
+  // Función para abrir el popup del trailer
+  const openTrailerPopup = () => {
     showTrailer.value = true;
+    trailerUrl.value = Getmedias.trailer;
+  };
+
+  // Función para cerrar el popup del trailer
+  const closeTrailerPopup = () => {
+    showTrailer.value = false;
+    trailerUrl.value = ''; // Limpiar la URL del trailer al cerrar el popup
   };
 
   // Formateamos la duración que mostraremos:
