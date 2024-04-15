@@ -14,7 +14,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 65,
                 "id_media_show_type" => 2,
-                "id_pemi" => "[11,2]",
+                "id_pemi" => 4,
                 "nombre" => "American Horror Story",
                 "duracion" => "00:45:00",
                 "actores" => "Evan Peters, Emma Roberts, Denis O'Hare, Sarah Paulson, Jessica Lange, Taissa Farmiga, Lily Rabe",
@@ -30,11 +30,10 @@ class MediaShowSeeder extends Seeder
                 "temporadas" => 128
             ],
             
-
             [
                 
                 "id_country" => 185,
-                "id_media_show_type" => 3,
+                "id_media_show_type" => 2,
                 "id_pemi" => 2,
                 "nombre" => "Star Wars: Clone Wars",
                 "duracion" => "00:25:00",
@@ -53,7 +52,7 @@ class MediaShowSeeder extends Seeder
 
             [
                 "id_country" => 64,
-                "id_media_show_type" => 6,
+                "id_media_show_type" => 2,
                 "id_pemi" => 2,
                 "nombre" => "Cuentame Como Paso",
                 "duracion" => "00:45:00",
@@ -72,12 +71,12 @@ class MediaShowSeeder extends Seeder
 
             [
                 "id_country" => 65,
-                "id_media_show_type" => 6,
+                "id_media_show_type" => 2,
                 "id_pemi" => 2,
                 "nombre" => "El Principe de Bel-Air",
                 "duracion" => "00:45:00",
                 "actores" => "Will Smith, Alfonso Ribeiro, James Avery, Karyn Parsons, Joseph Marcell",
-                "sinopsis_corta" => "Will Smith interpreta a un joven de Philadelphia que se traslada a vivir con sus ricos",
+                "sinopsis_corta" => "Will Smith interpreta a un joven de Philadelphia que se traslada a vivir con sus tíos ricos. Mítica serie con la que se hizo conocido este actor.",
                 "portada_img" => "http://localhost:8000/images/portada_principe_bel_air.jpg",
                 "idioma" => "Latino, Castellano, Ingles",
                 "directores" => "Andy Borowitz, Susan Borowitz, Shelley Jensen",
@@ -92,7 +91,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 65,
                 "id_media_show_type" => 2,
-                "id_pemi" => 5,
+                "id_pemi" => 4,
                 "nombre" => "The X files",
                 "duracion" => "00:45:00",
                 "actores" => "Gillian Anderson, David Duchovny, William B. Davis, Mitch Pileggi, Robert Patrick",
@@ -111,7 +110,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 65,
                 "id_media_show_type" => 2,
-                "id_pemi" => 3,
+                "id_pemi" => 2,
                 "nombre" => "Los Simpsons",
                 "duracion" => "00:25:00",
                 "actores" => "Harry Shearer, Dan Castellaneta, Hank Azaria",
@@ -129,7 +128,7 @@ class MediaShowSeeder extends Seeder
 
             [
                 "id_country" => 65,
-                "id_media_show_type" => 3,
+                "id_media_show_type" => 2,
                 "id_pemi" => 5,
                 "nombre" => "South Park",
                 "duracion" => "00:25:00",
@@ -153,7 +152,7 @@ class MediaShowSeeder extends Seeder
                 "nombre" => "Spartacus Sangre y Arena",
                 "duracion" => "00:45:00",
                 "actores" => "Andy Whitfield, Lucy Lawless, John Hannah, Manu Bennett, Peter Mensah",
-                "sinopsis_corta" => "Espartaco protagoniza un cuento sobre el esclavo que provocó una revuelta en la antigua Roma, haciéndose eco hasta nuestros días.",
+                "sinopsis_corta" => "Espartaco protagoniza un cuento sobre el esclavo que provocó una revuelta en la antigua Roma, haciéndose eco hasta nuestros días. Basada en hechos reales.",
                 "portada_img" => "http://localhost:8000/images/portada_spartacus.jpg",
                 "idioma" => "Castellano",
                 "directores" => "Steven S. DeKnight, Rick Jacobson, Michael Hurst",
@@ -167,7 +166,7 @@ class MediaShowSeeder extends Seeder
 
             [
                 "id_country" => 185,
-                "id_media_show_type" => 5,
+                "id_media_show_type" => 2,
                 "id_pemi" => 4,
                 "nombre" => "The Walking Dead",
                 "duracion" => "00:45:00",
@@ -225,11 +224,11 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 64,
                 "id_media_show_type" => 1,
-                "id_pemi" => 4,
+                "id_pemi" => 5,
                 "nombre" => "REC 2",
                 "duracion" => "01:24:00",
                 "actores" => "Manuela Velasco, Oscar Zafra, Alejandro Casaseca, Juli Fabregas, Javier Botet, Jonathan Mellor",
-                "sinopsis_corta" => "Un grupo de policías entra en un edificio acompañado por un doctor para conseguir la sangre de los infectados y encontrar así una cura.",
+                "sinopsis_corta" => "Un grupo de policías entra en un edificio acompañado por un doctor para conseguir la sangre de los infectados y encontrar así una cura. Vuelve el miedo, grabalo todo y escondete.",
                 "portada_img" => "http://localhost:8000/images/portada_rec_2.jpg",
                 "idioma" => "Castellano",
                 "directores" => "Jaume Balagueró, Paco Plaza",
@@ -244,7 +243,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 185,
                 "id_media_show_type" => 1,
-                "id_pemi" => 2,
+                "id_pemi" => 1,
                 "nombre" => "Shrek",
                 "duracion" => "01:27:00",
                 "actores" => "Mike Myers, Eddie Murphy, Cameron Diaz, John Lithgow",
@@ -263,7 +262,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 64,
                 "id_media_show_type" => 1,
-                "id_pemi" => 4,
+                "id_pemi" => 5,
                 "nombre" => "REC",
                 "duracion" => "01:16:00",
                 "actores" => "Manuela Velasco, Ferran Terraza, Jorge Serrano, Pablo Rosso, David Vert",
@@ -282,7 +281,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 185,
                 "id_media_show_type" => 1,
-                "id_pemi" => 2,
+                "id_pemi" => 1,
                 "nombre" => "Shrek 2",
                 "duracion" => "01:33:00",
                 "actores" => "Mike Myers, Eddie Murphy, Cameron Diaz, Antonio Banderas",
@@ -301,7 +300,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 124,
                 "id_media_show_type" => 1,
-                "id_pemi" => 8,
+                "id_pemi" => 3,
                 "nombre" => "El último Samurai",
                 "duracion" => "02:24:00",
                 "actores" => "Tom Cruise, Ken Watanabe, Billy Connolly, Tony Goldwyn, Timothy Spall, Koyuki",
@@ -320,7 +319,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 122,
                 "id_media_show_type" => 1,
-                "id_pemi" => 10,
+                "id_pemi" => 3,
                 "nombre" => "El bueno, el feo y el malo",
                 "duracion" => "02:41:00",
                 "actores" => "Clint Eastwood, Lee Van Cleef, Eli Wallach Aldo Giuffre, Rada Rassimov",
@@ -339,7 +338,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 122,
                 "id_media_show_type" => 1,
-                "id_pemi" => 10,
+                "id_pemi" => 3,
                 "nombre" => "Por un puñado de dólares",
                 "duracion" => "01:35:00",
                 "actores" => "Clint Eastwood, Marianne Koch, Gian Maria Volonte, Sieghardt Rupp",
@@ -358,7 +357,7 @@ class MediaShowSeeder extends Seeder
             [
                 "id_country" => 122,
                 "id_media_show_type" => 1,
-                "id_pemi" => 10,
+                "id_pemi" => 3,
                 "nombre" => "La muerte tenía un precio",
                 "duracion" => "02:15:00",
                 "actores" => "Clint Eastwood, Lee Van Cleef, Gian Maria Volonte, Mara Krupp",
@@ -372,13 +371,32 @@ class MediaShowSeeder extends Seeder
                 "saga" => "El bueno, el feo y el malo, Por un puñado de dólares",
                 "episodios" => null,
                 "temporadas" => null
-            ]
+            ],
+
+            [
+                "id_country" => 65,
+                "id_media_show_type" => 2,
+                "id_pemi" => 4,
+                "nombre" => "Stranger Things",
+                "duracion" => "00:50:00",
+                "actores" => "Winona Ryder, David Harbour, Finn Wolfhard, Millie Bobby Brown, Gaten Matarazzo, Caleb McLaughlin, Natalia Dyer, Charlie Heaton, Cara Buono, Matthew Modine, Noah Schnapp, Joe Keery, Sadie Sink, Dacre Montgomery, Maya Hawke",
+                "sinopsis_corta" => "Un niño desaparece en un pequeño pueblo donde todos se conocen. Comienza una búsqueda desesperada que destapa una serie de misterios y experimentos secretos del gobierno.",
+                "portada_img" => "http://localhost:8000/images/portada_stranger_things.jpg",
+                "idioma" => "Castellano, Inglés",
+                "directores" => "The Duffer Brothers",
+                "sinopsis" => "La desaparición de un niño en el pueblo de Hawkins, Indiana, desencadena una serie de eventos sobrenaturales que involucran experimentos secretos del gobierno, una niña con habilidades telequinéticas y una dimensión alternativa conocida como 'El Mundo del Revés'. Mientras la madre del niño, sus amigos y la policía local investigan su desaparición, se ven envueltos en una conspiración que amenaza con destruir su comunidad. 'Stranger Things' es una serie de televisión creada por los hermanos Duffer que rinde homenaje a los clásicos del cine de los años 80, combinando elementos de ciencia ficción, terror y aventura en una historia emocionante y llena de suspense.",
+                "fecha_media_show" => "2016-07-15",
+                "trailer" => "http://localhost:8000/videos/trailer_stranger_things.mp4",
+                "saga" => null,
+                "episodios" => 34,
+                "temporadas" => 4
+            ],
 
         ];
 
-        foreach ($p_media_shows as $p_media_show){
+        foreach ($p_media_show as $media_show){
             
-            p_media_show::create($p_media_show);
+            p_media_show::create($media_show);
         }
         
     }
