@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
-                        <button class="btn btn-primary boton-login-registro" :class="{ 'opacity-25': processing }">¡Allá vamos!</button>
+                        <button class="btn btn-primary boton-principal" :class="{ 'opacity-25': processing }">¡Allá vamos!</button>
                     </div>
                 </form>
             </div>

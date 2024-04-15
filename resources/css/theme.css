@@ -29,6 +29,8 @@
 
   a{
     /*color: var(--color-titulo-pagina);*/
+    text-decoration: none;
+    color: white;
   }
 
   li {
@@ -144,13 +146,14 @@
     border-color: #0c0c1d !important;
   }
 
-  .boton-login-registro{
+  .boton-principal{
     background-color: #0c0c1d !important;
-    border-color: #fff;
+    border-color: white !important;
   }
 
-  .boton-login-registro:hover{
-    border-color: var( --color-boton-hover);
+  .boton-principal:hover {
+    background-color: #fff !important;
+    color: #0c0c1d !important;
   }
 
   .fondo-pagina{
@@ -242,18 +245,19 @@
 
   .nav-boton{
     height: 35px;
-    width: 100px;
     display: flex;
     align-items: center;
     font-weight: bold;
     justify-content: center;
     border: 2px solid var(--color-label-pagina);
     border-radius: 6px;
+    padding: 10px;
   }
 
   .nav-boton:hover{
     border: 2px solid var(--color-boton-hover);
-    color: var(--color-boton-hover);
+    color: #0b0918;
+    background-color: white;
   }
 
   .nav-link{
@@ -312,8 +316,20 @@
     border-radius: 80%;
   }
 
+  .dropdown-item {
+    padding: 5px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+    border-radius: 4px;
+  }
+  
   .dropdown-item:hover {
-    background-color: none !important;
+    border-color: #0b0918;
+  }
+
+  .dropdown-item:active {
+    background-color: #0b0918 !important;
+    color: white;
   }
 
 /* Fin del estilo del header */
@@ -919,24 +935,23 @@
 
 /*Inicio del responsive*/
 
-#login,#register{
-
+/* Estilos para el login y registro */
+#login,
+#register {
+  /* Media query para tamaños de pantalla específicos */
   @media screen and (max-width: 1100px) {
-        
     .input_formulario {
       width: 500px;
     }
   }
 
   @media screen and (max-width: 550px) {
-        
     .input_formulario {
       width: 100% !important;
     }
   }
 
   @media screen and (max-width: 960px) {
-
     .background-image-login-register {
       display: none;
     }
@@ -953,7 +968,6 @@
   }
 
   @media screen and (max-width: 850px) {
-
     .background-image-login-register {
       display: none;
     }
@@ -971,24 +985,60 @@
   }
 
   @media screen and (max-width: 462px) {
-
     .h1 {
       width: 40px;
     }
   }
 }
 
-#media-show-view{
-  
-  /* Media query para el momento que la pantalla es tamaño medio */
-  @media screen and (max-width: 1838px) {
+/* Estilos para el perfil de usuario */
+#perfil-user {
+  @media screen and (max-width: 887px) {
+    .modificar-campo {
+      width: auto;
+    }
 
+    .input-formulario-user {
+      width: auto;
+    }
+  }
+
+  @media screen and (max-width: 816px) {
+    .modificar-campo {
+      margin-top: 20px;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    .modificar-campo {
+      margin-top: 0px !important;
+    }
+
+    .card {
+      border: none !important;
+      padding-right: 5px !important;
+    }
+
+    .row > * {
+      padding-left: 5px !important;
+    }
+
+    .eliminar-cuenta {
+      padding-left: 0px !important;
+    }
+  }
+}
+
+/* Estilos para el reproductor de medios */
+#media-show-view {
+  @media screen and (max-width: 1838px) {
     .details-right {
       display: flex;
       flex-direction: column;
       align-items: stretch;
       width: 50%;
     }
+
     .movie-genre {
       margin-top: 10px;
     }
@@ -1006,15 +1056,14 @@
     .id-pemi-box {
       margin-top: 10px;
     }
-    .poster-image{
+
+    .poster-image {
       width: auto;
       height: auto;
     }
   }
-     
-  /* Media query para el momento que la pantalla es tamaño medio */
-  @media screen and (max-width: 1620px) {
 
+  @media screen and (max-width: 1620px) {
     .contenedor-interactuar-media-show {
       margin-top: 20px !important;
       justify-content: initial !important;
@@ -1025,29 +1074,26 @@
     .watch-button {
       margin-top: 20px;
     }
-    .meta-item{
-      display:flex;
+
+    .meta-item {
+      display: flex;
       align-items: initial !important;
     }
   }
 
-  /* Media query para el momento que la pantalla ya es tamaño intermedio */
   @media screen and (max-width: 960px) {
-
-    .meta-container  {
+    .meta-container {
       flex-direction: column;
       align-items: stretch;
     }
 
-    .id-pemi-box{
+    .id-pemi-box {
       width: auto;
       max-width: 40px;
     }
   }
 
-  /* Media query para el momento que la pantalla ya es muy pequeña */
   @media screen and (max-width: 800px) {
-
     .contenedor-interactuar-media-show {
       flex-direction: column;
       align-items: stretch;
@@ -1058,11 +1104,11 @@
       margin-bottom: 10px;
     }
 
-    .movie-details{
+    .movie-details {
       align-items: stretch;
     }
 
-    .details-right{
+    .details-right {
       margin-left: 0px;
       flex-direction: column;
       align-items: stretch;
@@ -1073,61 +1119,32 @@
       max-height: 400px;
     }
 
-    .meta-container  {
+    .meta-container {
       flex-direction: column;
       align-items: stretch;
     }
 
-    .meta-item{
+    .meta-item {
       width: 100%;
       margin-bottom: 10px;
       margin-right: 0;
     }
 
-    .id-pemi-box{
+    .id-pemi-box {
       width: auto;
       max-width: 40px;
     }
+
     .linea-hover:hover::before {
       width: 38%;
     }
+
     .linea-hover-detalles-valoraciones:hover::before {
       width: 100%;
     }
   }
- 
 }
 
-@media screen and (max-width: 887px) {
-  #perfil-user .modificar-campo {
-    width: auto;
-  }
-  #perfil-user .input-formulario-user {
-    width: auto;
-  }
-}
-
-@media screen and (max-width: 816px) {
-  #perfil-user .modificar-campo {
-    margin-top: 20px;
-  }
-}
-
-@media screen and (max-width: 575px) {
-  #perfil-user .modificar-campo {
-    margin-top: 0px !important;
-  }
-  #perfil-user .card {
-    border: none !important;
-    padding-right: 5px !important;
-  }
-  #perfil-user .row > * {
-    padding-left: 5px !important;
-  }
-  #perfil-user .eliminar-cuenta {
-    padding-left: 0px !important;
-  }
-}
 
 /*Final del responsive*/
   

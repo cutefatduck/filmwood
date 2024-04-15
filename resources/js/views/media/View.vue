@@ -3,7 +3,14 @@
     <div class="row">
     <div class="col-xxl-7">
         <div class="movie-details row">
-          <img alt="Portada del Media Show" class="poster-image col-sm-4"> {{Getmedias.portada_img}}
+          
+          @foreach ($images as $image)
+
+          <img src="{{ url('app/private/'.$image->url)}}"alt="Portada del Media Show" class="poster-image col-sm-4"> {{Getmedias.portada_img}}
+          
+          @endforeach
+
+
           <div class="details-right col-sm-8">
             <h1 class="movie-title">{{ Getmedias.nombre }}</h1>
             <p><span v-for="(genre, index) in Getmedias.genres_name" :key="index" class="movie-genre">{{ genre }}<span v-if="index !== Getmedias.genres_name.length - 1">, </span></span></p>
@@ -20,22 +27,22 @@
         </div>
       </div>
       <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-        <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.valoration', params: { mediaId: Getmedias.id } }">
+        <router-link :to="{ name: 'media.valoration', params: { mediaId: Getmedias.id, mediaName: Getmedias.nombre } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
           <img src="/images/favorite.svg" alt="VALORAR">
           <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
         </router-link>
-        <!-- <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.like', params: { mediaId: Getmedias.id } }"> -->
+        <router-link :to="{ name: 'media.like', params: { mediaId: Getmedias.id } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
           <img src="/images/like.svg" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
-        <!-- </router-link> -->
-        <!-- <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.visualization', params: { mediaId: Getmedias.id } }"> -->
+        </router-link>
+        <router-link :to="{ name: 'media.visualization', params: { mediaId: Getmedias.id } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
           <img src="/images/visualization.svg" alt="VISUALIZAR">
           <p class="mt-1 titulo-interactuar-media-show">VISUALIZADA</p>
-        <!-- </router-link> -->
-        <!-- <router-link class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" :to="{ name: 'media.share', params: { mediaId: Getmedias.id } }"> -->
+        </router-link>
+        <router-link :to="{ name: 'media.share', params: { mediaId: Getmedias.id } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
           <img src="/images/share.svg" alt="COMPARTIR">
           <p class="mt-1 titulo-interactuar-media-show">COMPARTIR</p>
-        <!-- </router-link> -->
+        </router-link>
       </div>
     </div>
     <div class="row watch-button">
@@ -55,14 +62,12 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-3 d-flex mt-4">
-        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones">Detalles</h2>
-        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones">Valoraciones</h2>
-      </div>
-    </div>
     <div class="row movie-info">
-      <div class="justify-content-between row">
+      <div class="col-sm-3 d-flex mt-4">
+        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" @click="switchToDetailsTab">Detalles</h2>
+        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" @click="switchToReviewsTab">Valoraciones</h2>
+      </div>
+      <div v-if="showDetailsTab" class="row justify-content-between">
         <div class="details col-lg-8">
           <h2>Sinopsis</h2>
           <p>{{Getmedias.sinopsis}}</p>
@@ -72,8 +77,6 @@
           <p>Directores: {{ Getmedias.directores }}</p>
           <p>Actores: {{ Getmedias.actores }}</p>
         </div>
-      </div>
-      <div class=" justify-content-between row">
         <div class="details col-lg-3">
           <h2 v-if="Getmedias.mediashowtype_name == 'Pelicula'">Películas relacionadas</h2>
           <h2 v-if="Getmedias.mediashowtype_name == 'Serie'">Episodios y temporadas</h2>
@@ -93,10 +96,45 @@
           <p>Edad: {{ Getmedias.pemi_name }}</p>
         </div>
       </div>
+      <div v-if="showReviewsTab" class="row justify-content-between">
+        <div class="details col-lg-12 ">
+          <div class="reviews-container row justify-content-between">
+            <div class="review-card col-md-2 col-xs-12">
+              <p class="username">Usuario 1</p>
+              <img src="/images/cinco_estrellas.svg" alt="Star" class="mb-2">
+              <p class="opinion">Esta es la opinión del usuario sobre el producto. Puede ser larga o corta, según lo que el usuario quiera expresar.</p>
+            </div>
+            <div class="review-card col-md-2 col-xs-12">
+              <p class="username">Usuario 2</p>
+              <img src="/images/tres_estrellas.svg" alt="Star" class="mb-2">
+              <p class="opinion">Otra opinión de otro usuario. En esta ocasión, la valoración no es tan alta como la anterior.</p>
+            </div>
+            <div class="review-card col-md-2 col-xs-12">
+              <p class="username">Usuario 3</p>
+              <img src="/images/cero_estrellas.svg" alt="Star" class="mb-2">
+              <p class="opinion">Otra opinión de otro usuario. En esta ocasión, la valoración no es tan alta como la anterior.</p>
+            </div>
+            <div class="review-card col-md-2 col-xs-12">
+              <p class="username">Usuario 4</p>
+              <img src="/images/cero_estrellas.svg" alt="Star" class="mb-2">
+              <p class="opinion">Otra opinión de otro usuario. En esta ocasión, la valoración no es tan alta como la anterior.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <AppFooter />
   </div>
 </template>
+<style>
+
+  .review-card {
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+</style>
 
 <script setup>
 
@@ -109,6 +147,22 @@
 
   const router = useRouter();
   const mediaId = router.currentRoute.value.params.mediaId;
+
+  const navigateToValoration = () => {
+    router.push({ name: 'media.valoration', params: { mediaId: Getmedias.value.id } });
+  };
+
+  const onLikeClicked = () => {
+    router.push({ name: 'media.like', params: { mediaId: Getmedias.id } });
+  };
+
+  const onVisualizeClicked = () => {
+    router.push({ name: 'media.visualization', params: { mediaId: Getmedias.id } });
+  };
+
+  const onShareClicked = () => {
+    router.push({ name: 'media.share', params: { mediaId: Getmedias.id } });
+  };
   
   // Variable para almacenar la URL del trailer
   const trailerUrl = ref('');
@@ -138,6 +192,22 @@
         formattedDuration += ` ${parseInt(minutes)} min`;
       }
       return formattedDuration.trim();
+  };
+
+  // Definimos dos variables para mostrar una pestaña u otra:
+  const showDetailsTab = ref(true);
+  const showReviewsTab = ref(false);
+
+  // Si mostramos los detalles, ocultamos las valoraciones:
+  const switchToDetailsTab = () => {
+    showDetailsTab.value = true;
+    showReviewsTab.value = false;
+  };
+
+  // Si mostramos las valoraciones, ocultamos los detalles:
+  const switchToReviewsTab = () => {
+    showDetailsTab.value = false;
+    showReviewsTab.value = true;
   };
 
   onMounted(async () => {

@@ -73,36 +73,38 @@ export default [
                 component: MediaShows,
             },
             {
-                path: 'view/:mediaId',
+                path: '/view/:mediaId/valoration',
+                name: 'media.valoration',
+                component: ValorationMedia,
+            },
+            {
+                path: '/view/:mediaId',
                 name: 'media.view',
                 component: MediaView,
                 children: [
+                    // {
+                    //     path: 'valoration',
+                    //     name: 'media.valoration',
+                    //     component: ValorationMedia,
+                    // },
                     {
-                        path: 'valoration',
-                        name: 'media.valoration',
-                        component: ValorationMedia,
+                        path: 'like',
+                        name: 'media.like',
+                        component: LikeMedia,
                     },
-
-                    // //Like si es necesario:
-                    // {
-                    //     path: 'like',
-                    //     name: 'media.like',
-                    //     component: LikeMedia,
-                    // },
-                    // //Visualizar si es necesario:
-                    // {
-                    //     path: 'visualization',
-                    //     name: 'media.visualization',
-                    //     component: VisualizationMedia,
-                    // },
-                    // //Compartir si es necesario:
-                    // {
-                    //     path: 'share',
-                    //     name: 'media.share',
-                    //     component: shareMedia,
-                    // }
+                    {
+                        path: 'visualization',
+                        name: 'media.visualization',
+                        component: VisualizationMedia,
+                    },
+                    {
+                        path: 'share',
+                        name: 'media.share',
+                        component: ShareMedia,
+                    }
                 ]
             },
+            
             {
                 path: 'posts',
                 name: 'public-posts.index',

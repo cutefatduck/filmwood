@@ -19,7 +19,8 @@ Route::post('login', [AuthenticatedSessionController::class, 'login']);
 Route::post('register', [AuthenticatedSessionController::class, 'register']);
 Route::post('logout', [AuthenticatedSessionController::class, 'logout']);
 
- 
+// Para almacenar las imagenes
+Route::post('/store', [ImageController::class, 'store']) ->name('store');
 
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

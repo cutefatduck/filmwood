@@ -8,7 +8,7 @@
             <p class="lead">
                 ¿Qué dijo la palomita de maíz al hervir? ¡No puedo soportar la presión! 🍿
             </p>
-            <router-link to="/" class="btn btn-primary boton_login_registro mt-2">Ir al inicio</router-link>
+            <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
         </div>
     </div>
 </template>

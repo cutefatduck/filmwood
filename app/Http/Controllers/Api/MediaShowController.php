@@ -47,7 +47,7 @@ class MediaShowController extends Controller
     public function show($id)
     {
         $media = p_media_show::findOrFail($id);
-        return response()->json([
+            return response()->json([
                 'id' => $media->id,
                 'nombre' => $media->nombre,
                 'duracion' => $media->duracion,
@@ -66,7 +66,7 @@ class MediaShowController extends Controller
                 'mediashowtype_name' => $media->mediaShowType->type ?? null,
                 'pemi_name' => $media->pemi->number_pemi ?? null,
                 'genres_name' => $media->genres->pluck('name_genre')->toArray() ?? [],
-        ]);
+            ]);
     }
 
     public function destroy($id)
@@ -75,9 +75,6 @@ class MediaShowController extends Controller
         $media->delete();
         return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
     }
-
-
-
 
     public function store(Request $request)
     {

@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-3 mb-2">
-                        <button class="btn btn-primary boton-login-registro" :class="{ 'opacity-25': processing }">INICIAR SESIÓN</button>
+                        <button class="btn btn-primary boton-principal" :class="{ 'opacity-25': processing }">INICIA SESIÓN</button>
                     </div>
                 </form>
             </div>

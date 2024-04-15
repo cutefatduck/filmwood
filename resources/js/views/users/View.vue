@@ -65,7 +65,7 @@
   const userId = router.currentRoute.value.params.userId;
   const user = computed(() => store.getters["auth/user"]);
 
-  // Función para obtener el ID del usuario desde la ruta, ajusta según sea necesario
+  // Función para obtener el ID del usuario desde la ruta:
   onMounted(async () => {
     try {
       await fetchUserById(userId);
