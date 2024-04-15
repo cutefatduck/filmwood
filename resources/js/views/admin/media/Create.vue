@@ -15,6 +15,8 @@
                 <strong>{{ strError }}</strong>
             </div>
 
+            {{ media }}
+
             <form @submit.prevent="addMedia">
 
                 <div class="form-group mb-2">
@@ -41,21 +43,25 @@
 
                 <div class="form-group mb-2">
                     <label>Pemi</label>
-                    <select v-model="media.pemi_id">
+                    <select v-model="media.id_pemi">
                         <option v-for="pemi in pemis" :key="pemi.id" :value="pemi.id">{{ pemi.number_pemi }}</option>
                     </select>
                 </div>
 
+                <!-- <div class="form-group mb-2">
+                    <label>Género</label>
+                    <select v-model="media.genres">
+                        <option v-for="genre in genres" :key="genre.id" :value="genre.name_genre">{{ genre.name_genre }}</option>
+                    </select>
+                </div> -->
+                {{ genres }}
                 <div class="form-group mb-2">
                     <label>Género</label>
-                    <select v-model="media.genre_id">
-                        <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name_genre }}</option>
-                    </select>
+                    <MultiSelect v-model="media.genre" :options="genres" filter optionLabel="name" placeholder="Select genres" :maxSelectedLabels="3" class="w-full md:w-20rem" />
                 </div>
-
                 <div class="form-group mb-2">
                     <label>País de origen</label>
-                    <select v-model="media.pais_origen">
+                    <select v-model="media.id_country">
                         <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
                     </select>
                 </div>
@@ -92,7 +98,7 @@
 
                 <div class="form-group mb-2">
                     <label>Fecha estreno</label>
-                    <input v-model="media.fecha_estreno" class="input_formulario" type="datetime-local" name="release_date"/>
+                    <input v-model="media.fecha_media_show" class="input_formulario" type="datetime-local" name="release_date"/>
                 </div>
 
                 <div class="form-group mb-2" v-if="media.id_media_show_type === 1">
@@ -122,9 +128,10 @@
     import { onMounted, ref } from 'vue';
     import { useAddMedia } from '@/composables/media';
 
-    const media = ref({ pemi_id: null, genre_id: null, duracion: '', actores: '', portada_img: '', idioma: '', directores: '', trailer: '', fecha_estreno: '', saga: '', temporadas: null, episodios: null, pais_origen: '' });
+    const media = ref({ id_pemi: null, duracion: '', id_country:'', actores: '', portada_img: 'n.png', idioma: '', directores: '', trailer: 'n.mp4', fecha_media_show: '', saga: '', temporadas: null, episodios: null });
     const strError = ref('');
     const strSuccess = ref('');
+    const selectedGenres = ref();
 
     const addMedia = () => {
     console.log('Intentando agregar un nuevo media show...');
@@ -135,6 +142,7 @@
             strError.value = '';
         }).catch(error => {
             strError.value = error.response.data.message;
+            console.log(error.response.data.error)
             strSuccess.value = '';
         });
     };

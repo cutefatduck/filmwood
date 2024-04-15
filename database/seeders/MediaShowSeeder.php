@@ -516,7 +516,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis_corta" => "Después de las historias de Jango y Boba Fett, otro guerrero emerge en el universo de Star Wars. 'The Mandalorian' sigue las aventuras de un pistolero solitario en los confines de la galaxia.",
                 "portada_img" => "http://localhost:8000/images/portada_the_mandalorian.jpg",
                 "idioma" => "Castellano, Inglés",
-                "directores" => "Dave Filoni, ",
+                "directores" => "Dave Filoni, Jon Favreau",
                 "sinopsis" => "'The Mandalorian' sigue las aventuras de un misterioso pistolero solitario, conocido simplemente como 'Mando', en los confines de la galaxia de Star Wars. Ambientada después de la caída del Imperio y antes del surgimiento de la Primera Orden, la serie sigue a Mando en su búsqueda de trabajo como cazarrecompensas, mientras se cruza con personajes conocidos y desconocidos en planetas remotos y peligrosos. Con la ayuda de su fiel nave, el Razor Crest, y el entrañable bebé Yoda, Mando se enfrenta a desafíos mortales y descubre secretos que podrían cambiar el curso de la galaxia. 'The Mandalorian' es una emocionante aventura espacial que combina elementos de western, samurái y ciencia ficción en un viaje épico a través del universo de Star Wars.",
                 "fecha_media_show" => "2019-11-12",
                 "trailer" => "http://localhost:8000/videos/trailer_the_mandalorian.mp4",
@@ -535,7 +535,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis_corta" => "Una familia de gánsteres en Birmingham, Inglaterra, en 1919, liderada por Tommy Shelby, un despiadado y astuto líder que planea ascender en el mundo del crimen organizado.",
                 "portada_img" => "http://localhost:8000/images/portada_peaky_blinders.jpg",
                 "idioma" => "Castellano, Inglés",
-                "directores" => "Varios",
+                "directores" => "Otto Bathurst, Tom Harper, Colm McCarthy",
                 "sinopsis" => "'Peaky Blinders' sigue la historia de la familia Shelby, una banda de gánsteres que operan en Birmingham, Inglaterra, en la década de 1920. Encabezados por el carismático y astuto Tommy Shelby, los Peaky Blinders luchan por ascender en el mundo del crimen organizado mientras se enfrentan a rivales peligrosos, la ley y sus propios demonios internos. Con una narrativa cinematográfica y una estética impresionante, la serie combina drama histórico, acción emocionante y personajes inolvidables en un viaje a través de la turbulenta era de la posguerra. 'Peaky Blinders' ha sido elogiada por su guion inteligente, su dirección elegante y su actuación sobresaliente, convirtiéndose en una de las series más aclamadas de la televisión británica.",
                 "fecha_media_show" => "2013-09-12",
                 "trailer" => "http://localhost:8000/videos/trailer_peaky_blinders.mp4",
@@ -554,7 +554,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis_corta" => "Esta serie dramatiza la historia real del ascenso y la caída del narcotraficante colombiano Pablo Escobar y los esfuerzos de la DEA para detenerlo.",
                 "portada_img" => "http://localhost:8000/images/portada_narcos.jpg",
                 "idioma" => "Castellano, Inglés",
-                "directores" => "Varios",
+                "directores" => "José Padilha, Andi Baiz, Fernando Coimbra",
                 "sinopsis" => "'Narcos' narra la historia real del ascenso y la caída del infame narcotraficante colombiano Pablo Escobar y los esfuerzos de la DEA para detenerlo. La serie combina eventos históricos con dramatización para ofrecer una visión cautivadora de la guerra contra las drogas en América Latina en la década de 1980. A través de múltiples temporadas, seguimos a Escobar y a los agentes de la DEA mientras luchan por el control del narcotráfico en Colombia, enfrentándose a la violencia, la corrupción y la traición en el camino. 'Narcos' es una serie llena de acción, intriga y personajes complejos que ofrece una mirada perspicaz a uno de los capítulos más oscuros de la historia contemporánea.",
                 "fecha_media_show" => "2015-08-28",
                 "trailer" => "http://localhost:8000/videos/trailer_narcos.mp4",
@@ -565,9 +565,29 @@ class MediaShowSeeder extends Seeder
 
         ];
 
-        foreach ($p_media_show as $media_show){
-            
-            p_media_show::create($media_show);
+        foreach ($p_media_show as $mediaShowData) {
+            // Crear el MediaShow
+            $mediaShow = p_media_show::create([
+                'id_country' => $mediaShowData['id_country'],
+                'id_media_show_type' => $mediaShowData['id_media_show_type'],
+                'id_pemi' => $mediaShowData['id_pemi'],
+                'nombre' => $mediaShowData['nombre'],
+                'duracion' => $mediaShowData['duracion'],
+                'actores' => $mediaShowData['actores'],
+                'sinopsis_corta' => $mediaShowData['sinopsis_corta'],
+                'portada_img' => $mediaShowData['portada_img'],
+                'idioma' => $mediaShowData['idioma'],
+                'directores' => $mediaShowData['directores'],
+                'sinopsis' => $mediaShowData['sinopsis'],
+                'fecha_media_show' => $mediaShowData['fecha_media_show'],
+                'trailer' => $mediaShowData['trailer'],
+                'saga' => $mediaShowData['saga'],
+                'episodios' => $mediaShowData['episodios'],
+                'temporadas' => $mediaShowData['temporadas'],
+            ]);
+
+            // Asociar los géneros al MediaShow
+            $mediaShow->genres()->attach($mediaShowData['genres']);
         }
         
     }
