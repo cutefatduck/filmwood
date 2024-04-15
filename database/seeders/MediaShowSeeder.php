@@ -583,7 +583,7 @@ class MediaShowSeeder extends Seeder
                 'trailer' => $mediaShowData['trailer'],
                 'saga' => $mediaShowData['saga'],
                 'episodios' => $mediaShowData['episodios'],
-                'temporadas' => $mediaShowData['temporadas'],
+                'temporadas' => $mediaShowData['temporadas']
             ]);
 
             // Asociar los géneros al MediaShow
