@@ -27,7 +27,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_american_horror_story.mp4",
                 "saga" => null,
                 "episodios" => 12,
-                "temporadas" => 128
+                "temporadas" => 128,
+                "genres" => [4, 11]
             ],
             
             [
@@ -47,7 +48,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_clone_wars.mp4",
                 "saga" => null,
                 "episodios" => 7,
-                "temporadas" => 133
+                "temporadas" => 133,
+                "genres" => [1,2,3]
             ],
 
             [
@@ -66,7 +68,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_cuentame.mp4",
                 "saga" => null,
                 "episodios" => 23,
-                "temporadas" => 422
+                "temporadas" => 422,
+                "genres" => [6,12]
             ],
 
             [
@@ -85,7 +88,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_principe_bel_air.mp4",
                 "saga" => null,
                 "episodios" => 6,
-                "temporadas" => 148
+                "temporadas" => 148,
+                "genres" => [6,12]
             ],
 
             [
@@ -104,7 +108,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_the_x_files.mp4",
                 "saga" => null,
                 "episodios" => 11,
-                "temporadas" => 218
+                "temporadas" => 218,
+                "genres" => [5,11]
             ],
 
             [
@@ -123,7 +128,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_los_simpsons.mp4",
                 "saga" => null,
                 "episodios" => 36,
-                "temporadas" => 772
+                "temporadas" => 772,
+                "genres" => [6,12]
             ],
 
             [
@@ -142,7 +148,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_south_park.mp4",
                 "saga" => null,
                 "episodios" => 26,
-                "temporadas" => 325
+                "temporadas" => 325,
+                "genres" => [6]
             ],
 
             [
@@ -161,7 +168,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_spartacus.mp4",
                 "saga" => null,
                 "episodios" => 3,
-                "temporadas" => 33
+                "temporadas" => 33,
+                "genres" => [8, 11]
             ],
 
             [
@@ -180,7 +188,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_the_walking_dead.mp4",
                 "saga" => null,
                 "episodios" => 10,
-                "temporadas" => 177
+                "temporadas" => 177,
+                "genres" => [7, 4, 11]
             ],
 
             [
@@ -199,7 +208,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_vikings.mp4",
                 "saga" => null,
                 "episodios" => 6,
-                "temporadas" => 89
+                "temporadas" => 89,
+                "genres" => [1,2,8]
             ],
 
             [
@@ -218,7 +228,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_imperio_del_fuego.mp4",
                 "saga" => null,
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [5,9]
             ],
 
             [
@@ -237,7 +248,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_rec_2.mp4",
                 "saga" => "REC",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [4]
             ],
 
             [
@@ -256,7 +268,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_shrek.mp4",
                 "saga" => "Shrek 2",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [2, 3]
             ],
 
             [
@@ -275,7 +288,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_rec.mp4",
                 "saga" => "REC 2",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [4]
             ],
 
             [
@@ -294,7 +308,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_shrek_2.mp4",
                 "saga" => "Shrek",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [2, 3]
             ],
 
             [
@@ -313,7 +328,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_imperio_del_fuego.mp4",
                 "saga" => null,
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [2, 8]
             ],
 
             [
@@ -332,7 +348,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_bueno_feo_malo.mp4",
                 "saga" => "Por un puñado de dólares, La muerte tenía un precio",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [10]
             ],
 
             [
@@ -351,7 +368,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_por_un_punado_de_dolares.mp4",
                 "saga" => "El bueno, el feo y el malo, La muerte tenía un precio",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [10]
             ],
 
             [
@@ -370,7 +388,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_la_muerte_tenia_un_precio.mp4",
                 "saga" => "El bueno, el feo y el malo, Por un puñado de dólares",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [10]
             ],
 
             [
@@ -389,7 +408,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_stranger_things.mp4",
                 "saga" => null,
                 "episodios" => 34,
-                "temporadas" => 4
+                "temporadas" => 4,
+                "genres" => [4, 9]
             ],
 
             [
@@ -408,7 +428,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_el_padrino.mp4",
                 "saga" => "El Padrino 2",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [1, 7]
             ],
 
             [
@@ -427,7 +448,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_el_padrino_ii.mp4",
                 "saga" => "El Padrino",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [1, 7]
             ],
             
             [
@@ -446,7 +468,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_el_senor_de_los_anillos_la_comunidad_del_anillo.mp4",
                 "saga" => "El Señor de los Anillos Las Dos Torres, El Señor de los Anillos El Retorno del Rey",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [1, 2]
             ],
 
             [
@@ -465,7 +488,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_el_senor_de_los_anillos_las_dos_torres.mp4",
                 "saga" => "El Señor de los Anillos La Comunidad del Anillo, El Señor de los Anillos El Retorno del Rey",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [1, 2]
             ],
 
             [
@@ -484,7 +508,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_el_senor_de_los_anillos_el_retorno_del_rey.mp4",
                 "saga" => "El Señor de los Anillos La Comunidad del Anillo, El Señor de los Anillos Las Dos Torres",
                 "episodios" => null,
-                "temporadas" => null
+                "temporadas" => null,
+                "genres" => [1, 2]
             ],
 
             [
@@ -503,7 +528,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_game_of_thrones.mp4",
                 "saga" => null,
                 "episodios" => 73,
-                "temporadas" => 8
+                "temporadas" => 8,
+                "genres" => [1, 5, 8]
             ],
 
             [
@@ -522,7 +548,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_the_mandalorian.mp4",
                 "saga" => null,
                 "episodios" => 24,
-                "temporadas" => 3
+                "temporadas" => 3,
+                "genres" => [2, 5]
             ],
 
             [
@@ -541,7 +568,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_peaky_blinders.mp4",
                 "saga" => null,
                 "episodios" => 30,
-                "temporadas" => 5
+                "temporadas" => 5,
+                "genres" => [7, 9]
             ],
 
             [
@@ -560,7 +588,8 @@ class MediaShowSeeder extends Seeder
                 "trailer" => "http://localhost:8000/videos/trailer_narcos.mp4",
                 "saga" => null,
                 "episodios" => 30,
-                "temporadas" => 3
+                "temporadas" => 3,
+                "genres" => [1, 7]
             ],
 
         ];
@@ -583,7 +612,7 @@ class MediaShowSeeder extends Seeder
                 'trailer' => $mediaShowData['trailer'],
                 'saga' => $mediaShowData['saga'],
                 'episodios' => $mediaShowData['episodios'],
-                'temporadas' => $mediaShowData['temporadas']
+                'temporadas' => $mediaShowData['temporadas'],
             ]);
 
             // Asociar los géneros al MediaShow

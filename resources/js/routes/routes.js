@@ -73,20 +73,20 @@ export default [
                 component: MediaShows,
             },
             {
-                path: '/view/:mediaId/valoration',
-                name: 'media.valoration',
-                component: ValorationMedia,
-            },
-            {
                 path: '/view/:mediaId',
                 name: 'media.view',
-                component: MediaView,
+                //component: MediaView,
                 children: [
-                    // {
-                    //     path: 'valoration',
-                    //     name: 'media.valoration',
-                    //     component: ValorationMedia,
-                    // },
+                    {
+                        path: '',
+                        name: 'media.view',
+                        component: MediaView,
+                    },
+                    {
+                        path: 'valoration',
+                        name: 'media.valoration',
+                        component: ValorationMedia,
+                    },
                     {
                         path: 'like',
                         name: 'media.like',

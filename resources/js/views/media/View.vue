@@ -1,16 +1,9 @@
 <template>
   <div id="media-show-view" class="contenedor-general-movie">
     <div class="row">
-    <div class="col-xxl-7">
+      <div class="col-xxl-7">
         <div class="movie-details row">
-          
-          @foreach ($images as $image)
-
-          <img src="{{ url('app/private/'.$image->url)}}"alt="Portada del Media Show" class="poster-image col-sm-4"> {{Getmedias.portada_img}}
-          
-          @endforeach
-
-
+          <img :src="imageURL" alt="Portada del Media Show" class="poster-image col-sm-4">
           <div class="details-right col-sm-8">
             <h1 class="movie-title">{{ Getmedias.nombre }}</h1>
             <p><span v-for="(genre, index) in Getmedias.genres_name" :key="index" class="movie-genre">{{ genre }}<span v-if="index !== Getmedias.genres_name.length - 1">, </span></span></p>
@@ -92,7 +85,7 @@
         </div>
         <div class="details col-lg-3">
           <h2>Géneros y Edad</h2>
-          <p>Géneros: {{ Getmedias.genres_name }}</p>
+          <p>Géneros: <span v-for="(genre, index) in Getmedias.genres_name" :key="index" class="movie-genre-details">{{ genre }}<span v-if="index !== Getmedias.genres_name.length - 1">, </span></span></p>
           <p>Edad: {{ Getmedias.pemi_name }}</p>
         </div>
       </div>
@@ -147,6 +140,8 @@
 
   const router = useRouter();
   const mediaId = router.currentRoute.value.params.mediaId;
+
+  const imageURL = ref('');
 
   const navigateToValoration = () => {
     router.push({ name: 'media.valoration', params: { mediaId: Getmedias.value.id } });
@@ -213,7 +208,8 @@
   onMounted(async () => {
     try {
       await fetchMediaById(mediaId);
-      console.log(Getmedias.value)
+      imageURL.value = Getmedias.value.portada_img;
+      console.log('URL de la imagen:', Getmedias.value.portada_img);
     } catch (error) {
       console.error('Error al cargar los datos del medio show:', error);
       strError.value = 'Error al cargar los datos del medio show';

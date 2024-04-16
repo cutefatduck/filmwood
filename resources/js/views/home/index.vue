@@ -153,6 +153,8 @@
         },
     ]);
 
+    const genreId = 1;
+
     // Obtenemos todas las media shows:
     const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
     const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
