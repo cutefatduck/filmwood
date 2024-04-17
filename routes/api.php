@@ -26,7 +26,11 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'store']);
-Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
+// Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
+
+// Obtener los mediashow segun el genero
+Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);
+
 
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 #Route::get('/media/{id}', [MediaShowController::class, 'edit']);

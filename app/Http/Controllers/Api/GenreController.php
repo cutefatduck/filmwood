@@ -13,5 +13,11 @@ class GenreController extends Controller
         $genre = p_genres::all()->toArray();
         return $genre;
     }
+
+    public function getMediaShowByGenre(){
+        $genre = p_genres::with('mediaShows')->get();
+        return $genre; 
+    }
+    
     
 }

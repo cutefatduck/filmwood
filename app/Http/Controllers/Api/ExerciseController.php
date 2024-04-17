@@ -37,7 +37,7 @@ class ExerciseController extends Controller
         $exercise->categories()->attach($category);
 
         if ($request->hasFile('thumbnail')) {
-            $exercise->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('images-exercises');
+            $exercise->addMedthfiaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('images-exercises');
         }
 
         return new ExerciseResource($exercise);

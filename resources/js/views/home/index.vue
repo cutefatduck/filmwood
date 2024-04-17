@@ -158,7 +158,9 @@
     // Obtenemos todas las media shows:
     const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
     const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
+    const { GetMediaShowByGenre, fetchMediaShowByGenre } = useGetGenres();
 
+    console.log(GetMediaShowByGenre)
     // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
 
@@ -204,6 +206,7 @@
         try {
             await fetchMedia();
             await fetchGenres();
+            await fetchMediaShowByGenre();
         } catch (error) {
             console.error('Error fetching media:', error);
         }

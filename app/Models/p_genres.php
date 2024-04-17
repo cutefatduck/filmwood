@@ -19,4 +19,5 @@ class p_genres extends Model
     {
         return $this->belongsToMany(p_media_show::class, 'p_media_show_genres', 'id_genre', 'id_media_show');
     }
+    public $timestamps = false;
 }

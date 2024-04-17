@@ -15,7 +15,7 @@
                 <strong>{{ strError }}</strong>
             </div>
 
-            {{ media }}
+            <p>{{ media }}</p>
 
             <form @submit.prevent="addMedia">
 
@@ -54,10 +54,10 @@
                         <option v-for="genre in genres" :key="genre.id" :value="genre.name_genre">{{ genre.name_genre }}</option>
                     </select>
                 </div> -->
-                {{ genres }}
+                {{ genres.id }}
                 <div class="form-group mb-2">
                     <label>Género</label>
-                    <MultiSelect v-model="media.genre" :options="genres" filter optionLabel="name" placeholder="Select genres" :maxSelectedLabels="3" class="w-full md:w-20rem" />
+                    <MultiSelect v-model="media.genres" :options="genres" filter optionLabel="name_genre" optionValue="id" placeholder="Select genres" :maxSelectedLabels="3" class="w-full md:w-20rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label>País de origen</label>
@@ -128,7 +128,22 @@
     import { onMounted, ref } from 'vue';
     import { useAddMedia } from '@/composables/media';
 
-    const media = ref({ id_pemi: null, duracion: '', id_country:'', actores: '', portada_img: 'n.png', idioma: '', directores: '', trailer: 'n.mp4', fecha_media_show: '', saga: '', temporadas: null, episodios: null });
+    const media = ref({ 
+        id_pemi: null, 
+        duracion: '', 
+        id_country:'', 
+        actores: '', 
+        portada_img: 'n.png', 
+        idioma: '', 
+        directores: '', 
+        trailer: 'n.mp4', 
+        fecha_media_show: '', 
+        saga: '', 
+        temporadas: null,
+        genres: '',
+        episodios: null 
+    });
+    
     const strError = ref('');
     const strSuccess = ref('');
     const selectedGenres = ref();
