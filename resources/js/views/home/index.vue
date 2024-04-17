@@ -58,8 +58,45 @@
                 </div>
             </div>
         </section>
-        <section> 
-            <h3 class="titulo_slider">Peliculas de terror</h3>
+        <section>
+
+            <div v-for="genrebymedia in GetMediaShowByGenre">
+                <h3 class="titulo_slider">Genero de {{genrebymedia.name_genre}}</h3>
+                <Carousel :value="genrebymedia.media_shows" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
+                <template #item="{ data }">
+                    <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+                        <div class="mb-1">
+                            <div class="font-medium mt-1">
+                                <h3>{{ data.nombre }}</h3>
+                            </div>
+                            <div class="d-flex align-items-center mt-5">
+                                <router-link :to="{ name: 'media.view', params: { mediaId: data.id } }">
+                                    <button class="play-button me-3" @click="viewMedia(data.id)"></button>
+                                </router-link>
+                                <span class="me-5 visitar">Visitar</span>
+                                <div class="ms-auto">
+                                    <button class="star-button me-3"></button>
+                                    <button class="plus-button"></button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mt-5">
+                                <div class="me-3">
+                                    <p>{{ data.fecha_media_show }}</p>
+                                </div>
+                                <div class="me-3">
+                                    <p>{{ formateoDuracion(data.duracion) }}</p>
+                                </div>
+                                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                                    <p class="m-0">+{{ data.pemi_name }}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
+                        </div>
+                    </div>
+                </template>
+            </Carousel>
+            </div>
+            <!-- <h3 class="titulo_slider">Peliculas de terror</h3>
             <Carousel :value="terrorMovies" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
                 <template #item="{ data }">
                     <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
@@ -92,43 +129,7 @@
                         </div>
                     </div>
                 </template>
-            </Carousel>
-        </section>
-        <section> 
-            <h3 class="titulo_slider">Peliculas de Western</h3>
-            <Carousel :value="westernMovies" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
-                <template #item="{ data }">
-                    <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
-                        <div class="mb-1">
-                            <div class="font-medium mt-1">
-                                <h3>{{ data.nombre }}</h3>
-                            </div>
-                            <div class="d-flex align-items-center mt-5">
-                                <router-link :to="{ name: 'media.view', params: { mediaId: data.id } }">
-                                    <button class="play-button me-3" @click="viewMedia(data.id)"></button>
-                                </router-link>
-                                <span class="me-5 visitar">Visitar</span>
-                                <div class="ms-auto">
-                                    <button class="star-button me-3"></button>
-                                    <button class="plus-button"></button>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mt-5">
-                                <div class="me-3">
-                                    <p>{{ data.fecha_media_show }}</p>
-                                </div>
-                                <div class="me-3">
-                                    <p>{{ formateoDuracion(data.duracion) }}</p>
-                                </div>
-                                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                                    <p class="m-0">+{{ getPemiText(data.id_pemi) }}</p>
-                                </div>
-                            </div>
-                            <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
-                        </div>
-                    </div>
-                </template>
-            </Carousel>
+            </Carousel> -->
         </section>
     <AppFooter />
 </template>

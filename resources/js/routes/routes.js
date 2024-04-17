@@ -75,13 +75,13 @@ export default [
             {
                 path: '/view/:mediaId',
                 name: 'media.view',
-                //component: MediaView,
+                component: MediaView,
                 children: [
-                    {
-                        path: '',
-                        name: 'media.view',
-                        component: MediaView,
-                    },
+                    // {
+                    //     path: '',
+                    //     name: 'media.view',
+                    //     component: MediaView,
+                    // },
                     {
                         path: 'valoration',
                         name: 'media.valoration',
