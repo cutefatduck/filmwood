@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\p_media_show;
 use App\Models\p_media_show_genres;
 use App\Models\p_pemi;
+use App\Models\p_media_show_type;
 use App\Models\p_genres;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class MediaShowController extends Controller
 {
+
+    public function getMediaShowByMediaShowType(){
+        $media_show_type = p_media_show_type::with('mediaShowType')->get();
+        return $media_show_type; 
+    }
+
     public function index()
     {
         // Obtener todos los medios de muestra con las relaciones cargadas

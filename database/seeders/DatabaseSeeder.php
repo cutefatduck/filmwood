@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(GenreSeeder::class);
         $this->call(mediaShowTypeSeeder::class);
         $this->call(roleSeeder::class);
+        $this->call(MediaShowSeeder::class);
 
 //        $this->call(RoleSeeder::class);
         // \App\Models\User::factory(10)->create();

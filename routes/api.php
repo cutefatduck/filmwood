@@ -28,9 +28,11 @@ Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'store']);
 // Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
 
-// Obtener los mediashow segun el genero
+// Obtener los mediashow segun el género
 Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);
 
+// Obtener los mediashow segun el tipo (Serie o película)
+Route::get('media_show_type/media', [MediaShowController::class, 'getMediaShowByMediaShowType']);
 
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 #Route::get('/media/{id}', [MediaShowController::class, 'edit']);

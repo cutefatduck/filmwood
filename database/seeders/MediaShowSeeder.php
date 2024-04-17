@@ -26,8 +26,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "2011-11-05",
                 "trailer" => "http://localhost:8000/videos/trailer_american_horror_story.mp4",
                 "saga" => null,
-                "episodios" => 12,
-                "temporadas" => 128,
+                "episodios" => 128,
+                "temporadas" => 12,
                 "genres" => [4, 11]
             ],
             
@@ -47,8 +47,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "2008-10-03",
                 "trailer" => "http://localhost:8000/videos/trailer_clone_wars.mp4",
                 "saga" => null,
-                "episodios" => 7,
-                "temporadas" => 133,
+                "episodios" => 133,
+                "temporadas" => 7,
                 "genres" => [1,2,3]
             ],
 
@@ -67,8 +67,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "2001-01-13",
                 "trailer" => "http://localhost:8000/videos/trailer_cuentame.mp4",
                 "saga" => null,
-                "episodios" => 23,
-                "temporadas" => 422,
+                "episodios" => 422,
+                "temporadas" => 23,
                 "genres" => [6,12]
             ],
 
@@ -87,8 +87,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "1990-09-10",
                 "trailer" => "http://localhost:8000/videos/trailer_principe_bel_air.mp4",
                 "saga" => null,
-                "episodios" => 6,
-                "temporadas" => 148,
+                "episodios" => 148,
+                "temporadas" => 6,
                 "genres" => [6,12]
             ],
 
@@ -107,8 +107,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "1993-09-10",
                 "trailer" => "http://localhost:8000/videos/trailer_the_x_files.mp4",
                 "saga" => null,
-                "episodios" => 11,
-                "temporadas" => 218,
+                "episodios" => 218,
+                "temporadas" => 11,
                 "genres" => [5,11]
             ],
 
@@ -127,8 +127,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "1989-12-17",
                 "trailer" => "http://localhost:8000/videos/trailer_los_simpsons.mp4",
                 "saga" => null,
-                "episodios" => 36,
-                "temporadas" => 772,
+                "episodios" => 772,
+                "temporadas" => 36,
                 "genres" => [6,12]
             ],
 
@@ -147,8 +147,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "1997-08-13",
                 "trailer" => "http://localhost:8000/videos/trailer_south_park.mp4",
                 "saga" => null,
-                "episodios" => 26,
-                "temporadas" => 325,
+                "episodios" => 325,
+                "temporadas" => 26,
                 "genres" => [6]
             ],
 
@@ -167,8 +167,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "2010-01-22",
                 "trailer" => "http://localhost:8000/videos/trailer_spartacus.mp4",
                 "saga" => null,
-                "episodios" => 3,
-                "temporadas" => 33,
+                "episodios" => 33,
+                "temporadas" => 3,
                 "genres" => [8, 11]
             ],
 
@@ -187,8 +187,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "2010-10-31",
                 "trailer" => "http://localhost:8000/videos/trailer_the_walking_dead.mp4",
                 "saga" => null,
-                "episodios" => 10,
-                "temporadas" => 177,
+                "episodios" => 177,
+                "temporadas" => 10,
                 "genres" => [7, 4, 11]
             ],
 
