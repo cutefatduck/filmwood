@@ -88,10 +88,11 @@
   function redirectToRandomView() {
     fetchRandomMedia().then(() => {
       if (randomMedia.value) {
-        router.push({ name: 'media.view', params: { mediaId: randomMedia.value.id.toString() } });
+        router.push({ name: 'media.view', params: { id: randomMedia.value.id.toString() } });
+        //router.go();
         // Forzaremos la recarga de la página:
         setTimeout(() => {
-          location.reload();
+          //location.reload();
         }, 1000);
       } else {
         console.error('No se encontraron datos de media shows disponibles.');

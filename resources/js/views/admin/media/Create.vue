@@ -151,7 +151,7 @@
     const addMedia = () => {
     console.log('Intentando agregar un nuevo media show...');
     console.log('Datos del medio:', media.value);
-    axios.post('/api/media', media.value)
+    axios.post('/api/media', JSON.stringify(media).value)
         .then(response => {
             strSuccess.value = response.data.success;
             strError.value = '';

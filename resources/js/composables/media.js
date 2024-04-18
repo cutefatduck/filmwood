@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 export function useGetMedia() {
   const Getmedias = ref([]);
+  const Getmedia = ref('');
   const loading = ref(false);
 
   const fetchMedia = async () => {
@@ -23,7 +24,7 @@ export function useGetMedia() {
     try {
       loading.value = true;
       const response = await axios.get(`/api/media/${id}`);
-      Getmedias.value = response.data; // Asignamos el resultado a un array para mantener la consistencia con la lista de medios
+      Getmedia.value = response.data; // Asignamos el resultado a un array para mantener la consistencia con la lista de medios
     } catch (error) {
       console.error(`Error fetching media with ID ${id}:`, error);
     } finally {
@@ -43,7 +44,7 @@ export function useGetMedia() {
     }
   };
 
-  return { Getmedias, loading, fetchMedia, fetchMediaById, fetchMediaByGenre };
+  return { Getmedias, Getmedia, loading, fetchMedia, fetchMediaById, fetchMediaByGenre };
 }
 
 export function useGetRandomMedia() {

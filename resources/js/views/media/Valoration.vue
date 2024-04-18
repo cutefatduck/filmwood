@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12 col-md-8 col-lg-12 mb-0 pt-2 d-flex justify-content-center mb-3">
             <form @submit.prevent="submitValoration" class= "formulario-valoracion-wrapper">
-                <h1 class="titulo-valoracion mb-4">¡Valora! {{ $route.params.mediaName }}</h1>
+                <h1 class="titulo-valoracion mb-4">¡Valora! {{ $route.params.mediaValoration }}</h1>
                 <a @click="goBack" class="volver-valoracion mt-5 mb-4">Volver atrás</a>
                 <label class="valoracion mb-2 mt-4" for="valoration">Tu valoración</label>
                 <textarea cols="35" rows="10" style="resize: none;" class="input-formulario" name="opinionComentario" id="opinionComentario" placeholder="¿Qué opinas?"></textarea>
@@ -16,7 +16,7 @@
                     />
                 </template>
                 <div class="flex items-center justify-end mt-3 mb-2">
-                    <button class="btn btn-primary boton-principal" :class="{ 'opacity-25': processing }">Dános tu opinión</button>
+                    <button class="btn btn-primary boton-principal">Dános tu opinión</button>
                 </div>
             </form>
         </div> 

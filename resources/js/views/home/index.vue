@@ -22,7 +22,7 @@
                                 <h3>{{ data.nombre }}</h3>
                             </div>
                             <div class="d-flex align-items-center mt-5">
-                                <router-link :to="{ name: 'media.view', params: { mediaId: data.id } }">
+                                <router-link :to="{ name: 'media.view', params: { id: data.id } }">
                                     <button class="play-button me-3" @click="viewMedia(data.id)"></button>
                                 </router-link>
                                 <span class="me-5 visitar">Visitar</span>
@@ -69,7 +69,7 @@
                                     <h3>{{ data.nombre }}</h3>
                                 </div>
                                 <div class="d-flex align-items-center mt-5">
-                                    <router-link :to="{ name: 'media.view', params: { mediaId: data.id } }">
+                                    <router-link :to="{ name: 'media.view', params: { id: data.id } }">
                                         <button class="play-button me-3" @click="viewMedia(data.id)"></button>
                                     </router-link>
                                     <span class="me-5 visitar">Visitar</span>
@@ -132,7 +132,7 @@
     const viewMedia = async (id) => {
         try {
             // Redirigir a la vista de ver media show
-            router.push({ name: 'media.view', params: { mediaId: id } });
+            router.push({ name: 'media.view', params: { id: id } });
         } catch (error) {
             console.error('Error fetching media data:', error);
         }
