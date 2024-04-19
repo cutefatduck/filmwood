@@ -2,14 +2,6 @@
     <div class="banner-container">
         <div class="banner-img relative">
             <div class="sombra"></div>
-            <div :class="searchBarClass">
-                <InputText placeholder="Search" type="text" class="custom-search-input" />
-                <div class="search-icon">
-                    <button @click="search" class="search-button">
-                        <i class="pi pi-search"></i>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
     <section>   
@@ -138,20 +130,6 @@
         }
     };
 
-    // Buscador
-    const searchBarFixed = ref(false);
-    window.addEventListener('scroll', () => {
-        // Verificamos si el usuario ha hecho scroll hacia abajo
-        searchBarFixed.value = window.scrollY > 0;
-    }); 
-    const searchBarClass = computed(() => ({
-        'search-bar': true,
-        'search-bar-fixed': searchBarFixed.value,
-    }));
-    const search = () => {
-        // Lógica para realizar la búsqueda
-    }; 
-    
     const formateoDuracion = (duration) => {
         if (!duration) return '';
         const [hours, minutes, seconds] = duration.split(':');

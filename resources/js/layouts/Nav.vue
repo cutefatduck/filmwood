@@ -7,6 +7,7 @@
         </router-link>
       </template>
       <template #item="{ item, props, hasSubmenu, root }">
+        <AppSearchBar :class="{ 'search-bar': isHomePage, 'search-bar-fixed': !isHomePage }" />
         <a  class="flex align-items-center" v-bind="props.action" :href="item.to">
           <span :class="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
@@ -58,6 +59,9 @@
   import useAuth from "@/composables/auth";
   import { useRouter } from "vue-router";
   import { useGetRandomMedia } from '@/composables/media';
+  import AppSearchBar from '@/layouts/SearchBar.vue';
+
+  const isHomePage = computed(() => router.currentRoute.value.name === 'home');
 
   const { randomMedia, fetchRandomMedia } = useGetRandomMedia();
   const router = useRouter();
