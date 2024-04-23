@@ -10,7 +10,7 @@ import ability from './services/ability';
 import vSelect from "vue-select";
 import useAuth from './composables/auth';
 import i18n from "./plugins/i18n";
-
+import vClickOutside from "click-outside-vue3";
 /*PRIMEVUE */
 import PrimeVue from "primevue/config";
 //import AutoComplete from 'primevue/autocomplete';
@@ -42,7 +42,7 @@ import ConfirmationService from 'primevue/confirmationservice';
 //import DataView from 'primevue/dataview';
 //import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
 //import DeferredContent from 'primevue/deferredcontent';
-//import Dialog from 'primevue/dialog';
+import Dialog from 'primevue/dialog';
 import DialogService from 'primevue/dialogservice';
 //import Divider from 'primevue/divider';
 //import Dock from 'primevue/dock';
@@ -144,6 +144,7 @@ app.use(PrimeVue, { ripple: true });
 app.use(ToastService);
 app.use(DialogService);
 app.use(ConfirmationService);
+app.use(vClickOutside);
 
 //app.directive('tooltip', Tooltip);
 //app.directive('badge', BadgeDirective);
@@ -179,7 +180,7 @@ app.component('Carousel', Carousel);
 //app.component('DataView', DataView);
 //app.component('DataViewLayoutOptions', DataViewLayoutOptions);
 //app.component('DeferredContent', DeferredContent);
-//app.component('Dialog', Dialog);
+app.component('Dialog', Dialog);
 //app.component('Divider', Divider);
 //app.component('Dock', Dock);
 app.component('Dropdown', Dropdown);

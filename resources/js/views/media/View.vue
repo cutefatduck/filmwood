@@ -20,10 +20,16 @@
         </div>
       </div>
       <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-        <router-link :to="{ name: 'media.valoration'/*, params: { id: Getmedia.id, mediaValoration: Getmedia.nombre } */}" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
-          <img src="/images/favorite.svg" alt="VALORAR">
-          <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
-        </router-link>
+
+        <button type="button" @click="showDialog" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-class">
+            <img src="/images/favorite.svg" alt="VALORAR">
+            <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
+          </button>
+          <Dialog v-model:visible="visible"  modal responsive>
+            <template #container="{ closeCallback }">
+            <router-view />
+            </template>
+          </Dialog>
         <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="mediaShowFavorite(Getmedia.nombre, Getmedia.id)">
           <img :src="getFavoriteImageSrc()" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
@@ -131,6 +137,11 @@
     padding: 20px;
   }
 
+  .button-class{
+    background-color: transparent;
+    border: 0;
+  }
+
 </style>
 
 <script setup>
@@ -191,6 +202,23 @@
       return '/images/like.svg';
     } else {
       return '/images/no_like.svg';
+    }
+  };
+
+  const visible = ref(false);
+  const lastRoute = ref(null); // Variable para almacenar la última ruta
+
+  const showDialog = () => {
+    lastRoute.value = router.currentRoute.value.fullPath;
+    router.push({ name: 'media.valoration', params: { mediaId: Getmedia.value.id } });
+    visible.value = true;
+  };
+  const closeDialog = () => {
+    visible.value = false;
+    console.log(1)
+    if (lastRoute.value) {
+      router.push(lastRoute.value);
+      lastRoute.value = null; // Limpiar la última ruta después de restaurarla
     }
   };
 

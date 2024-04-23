@@ -18,13 +18,10 @@ class p_visualized extends Model
         'id_media_show'
     ];
 
-    // Indicamos a Laravel que no use las columnas created_at y updated_at
-    public $timestamps = false;
-
     // Definimos las claves foráneas junto con su respectivo modelo:
     public function id_user()
     {
-        return $this->belongsTo(p_user::class, 'id_user');
+        return $this->belongsTo(user::class, 'id_user');
     }
     
     public function id_media_show()

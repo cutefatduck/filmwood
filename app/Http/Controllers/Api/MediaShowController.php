@@ -10,11 +10,43 @@ use App\Models\p_visualized;
 use App\Models\p_pemi;
 use App\Models\p_media_show_type;
 use App\Models\p_genres;
+use App\Models\p_valorations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class MediaShowController extends Controller
 {
+
+    public function addValorations(Request $request)
+    {
+        // Recogemos el ID del usuario actual para añadirlo a la base de datos:
+        $userId = auth()->id();
+        
+        // Validación de los datos recibidos
+        $validator = Validator::make($request->all(), [
+            'id_user' => 'required|numeric',
+            'id_media_show' => 'required|numeric',
+            'puntuacion' => 'required|numeric',
+            'valoracion' => 'required|string|max:255'
+
+        ]);
+
+        // Si la validación falla, retorna un error con los mensajes correspondientes
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+    
+        // Crear un nuevo registro de p_media_show con los datos proporcionados
+        $valoration = $request->all();
+        $valorations = p_valorations::create($valoration);
+
+        return response()->json([
+            'success' => true, 
+            'data' => $valorations->fresh(), 
+        ], 201);
+
+    }
 
     public function manageToFavorites(Request $request, $mediaShowId)
     {

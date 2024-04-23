@@ -31,6 +31,9 @@ Route::post('media/', [MediaShowController::class, 'store']);
 // Agregar una media show a favoritos:
 Route::post('/favorites/{id}', [MediaShowController::class, 'manageToFavorites']);
 
+// Agregar una valoracion a una media show:
+Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
+
 // Agregar una media show a visualizadas:
 Route::post('/visualizated/add/{id}', [MediaShowController::class, 'manageToVisualizated']);
 
