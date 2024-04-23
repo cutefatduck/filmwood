@@ -5,14 +5,66 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\p_media_show;
 use App\Models\p_media_show_genres;
+use App\Models\p_favorite;
+use App\Models\p_visualized;
 use App\Models\p_pemi;
 use App\Models\p_media_show_type;
 use App\Models\p_genres;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class MediaShowController extends Controller
 {
+
+    public function manageToFavorites(Request $request, $mediaShowId)
+    {
+        // Recogemos el ID del usuario actual para añadirlo a la base de datos:
+        $userId = auth()->id();
+
+        // Verificar si ya existe la entrada previamente:
+        $existingFavorite = p_favorite::where('id_user', $userId)
+                                       ->where('id_media_show', $mediaShowId)
+                                       ->first();
+
+        // Si ya existe la misma entrada, la eliminamos:
+        if ($existingFavorite) {
+            $existingFavorite->delete();
+            return response()->json(['message' => 'El media show se eliminó de tus favoritos correctamente.'], 200);
+        }
+
+        // Si no, creamos una nueva entrada en favoritos:
+        p_favorite::create([
+            'id_user' => $userId,
+            'id_media_show' => $mediaShowId,
+        ]);
+
+        return response()->json(['message' => 'El media show se agregó a tus favoritos correctamente.'], 200);
+    }
+
+    public function manageToVisualizated(Request $request, $mediaShowId)
+    {
+        // Recogemos el ID del usuario actual para añadirlo a la base de datos:
+        $userId = auth()->id();
+
+        // Verificar si ya existe la entrada previamente:
+        $existingVisualized = p_visualized::where('id_user', $userId)
+                                        ->where('id_media_show', $mediaShowId)
+                                        ->first();
+
+        // Si ya existe la misma entrada, la eliminamos:
+        if ($existingVisualized) {
+            $existingVisualized->delete();
+            return response()->json(['message' => 'El media show se eliminó de tus visualizadas correctamente.'], 200);
+        }
+
+        // Si no, creamos una nueva entrada en favoritos:
+        p_visualized::create([
+            'id_user' => $userId,
+            'id_media_show' => $mediaShowId,
+        ]);
+
+        return response()->json(['message' => 'El media show se agregó a tus visualizadas correctamente.'], 200);
+    }
 
     public function getMediaShowByMediaShowType(){
         $media_show_type = p_media_show_type::with('mediaShowType')->get();

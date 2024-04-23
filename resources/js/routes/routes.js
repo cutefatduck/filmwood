@@ -18,10 +18,6 @@ const MediaAdminView = () => import('../views/admin/media/View.vue')
 const MediaView = () => import('../views/media/View.vue')
 const PerfilView = () => import('../views/users/View.vue')
 const ValorationMedia = () => import('../views/media/Valoration.vue')
-const LikeMedia = () => import('../views/media/Like.vue')
-const VisualizationMedia = () => import('../views/media/Visualization.vue')
-const ShareMedia = () => import('../views/media/Share.vue')
-
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -72,36 +68,18 @@ export default [
                 path: 'media/series',
                 component: MediaShows,
             },
-            {
-                path: 'valoration',
-                name: 'media.valoration',
-                component: ValorationMedia,
-            },
+            
             {
                 path: '/view/:id',
                 name: 'media.view',
                 component: MediaView,
                 children: [
-                    // {
-                    //     path: '',
-                    //     name: 'media.view',
-                    //     component: MediaView,
-                    // },
                     {
-                        path: 'like',
-                        name: 'media.like',
-                        component: LikeMedia,
+                        path: '',
+                        name: 'media.valoration',
+                        component: ValorationMedia,
                     },
-                    {
-                        path: 'visualization',
-                        name: 'media.visualization',
-                        component: VisualizationMedia,
-                    },
-                    {
-                        path: 'share',
-                        name: 'media.share',
-                        component: ShareMedia,
-                    }
+
                 ]
             },
             

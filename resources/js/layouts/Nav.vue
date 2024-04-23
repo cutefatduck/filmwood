@@ -8,8 +8,8 @@
       </template>
       <template #item="{ item, props, hasSubmenu, root }">
         <AppSearchBar :class="{ 'search-bar': isHomePage, 'search-bar-fixed': !isHomePage }" />
-        <a  class="flex align-items-center" v-bind="props.action" :href="item.to">
-          <span :class="item.icon" />
+        <a :class="{ 'active-link': $route.path === item.to }" class="flex align-items-center" v-bind="props.action" :href="item.to">
+          <span :class="item.icon"></span>
           <span class="ml-2">{{ item.label }}</span>
           <!-- <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" /> -->
           <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
@@ -93,11 +93,6 @@
     fetchRandomMedia().then(() => {
       if (randomMedia.value) {
         router.push({ name: 'media.view', params: { id: randomMedia.value.id.toString() } });
-        //router.go();
-        // Forzaremos la recarga de la página:
-        setTimeout(() => {
-          //location.reload();
-        }, 1000);
       } else {
         console.error('No se encontraron datos de media shows disponibles.');
       }
@@ -105,6 +100,5 @@
       console.error('Error al consultar la base de datos:', error);
   });
 }
-
 
 </script>

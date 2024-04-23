@@ -91,7 +91,7 @@
   }
 
   .background-image-login-register{
-    background-image: url('images/los-mejores-posters-de-películas.jpg');
+    background-image: url('/images/los-mejores-posters-de-películas.jpg');
     background-size: cover;
     height: 90dvh;
   }
@@ -277,6 +277,22 @@
     margin: 0 100px 0 100px;
   }
 
+  /* Subrayado activo en el botón del header */
+  .active-link {
+    position: relative;
+  }
+
+  .active-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0.2em;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-boton-hover);
+    transition: width 0.5s ease;
+  }
+
   /* Estilos para el menú desplegable */
   .dropdown-menu {
     display: none; /* Ocultar el menú por defecto */
@@ -347,12 +363,31 @@
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('images/banner_pagina_principal.webp');
+    background-image: url('/images/banner_pagina_principal.webp');
   }
 
   .sombra{
     background: linear-gradient(var(--color-fondo-pagina), transparent 30%, transparent 60%, var(--color-fondo-pagina));
     height: 100%;
+  }
+
+  /* Estilos para el botón de scroll */
+  .scroll-top-button {
+    content: 'subir';
+    position: fixed;
+    bottom: 20px;
+    right: 33px;
+    z-index: 999;
+    padding: 30px 30px;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    background-image: url('/images/arrow.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   /*Buscador*/
@@ -687,12 +722,16 @@
     width: 100%;
   }
   
-  .linea-hover-detalles-valoraciones {
+  .titulo-detalles-valoraciones {
     position: relative;
-    cursor: pointer; 
+    cursor: pointer;
   }
-  
-  .linea-hover-detalles-valoraciones::before {
+
+  .active-tab {
+    border-bottom: 2px solid var(--color-boton-hover);
+  }
+
+  .inactive-tab::before {
     content: '';
     position: absolute;
     left: 0;
@@ -702,8 +741,8 @@
     background-color: white;
     transition: width 0.3s;
   }
-  
-  .linea-hover-detalles-valoraciones:hover::before {
+
+  .inactive-tab:hover::before {
     width: 100%;
   }
   

@@ -207,8 +207,8 @@ class MediaShowSeeder extends Seeder
                 "fecha_media_show" => "2013-03-03",
                 "trailer" => "http://localhost:8000/videos/trailer_vikings.mp4",
                 "saga" => null,
-                "episodios" => 6,
-                "temporadas" => 89,
+                "episodios" => 89,
+                "temporadas" => 6,
                 "genres" => [1,2,8]
             ],
 
@@ -346,7 +346,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis" => "Los protagonistas son tres cazadores de recompensas que buscan un tesoro que ninguno de ellos puede encontrar sin la ayuda de los otros dos. Así que los tres colaboran entre sí, al menos en apariencia.",
                 "fecha_media_show" => "1968-08-07",
                 "trailer" => "http://localhost:8000/videos/trailer_bueno_feo_malo.mp4",
-                "saga" => "Por un puñado de dólares, La muerte tenía un precio",
+                "saga" => "Por un puñado de dólares / La muerte tenía un precio",
                 "episodios" => null,
                 "temporadas" => null,
                 "genres" => [10]
@@ -366,7 +366,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis" => "Tras la muerte de Juarez, en México dominan la injusticia y el terror. Joe (Clint Eastwood), un pistolero vagabundo, llega al pueblo fronterizo de San Miguel, donde dos familias se disputan el control del territorio, y entra al servicio del clan Rojo. Una noche, es testigo del intercambio de oro por armas entre mexicanos y soldados de la Unión. Remake en clave de western de 'Yojimbo', de Akira Kurosawa.",
                 "fecha_media_show" => "1965-09-27",
                 "trailer" => "http://localhost:8000/videos/trailer_por_un_punado_de_dolares.mp4",
-                "saga" => "El bueno, el feo y el malo, La muerte tenía un precio",
+                "saga" => "El bueno, el feo y el malo / La muerte tenía un precio",
                 "episodios" => null,
                 "temporadas" => null,
                 "genres" => [10]
@@ -386,7 +386,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis" => "Dos cazadores de recompensas que buscan al mismo hombre deciden unir sus fuerzas para encontrarlo, aunque las razones que los mueven son completamente diferentes... Su título original ('Per qualche dollaro in più') ya sugiere que es la continuación natural de 'Por un puñado de dólares' ('Per un pugno di dollari'), dirigida por Leone un año antes.",
                 "fecha_media_show" => "1966-09-05",
                 "trailer" => "http://localhost:8000/videos/trailer_la_muerte_tenia_un_precio.mp4",
-                "saga" => "El bueno, el feo y el malo, Por un puñado de dólares",
+                "saga" => "El bueno, el feo y el malo / Por un puñado de dólares",
                 "episodios" => null,
                 "temporadas" => null,
                 "genres" => [10]
@@ -466,7 +466,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis" => "Frodo Bolsón, un joven hobbit, hereda un anillo mágico que puede conceder un poder ilimitado a su poseedor, pero que también corrompe a quienes lo llevan. Acompañado por un variopinto grupo de compañeros, Frodo emprende un viaje peligroso para destruir el anillo en el Monte del Destino y evitar que caiga en manos del Señor Oscuro Sauron. En su camino, se enfrentan a todo tipo de peligros y adversidades, desde criaturas malignas hasta la traición de antiguos aliados. 'El Señor de los Anillos: La Comunidad del Anillo' es la primera entrega de la trilogía épica basada en la obra de J.R.R. Tolkien, dirigida por Peter Jackson y aclamada por la crítica por su espectacularidad visual, su narrativa épica y sus efectos especiales innovadores.",
                 "fecha_media_show" => "2001-12-19",
                 "trailer" => "http://localhost:8000/videos/trailer_el_senor_de_los_anillos_la_comunidad_del_anillo.mp4",
-                "saga" => "El Señor de los Anillos Las Dos Torres, El Señor de los Anillos El Retorno del Rey",
+                "saga" => "Las Dos Torres / El Retorno del Rey",
                 "episodios" => null,
                 "temporadas" => null,
                 "genres" => [1, 2]
@@ -486,7 +486,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis" => "'El Señor de los Anillos: Las Dos Torres' continúa la épica aventura de Frodo Bolsón y la Compañía del Anillo mientras se enfrentan a nuevas amenazas en su búsqueda para destruir el Anillo Único. Después de la disolución de la Comunidad, Frodo y su fiel amigo Sam continúan su peligroso viaje hacia Mordor, mientras que el resto del grupo se ve envuelto en batallas épicas y alianzas inesperadas en su lucha contra las fuerzas del mal. Con impresionantes efectos visuales y una narrativa cautivadora, la película transporta a los espectadores a un mundo de fantasía lleno de peligro, valentía y sacrificio. 'El Señor de los Anillos: Las Dos Torres' es la segunda entrega de la trilogía dirigida por Peter Jackson, basada en la obra de J.R.R. Tolkien.",
                 "fecha_media_show" => "2002-12-18",
                 "trailer" => "http://localhost:8000/videos/trailer_el_senor_de_los_anillos_las_dos_torres.mp4",
-                "saga" => "El Señor de los Anillos La Comunidad del Anillo, El Señor de los Anillos El Retorno del Rey",
+                "saga" => "La Comunidad del Anillo / El Retorno del Rey",
                 "episodios" => null,
                 "temporadas" => null,
                 "genres" => [1, 2]
@@ -506,7 +506,7 @@ class MediaShowSeeder extends Seeder
                 "sinopsis" => "'El Señor de los Anillos: El Retorno del Rey' concluye la trilogía épica con un enfrentamiento final entre el bien y el mal. Mientras Frodo y Sam continúan su peligroso viaje hacia Mordor para destruir el Anillo Único, el resto de la Compañía del Anillo se une a Aragorn en su lucha contra las fuerzas de Sauron en la batalla decisiva por el destino de la Tierra Media. Con espectaculares batallas, emocionantes momentos de heroísmo y una conclusión emocionalmente poderosa, la película ofrece un final satisfactorio a una de las sagas más queridas de la literatura y el cine. Dirigida por Peter Jackson y basada en la obra de J.R.R. Tolkien, 'El Señor de los Anillos: El Retorno del Rey' ha sido aclamada como una obra maestra del cine de fantasía.",
                 "fecha_media_show" => "2003-12-17",
                 "trailer" => "http://localhost:8000/videos/trailer_el_senor_de_los_anillos_el_retorno_del_rey.mp4",
-                "saga" => "El Señor de los Anillos La Comunidad del Anillo, El Señor de los Anillos Las Dos Torres",
+                "saga" => "La Comunidad del Anillo / Las Dos Torres",
                 "episodios" => null,
                 "temporadas" => null,
                 "genres" => [1, 2]

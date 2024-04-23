@@ -28,6 +28,12 @@ Route::get('media', [MediaShowController::class, 'index']);
 Route::post('media/', [MediaShowController::class, 'store']);
 // Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
 
+// Agregar una media show a favoritos:
+Route::post('/favorites/{id}', [MediaShowController::class, 'manageToFavorites']);
+
+// Agregar una media show a visualizadas:
+Route::post('/visualizated/add/{id}', [MediaShowController::class, 'manageToVisualizated']);
+
 // Obtener los mediashow segun el género
 Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);
 
@@ -37,10 +43,6 @@ Route::get('media_show_type/media', [MediaShowController::class, 'getMediaShowBy
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 #Route::get('/media/{id}', [MediaShowController::class, 'edit']);
 Route::get('/media/{id}', [MediaShowController::class, 'show']);
-
-// Obtener media shows de distintos géneros:
-Route::get('/terror-media', [MediaShowController::class, 'getTerrorMedia']);
-Route::get('/western-media', [MediaShowController::class, 'getWesternMedia']);
 
 Route::post('/agregar-media', [MediaController::class, 'store'])->name('media.store');
 Route::get('countries', [CountryController::class, 'view']);

@@ -88,15 +88,35 @@
                 </Carousel>
             </div>
         </section>
+        <button v-if="showScrollButton" class="scroll-top-button" @click="scrollToTop" title="Subir hacia arriba"></button>
     <AppFooter />
 </template>
 
 <script setup>
-    import { ref, onMounted, computed } from 'vue';
+
+    import { ref, onMounted, onBeforeUnmount } from 'vue';
     import { useGetMedia } from '@/composables/media';
     import { useGetGenres } from '@/composables/genres';
     import AppFooter from '@/layouts/AppFooter.vue';
     import { useRouter } from "vue-router";
+
+    const showScrollButton = ref(false);
+
+    // Función para mostrar u ocultar el botón de scroll según la posición del usuario:
+    const handleScroll = () => {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+    // Mostrar el botón cuando el usuario ha scrollado más allá de cierta posición:
+    showScrollButton.value = scrollPosition > 300;
+    };
+
+    // Función para hacer scroll hacia arriba
+    const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    };
 
     const responsiveOptions = ref([
         {
@@ -148,9 +168,15 @@
             await fetchMedia();
             await fetchGenres();
             await fetchMediaShowByGenre();
+            window.addEventListener('scroll', handleScroll);
         } catch (error) {
             console.error('Error fetching media:', error);
         }
+    });
+
+    // Eliminaremos el listener del evento de scroll cuando el componente es destruido:
+    onBeforeUnmount(() => {
+        window.removeEventListener('scroll', handleScroll);
     });
 
 </script>

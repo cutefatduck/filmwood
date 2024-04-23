@@ -18,7 +18,7 @@ return new class extends Migration
 
             // Creamos la clave foránea del id del usuario:
             $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id')->on('p_users')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
 
             // Creamos la clave foránea del id de la media show:
             $table->unsignedBigInteger('id_media_show');

@@ -24,18 +24,18 @@
           <img src="/images/favorite.svg" alt="VALORAR">
           <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
         </router-link>
-        <router-link :to="{ name: 'media.like', params: { id: Getmedia.id } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
-          <img src="/images/like.svg" alt="FAVORITOS">
+        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="mediaShowFavorite(Getmedia.nombre, Getmedia.id)">
+          <img :src="getFavoriteImageSrc()" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
-        </router-link>
-        <router-link :to="{ name: 'media.visualization', params: { id: Getmedia.id } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
-          <img src="/images/visualization.svg" alt="VISUALIZAR">
+        </div>
+        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="mediaShowWatched(Getmedia.id)">
+          <img :src="getWatchetImageSrc()" alt="VISUALIZAR">
           <p class="mt-1 titulo-interactuar-media-show">VISUALIZADA</p>
-        </router-link>
-        <router-link :to="{ name: 'media.share', params: { id: Getmedia.id } }" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover">
+        </div>
+        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="copyURL">
           <img src="/images/share.svg" alt="COMPARTIR">
           <p class="mt-1 titulo-interactuar-media-show">COMPARTIR</p>
-        </router-link>
+        </div>
       </div>
     </div>
     <div class="row watch-button">
@@ -57,8 +57,8 @@
     </div>
     <div class="row movie-info">
       <div class="col-sm-3 d-flex mt-4">
-        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" @click="switchToDetailsTab">Detalles</h2>
-        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" @click="switchToReviewsTab">Valoraciones</h2>
+        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" :class="{ 'active-tab': showDetailsTab, 'inactive-tab': !showDetailsTab }" @click="switchToDetailsTab">Detalles</h2>
+        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" :class="{ 'active-tab': showReviewsTab, 'inactive-tab': !showReviewsTab }" @click="switchToReviewsTab">Valoraciones</h2>
       </div>
       <div v-if="showDetailsTab" class="row justify-content-between">
         <div class="details col-lg-8">
@@ -71,11 +71,15 @@
           <p>Actores: {{ Getmedia.actores }}</p>
         </div>
         <div class="details col-lg-3">
-          <h2 v-if="Getmedia.mediashowtype_name == 'Pelicula'">Películas relacionadas</h2>
-          <h2 v-if="Getmedia.mediashowtype_name == 'Serie'">Episodios y temporadas</h2>
-          <p class="meta-item" v-if="Getmedia.saga != null">{{Getmedia.saga}}</p>
-          <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Pelicula' && Getmedia.saga == null">No hay películas relacionadas</p>
-          <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.temporadas}} temporadas</p>
+          <h2 v-if="Getmedia.mediashowtype_name === 'Pelicula'">Películas relacionadas</h2>
+          <h2 v-if="Getmedia.mediashowtype_name === 'Serie'">Episodios y temporadas</h2>
+          <template v-if="Getmedia.saga">
+            <template v-for="movie in Getmedia.saga.split('/')">
+              <p class="meta-item">{{ movie.trim() }}</p>
+            </template>
+          </template>
+          <p class="meta-item" v-else-if="Getmedia.mediashowtype_name === 'Pelicula'">No hay películas relacionadas</p>
+          <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{ Getmedia.temporadas }} temporadas</p>
           <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.episodios}} episodios</p>
         </div>
         <div class="details col-lg-4">
@@ -86,7 +90,7 @@
         <div class="details col-lg-3">
           <h2>Géneros y Edad</h2>
           <p>Géneros: <span v-for="(genre, index) in Getmedia.genres_name" :key="index" class="movie-genre-details">{{ genre }}<span v-if="index !== Getmedia.genres_name.length - 1">, </span></span></p>
-          <p>Edad: {{ Getmedia.pemi_name }}</p>
+          <p>Edad: {{ Getmedia.pemi_name }} años</p>
         </div>
       </div>
       <div v-if="showReviewsTab" class="row justify-content-between">
@@ -131,40 +135,46 @@
 
 <script setup>
 
-  import { ref, onMounted, onUpdated } from 'vue';
+  import { ref, onMounted, onUpdated, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import AppFooter from '@/layouts/AppFooter.vue';
   import { useGetMedia } from '@/composables/media';
+  import Swal from 'sweetalert2';
+  import axios from 'axios';
+  import { useStore } from 'vuex';
 
-  const { Getmedia, loading, fetchMedia, fetchMediaById } = useGetMedia();
-
+  const { Getmedia, fetchMedia, fetchMediaById } = useGetMedia();
   const router = useRouter();
-
+  const store = useStore();
 
   const imageURL = ref('');
+  let mediaIdAux =  router.currentRoute.value.params.id;
 
-  const navigateToValoration = () => {
-    router.push({ name: 'media.valoration', params: { mediaId: Getmedia.value.id } });
+  // Cargamos la vista por la parte superior de ella:
+  window.scrollTo(0, 0);
+
+  // Definimos dos variables para mostrar la pestaña de "Detalles" o la de "Valoraciones":
+  const showDetailsTab = ref(true);
+  const showReviewsTab = ref(false);
+
+  // Si mostramos los detalles, ocultamos las valoraciones:
+  const switchToDetailsTab = () => {
+    showDetailsTab.value = true;
+    showReviewsTab.value = false;
   };
 
-  const onLikeClicked = () => {
-    router.push({ name: 'media.like', params: { mediaId: Getmedia.id } });
+  // Si mostramos las valoraciones, ocultamos los detalles:
+  const switchToReviewsTab = () => {
+    showDetailsTab.value = false;
+    showReviewsTab.value = true;
   };
 
-  const onVisualizeClicked = () => {
-    router.push({ name: 'media.visualization', params: { mediaId: Getmedia.id } });
-  };
-
-  const onShareClicked = () => {
-    router.push({ name: 'media.share', params: { mediaId: Getmedia.id } });
-  };
-  
   // Variable para almacenar la URL del trailer
   const trailerUrl = ref('');
   const showTrailer = ref(false);
 
   // Función para abrir el popup del trailer
-  const openTrailerPopup = () => {
+    const openTrailerPopup = () => {
     showTrailer.value = true;
     trailerUrl.value = Getmedia.trailer;
   };
@@ -172,7 +182,154 @@
   // Función para cerrar el popup del trailer
   const closeTrailerPopup = () => {
     showTrailer.value = false;
-    trailerUrl.value = ''; // Limpiar la URL del trailer al cerrar el popup
+    trailerUrl.value = ''; 
+  };
+
+  // Función para obtener la ruta de la imagen de favoritos
+  const getFavoriteImageSrc = () => {
+    if (isFavorite.value) {
+      return '/images/like.svg';
+    } else {
+      return '/images/no_like.svg';
+    }
+  };
+
+  // Variable para almacenar el estado del botón "Favoritos"
+  const isFavorite = ref(false);
+
+  // Función que se ejecuta al pulsar el botón de "Favoritos":
+  const mediaShowFavorite = async (mediaNombre, mediaId) => {
+
+    // Verificaremos si el usuario está autenticado:
+    if (store.state.auth.authenticated) {
+      
+      // Guardamos la ID de la media show en concreto en una variable:
+      const mediaShowId = mediaId;
+
+      // Alternamos el valor entre true y false
+      isFavorite.value = !isFavorite.value;
+
+      // Llama a esta función para agregar a favoritos
+      const manageToFavorites = async (mediaShowId) => {
+        try {
+          const response = await axios.post('/api/favorites/' + mediaShowId);
+          console.log(response);
+          
+        } catch (error) {
+          console.error("No se ha podido agregar la media show a favoritos:", error);
+        }
+      };
+
+      // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
+      manageToFavorites(mediaShowId);
+      
+      // Si el botón está activado mostramos un mensaje de éxito:
+      if (isFavorite.value) {
+        Swal.fire({
+          icon: 'success',
+          title: `¡${mediaNombre} agregada a favoritos!`,
+          showConfirmButton: false,
+          timer: 2000 
+        });
+
+      } else {
+        // Si no, mostraremos el mensaje de que ha eliminado la media show de favoritos:
+        Swal.fire({
+          icon: 'error',
+          title: `¡${mediaNombre} eliminada de favoritos!`,
+          showConfirmButton: false,
+          timer: 2000 
+        });
+      }
+
+    } else {
+
+      // Si no ha iniciado sesión, mostraremos un mensaje de información pidiendo que inicie sesión:
+      Swal.fire({
+        icon: 'info',
+        title: 'Inicia sesión para agregar a favoritos',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  };
+
+  // Variable para almacenar el estado del botón "Visualizada"
+  const isWatched = ref(false);
+
+  // Función que se ejecuta al pulsar el botón de "Visualizada":
+  const mediaShowWatched = (mediaId) => {
+
+    // Verificaremos si el usuario está autenticado:
+    if (store.state.auth.authenticated) {
+
+    // Cambiamos el estado de la imagen:
+    isWatched.value = !isWatched.value;
+
+    // Guardamos la ID de la media show en concreto en una variable:
+    const mediaShowId = mediaId;
+
+    // Llama a esta función para agregar a visualizadas:
+    const manageToVisualizated = async (mediaShowId) => {
+      try {
+        const response = await axios.post('/api/visualizated/add/' + mediaShowId);
+        console.log(response);
+        
+      } catch (error) {
+        console.error("No se ha podido agregar la media show a visualizadas:", error);
+      }
+    };
+
+    // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
+    manageToVisualizated(mediaShowId);
+
+    } else {
+
+      // Si no ha iniciado sesión, mostraremos un mensaje de información pidiendo que inicie sesión:
+      Swal.fire({
+        icon: 'info',
+        title: 'Inicia sesión para agregar a favoritos',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  };
+
+  // Función para obtener la ruta de la imagen de visualizada:
+  const getWatchetImageSrc = () => {
+    if (isWatched.value) {
+      return '/images/visualization.svg';
+    } else {
+      return '/images/no_visualization.svg';
+    }
+  };
+
+  // Variable reactiva para almacenar la URL
+  const pageURL = ref('');
+
+  // Función para obtener la URL de la página actual
+  const getCurrentPageURL = () => {
+    pageURL.value = window.location.href;
+  };
+
+  // Función que se ejecuta al pulsar el botón de "Compartir:":
+  const copyURL = () => {
+    // Obtenemos la URL actual
+    getCurrentPageURL();
+    const textarea = document.createElement('textarea');
+    textarea.value = pageURL.value;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    
+    // Mostraremos el mensaje de éxito:
+    Swal.fire({
+      icon: 'success',
+      title: '¡URL copiada al portapapeles!',
+      showConfirmButton: false,
+      timer: 2000 
+    });
   };
 
   // Formateamos la duración que mostraremos:
@@ -189,23 +346,6 @@
       return formattedDuration.trim();
   };
 
-  // Definimos dos variables para mostrar una pestaña u otra:
-  const showDetailsTab = ref(true);
-  const showReviewsTab = ref(false);
-
-  // Si mostramos los detalles, ocultamos las valoraciones:
-  const switchToDetailsTab = () => {
-    showDetailsTab.value = true;
-    showReviewsTab.value = false;
-  };
-
-  // Si mostramos las valoraciones, ocultamos los detalles:
-  const switchToReviewsTab = () => {
-    showDetailsTab.value = false;
-    showReviewsTab.value = true;
-  };
-
-  let mediaIdAux =  router.currentRoute.value.params.id;
   onMounted(async () => {
     try {
       await fetchMediaById(mediaIdAux);
@@ -226,7 +366,7 @@
         console.error('Error al cargar los datos del medio show:', error);
         strError.value = 'Error al cargar los datos del medio show';
       }
-
-  }
+    }
   });
+
 </script>
