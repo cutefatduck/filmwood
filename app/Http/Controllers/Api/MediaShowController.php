@@ -48,6 +48,17 @@ class MediaShowController extends Controller
 
     }
 
+    public function checkIfFavorite($mediaShowId)
+    {
+        $userId = auth()->id();
+        
+        $favorite = p_favorite::where('id_user', $userId)
+                            ->where('id_media_show', $mediaShowId)
+                            ->exists();
+                            
+        return response()->json(['isFavorite' => $favorite]);
+    }
+
     public function manageToFavorites(Request $request, $mediaShowId)
     {
         // Recogemos el ID del usuario actual para añadirlo a la base de datos:
@@ -96,6 +107,17 @@ class MediaShowController extends Controller
         ]);
 
         return response()->json(['message' => 'El media show se agregó a tus visualizadas correctamente.'], 200);
+    }
+
+    public function checkIfVisualizated($mediaShowId)
+    {
+        $userId = auth()->id();
+        
+        $visualizated = p_visualized::where('id_user', $userId)
+                            ->where('id_media_show', $mediaShowId)
+                            ->exists();
+                            
+        return response()->json(['isWatched' => $visualizated]);
     }
 
     public function getMediaShowByMediaShowType(){

@@ -750,6 +750,15 @@
     font-size: 20px;
     margin-left: 5px;
   }
+
+  .button-valoration:focus-visible{
+    outline: 0px;
+  }
+
+  .button-valoration{
+    background-color: transparent;
+    border: 0px;
+  }
   
   .watch-button {
     margin-top: 40px;

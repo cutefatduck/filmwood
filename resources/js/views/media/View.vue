@@ -20,16 +20,15 @@
         </div>
       </div>
       <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-
-        <button type="button" @click="showDialog" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-class">
-            <img src="/images/favorite.svg" alt="VALORAR">
-            <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
-          </button>
-          <Dialog v-model:visible="visible"  modal responsive>
-            <template #container="{ closeCallback }">
+        <button type="valoration" @click="showDialog" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
+          <img src="/images/favorite.svg" alt="VALORAR">
+          <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
+        </button>
+        <Dialog v-model:visible="visible"  modal responsive>
+          <template #container="{ closeCallback }">
             <router-view />
-            </template>
-          </Dialog>
+          </template>
+        </Dialog>
         <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="mediaShowFavorite(Getmedia.nombre, Getmedia.id)">
           <img :src="getFavoriteImageSrc()" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
@@ -137,11 +136,6 @@
     padding: 20px;
   }
 
-  .button-class{
-    background-color: transparent;
-    border: 0;
-  }
-
 </style>
 
 <script setup>
@@ -218,8 +212,15 @@
     console.log(1)
     if (lastRoute.value) {
       router.push(lastRoute.value);
-      lastRoute.value = null; // Limpiar la última ruta después de restaurarla
+      lastRoute.value = null;
     }
+  };
+
+  // Funcion para cerrar el popup cuando se vaya hacia atras
+  const handlePopState = () => {
+  if (visible.value) {
+    closeDialog();
+  }
   };
 
   // Variable para almacenar el estado del botón "Favoritos"
@@ -257,7 +258,7 @@
           icon: 'success',
           title: `¡${mediaNombre} agregada a favoritos!`,
           showConfirmButton: false,
-          timer: 2000 
+          timer: 1500 
         });
 
       } else {
@@ -266,7 +267,7 @@
           icon: 'error',
           title: `¡${mediaNombre} eliminada de favoritos!`,
           showConfirmButton: false,
-          timer: 2000 
+          timer: 1500 
         });
       }
 
@@ -277,7 +278,7 @@
         icon: 'info',
         title: 'Inicia sesión para agregar a favoritos',
         showConfirmButton: false,
-        timer: 2000
+        timer: 1500
       });
     }
   };
@@ -316,7 +317,7 @@
       // Si no ha iniciado sesión, mostraremos un mensaje de información pidiendo que inicie sesión:
       Swal.fire({
         icon: 'info',
-        title: 'Inicia sesión para agregar a favoritos',
+        title: 'Inicia sesión para agregar a visualizadas',
         showConfirmButton: false,
         timer: 2000
       });
@@ -374,14 +375,42 @@
       return formattedDuration.trim();
   };
 
+  // Agregaremos una función para verificar si la media show actual ya se encuentra en favoritos o no para el usuario actual:
+  const fetchMediaFavoriteStatus = async (mediaId) => {
+    try {
+      const response = await axios.get(`/api/favorites/check/${mediaId}`);
+      return response.data.isFavorite;
+    } catch (error) {
+      console.error('Error al verificar el estado de favoritos:', error);
+      return false;
+    }
+  };
+
+  // Agregaremos una función para verificar si la media show actual ya se encuentra en visualizadas o no:
+  const fetchMediaVisualizedStatus = async (mediaId) => {
+    try {
+      const response = await axios.get(`/api/visualizated/check/${mediaId}`);
+      return response.data.isWatched;
+    } catch (error) {
+      console.error('Error al verificar el estado de visualizadas:', error);
+      return false;
+    }
+  };
+
   onMounted(async () => {
     try {
       await fetchMediaById(mediaIdAux);
       imageURL.value = Getmedia.value.portada_img;
+      const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+      const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
+      isFavorite.value = favoriteStatus;
+      isWatched.value = visualizatedStatus;
     } catch (error) {
       console.error('Error al cargar los datos del medio show:', error);
       strError.value = 'Error al cargar los datos del medio show';
     }
+    //Funcion para cerrar el popup cuando se vaya hacia atras
+    window.addEventListener('popstate', handlePopState);
   });
 
   onUpdated( async() => {
