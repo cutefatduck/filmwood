@@ -85,7 +85,11 @@
     {
       label: 'RANDOM',
       command: () => redirectToRandomView() 
-    }
+    },
+    {
+      label: 'MI LISTA',
+      to: '/user/mediashows'
+    },
   ]);
 
   // Esta función maneja el redireccionamiento a una vista aleatoria de película o serie

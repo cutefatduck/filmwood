@@ -4,17 +4,19 @@
         <form @submit.prevent="submitValoration" class="formulario-valoracion-wrapper background-valoration">
             {{ valoration }}
           <h1 class="titulo-valoracion mb-4">¡Valora! {{ $route.params.mediaValoration }}</h1>
-          <label class="valoracion mb-2 mt-4" for="opinionComentario">Tu valoración</label>
-          <textarea v-model="opinionComentario" cols="35" rows="10" style="resize: none;" class="input-formulario" id="opinionComentario" placeholder="¿Qué opinas?"></textarea>
-          <p class="valoracion">¿Qué valoración le das?</p>
-          <template v-for="star in starsCount" :key="star">
-            <img
-              :src="star <= highlightedStars ? '/images/estrella_marcada.svg' : '/images/estrella_vacia.svg'"
-              class="estrella_valoracion"
-              @mouseover="highlightStar(star)"
-              @click="setHighlightedStars(star)"
-            />
-          </template>
+          <label class="valoracion-pregunta mb-3 mt-4" for="opinionComentario">Tu valoración</label>
+          <textarea v-model="opinionComentario" cols="35" rows="10" class="input-formulario-valorar" id="opinionComentario" placeholder="¿Qué opinas?"></textarea>
+          <p class="valoracion-pregunta">¿Qué valoración le das?</p>
+          <div class="valoracion-estrellas">
+            <template v-for="star in starsCount" :key="star">
+              <img
+                :src="star <= highlightedStars ? '/images/estrella_marcada.svg' : '/images/estrella_vacia.svg'"
+                class="estrella_valoracion"
+                @mouseover="highlightStar(star)"
+                @click="setHighlightedStars(star)"
+              />
+            </template>
+          </div>
           <div class="flex items-center justify-end mt-3 mb-2">
             <button type="submit" class="btn btn-primary boton-principal">Dános tu opinión</button>
           </div>
@@ -52,6 +54,20 @@
         width: 100%;
     }
 
+    .input-formulario-valorar{
+      font-size: 1rem;
+      width: 400px;
+      background-color: #0c0c1d !important;
+      background: #fff;
+      padding: .75rem .75rem;
+      border: 1px solid #000000;
+      color: #fff !important;
+      transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+      appearance: none;
+      border-radius: 6px;
+      resize: none;
+    }
+
     .formulario-valoracion-wrapper {
         border: 1px solid #ccc;
         border-radius: 8px;
@@ -63,8 +79,14 @@
         margin-top: 10px;
     }
 
-    .valoracion {
+    .valoracion-pregunta {
         font-size: 20px;
+        margin-top: 10px !important;
+    }
+
+    .valoracion-estrellas{
+
+      margin-bottom: 22px;
     }
 
     .estrella_valoracion{

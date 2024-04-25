@@ -20,8 +20,8 @@
         </div>
       </div>
       <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-        <button type="valoration" @click="showDialog" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
-          <img src="/images/favorite.svg" alt="VALORAR">
+        <button type="valoration" @click="showDialog()" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
+          <img :src="getValorationImageSrc()" alt="VALORAR">
           <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
         </button>
         <Dialog v-model:visible="visible"  modal responsive>
@@ -29,12 +29,12 @@
             <router-view />
           </template>
         </Dialog>
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="mediaShowFavorite(Getmedia.nombre, Getmedia.id)">
+        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="handleFavoriteAction(Getmedia.nombre, Getmedia.id)">
           <img :src="getFavoriteImageSrc()" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
         </div>
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="mediaShowWatched(Getmedia.id)">
-          <img :src="getWatchetImageSrc()" alt="VISUALIZAR">
+        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover"@click="handleWatchedAction(Getmedia.id)">
+          <img :src="getWatchedImageSrc()" alt="VISUALIZAR">
           <p class="mt-1 titulo-interactuar-media-show">VISUALIZADA</p>
         </div>
         <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="copyURL">
@@ -179,7 +179,7 @@
   const showTrailer = ref(false);
 
   // Función para abrir el popup del trailer
-    const openTrailerPopup = () => {
+  const openTrailerPopup = () => {
     showTrailer.value = true;
     trailerUrl.value = Getmedia.trailer;
   };
@@ -190,23 +190,54 @@
     trailerUrl.value = ''; 
   };
 
-  // Función para obtener la ruta de la imagen de favoritos
-  const getFavoriteImageSrc = () => {
-    if (isFavorite.value) {
-      return '/images/like.svg';
+  // Variable para almacenar la última ruta
+  const visible = ref(false);
+  const lastRoute = ref(null); 
+
+  // Función para verificar la autenticación del usuario antes de ejecutar una acción
+  const checkAuthentication = async (actionCallback) => {
+    if (store.state.auth.authenticated) {
+      // Si está autenticado, realizamos la acción que desee:
+      await actionCallback();
     } else {
-      return '/images/no_like.svg';
+      // Si no,mostramos un mensaje indicando al usuario que inicie sesión
+      loginRequired();
     }
   };
 
-  const visible = ref(false);
-  const lastRoute = ref(null); // Variable para almacenar la última ruta
-
-  const showDialog = () => {
-    lastRoute.value = router.currentRoute.value.fullPath;
-    router.push({ name: 'media.valoration', params: { mediaId: Getmedia.value.id } });
-    visible.value = true;
+  // Función para mostrar un mensaje de que se requiere un inicio de sesión
+  const loginRequired = () => {
+    Swal.fire({
+      icon: 'info',
+      title: 'Inicia sesión para realizar esta acción',
+      showConfirmButton: false,
+      timer: 1500
+    });
   };
+
+  // Variable para almacenar el estado del botón "Favoritos"
+  const isValoration = ref(false);
+
+  // Función para obtener la ruta de la imagen de visualizada:
+  const getValorationImageSrc = () => {
+    if (isValoration.value) {
+      return '/images/valoration.svg';
+    } else {
+      return '/images/no_valoration.svg';
+    }
+  };
+
+  const showDialog = async (mediaNombre, mediaId) => {
+    // Verificamos si el usuario está autenticado
+    const actionCallback = async () => {
+      lastRoute.value = router.currentRoute.value.fullPath;
+      router.push({ name: 'media.valoration', params: { mediaId: Getmedia.value.id } });
+      visible.value = true;
+    } 
+    // Verificamos la autenticación antes de ejecutar la acción
+    await checkAuthentication(actionCallback);
+  };
+
   const closeDialog = () => {
     visible.value = false;
     console.log(1)
@@ -226,72 +257,93 @@
   // Variable para almacenar el estado del botón "Favoritos"
   const isFavorite = ref(false);
 
-  // Función que se ejecuta al pulsar el botón de "Favoritos":
+  // Función para obtener la ruta de la imagen de favoritos
+  const getFavoriteImageSrc = () => {
+    if (isFavorite.value) {
+      return '/images/like.svg';
+    } else {
+      return '/images/no_like.svg';
+    }
+  };
+
+  // Ejemplo de uso dentro de las funciones que requieren autenticación:
+  const handleFavoriteAction = async (mediaNombre, mediaId) => {
+    const actionCallback = async () => {
+      await mediaShowFavorite(mediaNombre, mediaId);
+      // Actualizamos el estado de favoritos reactivamente
+      isFavorite.value = await fetchMediaFavoriteStatus(mediaId);
+    };
+
+    // Verificamos la autenticación antes de ejecutar la acción
+    await checkAuthentication(actionCallback);
+  };
+
+  // Función que es llamada en la anterior función:
   const mediaShowFavorite = async (mediaNombre, mediaId) => {
 
-    // Verificaremos si el usuario está autenticado:
-    if (store.state.auth.authenticated) {
-      
-      // Guardamos la ID de la media show en concreto en una variable:
-      const mediaShowId = mediaId;
+    // Guardamos la ID de la media show en concreto en una variable:
+    const mediaShowId = mediaId;
 
-      // Alternamos el valor entre true y false
-      isFavorite.value = !isFavorite.value;
+    // Alternamos el valor entre true y false
+    isFavorite.value = !isFavorite.value;
 
-      // Llama a esta función para agregar a favoritos
-      const manageToFavorites = async (mediaShowId) => {
-        try {
-          const response = await axios.post('/api/favorites/' + mediaShowId);
-          console.log(response);
-          
-        } catch (error) {
-          console.error("No se ha podido agregar la media show a favoritos:", error);
+    // Llama a esta función para agregar a favoritos
+    const manageToFavorites = async (mediaShowId) => {
+      try {
+        const response = await axios.post('/api/favorites/' + mediaShowId);
+        // Mostramos un mensaje de éxito si se agrega correctamente
+        if (isFavorite.value) {
+          Swal.fire({
+            icon: 'success',
+            title: `¡${mediaNombre} agregada a favoritos!`,
+            showConfirmButton: false,
+            timer: 1500 
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: `¡${mediaNombre} eliminada de favoritos!`,
+            showConfirmButton: false,
+            timer: 1500 
+          });
         }
-      };
-
-      // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
-      manageToFavorites(mediaShowId);
-      
-      // Si el botón está activado mostramos un mensaje de éxito:
-      if (isFavorite.value) {
-        Swal.fire({
-          icon: 'success',
-          title: `¡${mediaNombre} agregada a favoritos!`,
-          showConfirmButton: false,
-          timer: 1500 
-        });
-
-      } else {
-        // Si no, mostraremos el mensaje de que ha eliminado la media show de favoritos:
-        Swal.fire({
-          icon: 'error',
-          title: `¡${mediaNombre} eliminada de favoritos!`,
-          showConfirmButton: false,
-          timer: 1500 
-        });
+      } catch (error) {
+        console.error("No se ha podido agregar la media show a favoritos:", error);
       }
+    };
 
-    } else {
-
-      // Si no ha iniciado sesión, mostraremos un mensaje de información pidiendo que inicie sesión:
-      Swal.fire({
-        icon: 'info',
-        title: 'Inicia sesión para agregar a favoritos',
-        showConfirmButton: false,
-        timer: 1500
-      });
-    }
+    // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
+    manageToFavorites(mediaShowId);
   };
 
   // Variable para almacenar el estado del botón "Visualizada"
   const isWatched = ref(false);
 
-  // Función que se ejecuta al pulsar el botón de "Visualizada":
+  // Función para obtener la ruta de la imagen de visualizada:
+  const getWatchedImageSrc = () => {
+    if (isWatched.value) {
+      return '/images/visualization.svg';
+    } else {
+      return '/images/no_visualization.svg';
+    }
+  };
+
+  // Función para manejar la acción de marcar como visualizada
+  const handleWatchedAction = async (mediaId) => {
+    // Verificamos si el usuario está autenticado
+    const actionCallback = async () => {
+      await mediaShowWatched(mediaId);
+      // Actualizamos el estado de visualizadas reactivamente
+      isWatched.value = await fetchMediaVisualizedStatus(mediaId);
+    }
+
+    // Verificamos la autenticación antes de ejecutar la acción
+    await checkAuthentication(actionCallback);
+  };
+
+  // Función que es llamada en la anterior función:
   const mediaShowWatched = (mediaId) => {
-
-    // Verificaremos si el usuario está autenticado:
-    if (store.state.auth.authenticated) {
-
+    
     // Cambiamos el estado de la imagen:
     isWatched.value = !isWatched.value;
 
@@ -301,36 +353,16 @@
     // Llama a esta función para agregar a visualizadas:
     const manageToVisualizated = async (mediaShowId) => {
       try {
-        const response = await axios.post('/api/visualizated/add/' + mediaShowId);
-        console.log(response);
-        
+          
+        const response = await axios.post('/api/visualizated/' + mediaShowId);
+          
       } catch (error) {
         console.error("No se ha podido agregar la media show a visualizadas:", error);
       }
     };
-
+      
     // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
     manageToVisualizated(mediaShowId);
-
-    } else {
-
-      // Si no ha iniciado sesión, mostraremos un mensaje de información pidiendo que inicie sesión:
-      Swal.fire({
-        icon: 'info',
-        title: 'Inicia sesión para agregar a visualizadas',
-        showConfirmButton: false,
-        timer: 2000
-      });
-    }
-  };
-
-  // Función para obtener la ruta de la imagen de visualizada:
-  const getWatchetImageSrc = () => {
-    if (isWatched.value) {
-      return '/images/visualization.svg';
-    } else {
-      return '/images/no_visualization.svg';
-    }
   };
 
   // Variable reactiva para almacenar la URL
@@ -351,7 +383,7 @@
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    
+      
     // Mostraremos el mensaje de éxito:
     Swal.fire({
       icon: 'success',
@@ -378,7 +410,7 @@
   // Agregaremos una función para verificar si la media show actual ya se encuentra en favoritos o no para el usuario actual:
   const fetchMediaFavoriteStatus = async (mediaId) => {
     try {
-      const response = await axios.get(`/api/favorites/check/${mediaId}`);
+      const response = await axios.get(`/api/favorites/${mediaId}`);
       return response.data.isFavorite;
     } catch (error) {
       console.error('Error al verificar el estado de favoritos:', error);
@@ -389,7 +421,7 @@
   // Agregaremos una función para verificar si la media show actual ya se encuentra en visualizadas o no:
   const fetchMediaVisualizedStatus = async (mediaId) => {
     try {
-      const response = await axios.get(`/api/visualizated/check/${mediaId}`);
+      const response = await axios.get(`/api/visualizated/${mediaId}`);
       return response.data.isWatched;
     } catch (error) {
       console.error('Error al verificar el estado de visualizadas:', error);
@@ -401,10 +433,12 @@
     try {
       await fetchMediaById(mediaIdAux);
       imageURL.value = Getmedia.value.portada_img;
+      const valorationStatus = await fetchMediaFavoriteStatus(mediaIdAux);
       const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
       const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
       isFavorite.value = favoriteStatus;
       isWatched.value = visualizatedStatus;
+      isValoration.value = valorationStatus;
     } catch (error) {
       console.error('Error al cargar los datos del medio show:', error);
       strError.value = 'Error al cargar los datos del medio show';
@@ -414,11 +448,17 @@
   });
 
   onUpdated( async() => {
-
+    // Comprueba si el ID del medio show ha cambiado
     if(mediaIdAux !=router.currentRoute.value.params.id){
       mediaIdAux = router.currentRoute.value.params.id;
       try {
         await fetchMediaById(mediaIdAux);
+        const valorationStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+        const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+        const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
+        isFavorite.value = favoriteStatus;
+        isWatched.value = visualizatedStatus;
+        isValoration.value = valorationStatus;
       } catch (error) {
         console.error('Error al cargar los datos del medio show:', error);
         strError.value = 'Error al cargar los datos del medio show';

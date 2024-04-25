@@ -14,9 +14,25 @@ use App\Models\p_valorations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MediaShowController extends Controller
 {
+
+    // Verificar si el usuario ha creado una valoración para un medio específico
+    public function checkIfValuated($mediaShowId)
+    {
+        $userId = auth()->id();
+        
+        $valuated = p_valorations::where('id_user', $userId)
+                                 ->where('id_media_show', $mediaShowId)
+                                 ->exists();
+
+        // Devolvemos la imagen correspondiente según si el user ha hecho una valoración en esta media show o no:
+        $imageSrc = $valuated ? '/images/valoration.svg' : '/images/no_valoration.svg';
+                            
+        return response()->json(['isValuated' => $valuated]);
+    }
 
     public function addValorations(Request $request)
     {
@@ -37,7 +53,7 @@ class MediaShowController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
     
-        // Crear un nuevo registro de p_media_show con los datos proporcionados
+        // Crear un nuevo registro de valoración con los datos proporcionados
         $valoration = $request->all();
         $valorations = p_valorations::create($valoration);
 
@@ -53,11 +69,15 @@ class MediaShowController extends Controller
         $userId = auth()->id();
         
         $favorite = p_favorite::where('id_user', $userId)
-                            ->where('id_media_show', $mediaShowId)
-                            ->exists();
+                               ->where('id_media_show', $mediaShowId)
+                               ->exists();
+    
+        // Devolvemos la imagen correspondiente según si el medio está en favoritos o no
+        $imageSrc = $favorite ? '/images/like.svg' : '/images/no_like.svg';
                             
-        return response()->json(['isFavorite' => $favorite]);
+        return response()->json(['isFavorite' => $favorite, 'imageSrc' => $imageSrc]);
     }
+    
 
     public function manageToFavorites(Request $request, $mediaShowId)
     {
@@ -82,6 +102,20 @@ class MediaShowController extends Controller
         ]);
 
         return response()->json(['message' => 'El media show se agregó a tus favoritos correctamente.'], 200);
+    }
+    
+    public function checkIfVisualizated($mediaShowId)
+    {
+        $userId = auth()->id();
+        
+        $visualizated = p_visualized::where('id_user', $userId)
+                                     ->where('id_media_show', $mediaShowId)
+                                     ->exists();
+
+        // Devolvemos la imagen correspondiente según si el medio está en visualizadas o no:
+        $imageSrc = $visualizated ? '/images/visualization.svg' : '/images/no_visualization.svg';                             
+                            
+        return response()->json(['isWatched' => $visualizated]);
     }
 
     public function manageToVisualizated(Request $request, $mediaShowId)
@@ -109,17 +143,6 @@ class MediaShowController extends Controller
         return response()->json(['message' => 'El media show se agregó a tus visualizadas correctamente.'], 200);
     }
 
-    public function checkIfVisualizated($mediaShowId)
-    {
-        $userId = auth()->id();
-        
-        $visualizated = p_visualized::where('id_user', $userId)
-                            ->where('id_media_show', $mediaShowId)
-                            ->exists();
-                            
-        return response()->json(['isWatched' => $visualizated]);
-    }
-
     public function getMediaShowByMediaShowType(){
         $media_show_type = p_media_show_type::with('mediaShowType')->get();
         return $media_show_type; 
@@ -127,9 +150,12 @@ class MediaShowController extends Controller
 
     public function index()
     {
-        // Obtener todos los medios de muestra con las relaciones cargadas
-        $mediaShows = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')->get();
-        
+        // Obtener las últimas 6 media shows ordenadas por el ID de forma descendente:
+        $mediaShows = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')
+        ->orderBy('id', 'desc')
+        ->take(6)
+        ->get();
+
         // Iterar sobre cada medio de muestra y añadir los campos adicionales
         $mediaShowsWithAdditionalFields = $mediaShows->map(function ($mediaShow) {
             return [

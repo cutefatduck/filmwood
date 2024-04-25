@@ -31,17 +31,20 @@ Route::post('media/', [MediaShowController::class, 'store']);
 // Agregar una valoracion a una media show:
 Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
 
+// Verificar si la media show ya ha sido valorada por el usuario actual
+Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);
+
 // Agregar una media show a favoritos:
 Route::post('/favorites/{id}', [MediaShowController::class, 'manageToFavorites']);
 
 // Verificar si la media show ya está en favoritos para mostrar una imagen de favoritos u otra:
-Route::get('/favorites/check/{id}', [MediaShowController::class, 'checkIfFavorite']);
+Route::get('/favorites/{id}', [MediaShowController::class, 'checkIfFavorite']);
 
 // Agregar una media show a visualizadas:
-Route::post('/visualizated/add/{id}', [MediaShowController::class, 'manageToVisualizated']);
+Route::post('/visualizated/{id}', [MediaShowController::class, 'manageToVisualizated']);
 
 // Verificar si la media show ya está en visualizadas para mostrar una imagen de visualizada u otra:
-Route::get('/visualizated/check/{id}', [MediaShowController::class, 'checkIfVisualizated']);
+Route::get('/visualizated/{id}', [MediaShowController::class, 'checkIfVisualizated']);
 
 // Obtener los mediashow segun el género
 Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);

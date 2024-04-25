@@ -78,7 +78,7 @@
                                         <p>{{ formateoDuracion(data.duracion) }}</p>
                                     </div>
                                     <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                                        <p class="m-0">+{{ data.pemi_name }}</p>
+                                        <p class="m-0">+{{ data.pemi.number_pemi }}</p>
                                     </div>
                                 </div>
                                 <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
