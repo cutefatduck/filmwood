@@ -28,10 +28,15 @@ class MediaShowController extends Controller
                                  ->where('id_media_show', $mediaShowId)
                                  ->exists();
 
-        // Devolvemos la imagen correspondiente según si el user ha hecho una valoración en esta media show o no:
-        $imageSrc = $valuated ? '/images/valoration.svg' : '/images/no_valoration.svg';
+        // Definimos la imagen predeterminada
+        $imageSrc = '/images/no_valoration.svg';
+        
+        // Si la media show está valorada por el usuario, cambiamos la imagen
+        if ($valuated) {
+            $imageSrc = '/images/valoration.svg';
+        }
                             
-        return response()->json(['isValuated' => $valuated]);
+        return response()->json(['isValoration' => $valuated, 'imageSrc' => $imageSrc]);
     }
 
     public function addValorations(Request $request)
@@ -53,7 +58,7 @@ class MediaShowController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
     
-        // Crear un nuevo registro de valoración con los datos proporcionados
+        // Creamos un nuevo registro de valoración con los datos proporcionados
         $valoration = $request->all();
         $valorations = p_valorations::create($valoration);
 
@@ -69,15 +74,19 @@ class MediaShowController extends Controller
         $userId = auth()->id();
         
         $favorite = p_favorite::where('id_user', $userId)
-                               ->where('id_media_show', $mediaShowId)
-                               ->exists();
-    
-        // Devolvemos la imagen correspondiente según si el medio está en favoritos o no
-        $imageSrc = $favorite ? '/images/like.svg' : '/images/no_like.svg';
-                            
+                            ->where('id_media_show', $mediaShowId)
+                            ->exists();
+
+        // Definimos la imagen predeterminada
+        $imageSrc = '/images/no_like.svg';
+        
+        // Si la media show está en favoritos por el usuario, cambiamos la imagen
+        if ($favorite) {
+            $imageSrc = '/images/like.svg';
+        }
+        
         return response()->json(['isFavorite' => $favorite, 'imageSrc' => $imageSrc]);
     }
-    
 
     public function manageToFavorites(Request $request, $mediaShowId)
     {
@@ -112,10 +121,15 @@ class MediaShowController extends Controller
                                      ->where('id_media_show', $mediaShowId)
                                      ->exists();
 
-        // Devolvemos la imagen correspondiente según si el medio está en visualizadas o no:
-        $imageSrc = $visualizated ? '/images/visualization.svg' : '/images/no_visualization.svg';                             
+        // Definimos la imagen predeterminada
+        $imageSrc = '/images/no_visualization.svg';
+        
+        // Si la media show está en visualizadas por el usuario, cambiamos la imagen:
+        if ($visualizated) {
+            $imageSrc = '/images/visualization.svg';
+        }                            
                             
-        return response()->json(['isWatched' => $visualizated]);
+        return response()->json(['isWatched' => $visualizated, 'imageSrc' => $imageSrc]);
     }
 
     public function manageToVisualizated(Request $request, $mediaShowId)
@@ -153,7 +167,7 @@ class MediaShowController extends Controller
         // Obtener las últimas 6 media shows ordenadas por el ID de forma descendente:
         $mediaShows = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')
         ->orderBy('id', 'desc')
-        ->take(6)
+        ->take(9)
         ->get();
 
         // Iterar sobre cada medio de muestra y añadir los campos adicionales

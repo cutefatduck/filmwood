@@ -17,7 +17,6 @@ const MediaEdit = () => import('../views/admin/media/Edit.vue')
 const MediaAdminView = () => import('../views/admin/media/View.vue')
 const MediaView = () => import('../views/media/View.vue')
 const PerfilView = () => import('../views/users/View.vue')
-const ValorationMedia = () => import('../views/media/Valoration.vue')
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -73,14 +72,6 @@ export default [
                 path: '/view/:id',
                 name: 'media.view',
                 component: MediaView,
-                children: [
-                    {
-                        path: '',
-                        name: 'media.valoration',
-                        component: ValorationMedia,
-                    },
-
-                ]
             },
             
             {

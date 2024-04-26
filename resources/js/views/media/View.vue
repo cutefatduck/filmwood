@@ -20,13 +20,32 @@
         </div>
       </div>
       <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-        <button type="valoration" @click="showDialog()" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
+        <button type="valoration" @click="handleValorationAction(Getmedia.id)" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
           <img :src="getValorationImageSrc()" alt="VALORAR">
           <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
         </button>
-        <Dialog v-model:visible="visible"  modal responsive>
+        <Dialog v-model:visible="visible" modal responsive>
           <template #container="{ closeCallback }">
-            <router-view />
+            <div class="row">
+              <div class="col-12 col-md-8 col-lg-12 mb-0 pt-2 d-flex justify-content-center mb-3 ">
+                <form @submit.prevent="submitValoration" class="formulario-valoracion-wrapper background-valoration">
+                  <input type="hidden" v-model="valoration.id_media_show">
+                  <h1 class="titulo-valoracion mb-4">¡Valora!</h1>
+                  <label class="valoracion mb-2 mt-4" for="opinionComentario">Tu valoración</label>
+                  <textarea v-model="valoration.valoracion" cols="35" rows="10" style="resize: none;" class="input-formulario" id="opinionComentario" placeholder="¿Qué opinas?"></textarea>
+                  <p class="valoracion">¿Cual es tu puntuación?</p>
+                  <div class="rating d-flex flex-row-reverse justify-content-end">
+                    <template v-for="star in starsCount">
+                      <input type="radio" :id="'estrella' + star" name="puntuacion" :value="(starsCount - star +1)" v-model="valoration.puntuacion">
+                      <label :for="'estrella' + star" :class="{ 'resaltada': star <= highlightedStars }"></label>
+                    </template>
+                  </div>
+                  <div class="flex items-center justify-end mt-3 mb-2">
+                    <button type="submit" class="btn btn-primary boton-principal">Dános tu opinión</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </template>
         </Dialog>
         <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="handleFavoriteAction(Getmedia.nombre, Getmedia.id)">
@@ -136,6 +155,97 @@
     padding: 20px;
   }
 
+  .popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .rating {
+      display: flex;
+    }
+
+    .rating input {
+      display: none;
+    }
+
+    .rating label {
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      background-image: url('/images/estrella_vacia.svg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .rating input:checked~label {
+      background-image: url('/images/estrella_marcada.svg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .background-valoration{
+      background-color: #0b0918;
+    }
+    .titulo-valoracion{
+      font-size: 40px;
+    }
+    .volver-valoracion{
+      cursor: pointer;
+      font-size: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .volver-valoracion::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-boton-hover);
+      transition: width 0.5s ease;
+    }
+
+    .volver-valoracion:hover::before {
+      width: 100%;
+    }
+
+    .formulario-valoracion-wrapper {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 32px;
+    }
+
+    .valoracion_texto {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .valoracion {
+      font-size: 20px;
+    }
+
+    .estrella_valoracion{
+      width: 25px;
+      height: 25px;
+    }
+
+    .estrella_valoracion.resaltada {
+      background-color: white;
+    }
+
 </style>
 
 <script setup>
@@ -152,7 +262,10 @@
   const router = useRouter();
   const store = useStore();
 
+  // Variable que definimos para imprimir la imagen de portada:
   const imageURL = ref('');
+  
+  // Variable que definimos para comprobar si se ha cambiado de media show:
   let mediaIdAux =  router.currentRoute.value.params.id;
 
   // Cargamos la vista por la parte superior de ella:
@@ -215,7 +328,19 @@
     });
   };
 
-  // Variable para almacenar el estado del botón "Favoritos"
+  const mediaId = ref('');
+  const user = computed(() => store.getters["auth/user"]);
+  const userID = ref('');
+  const starsCount = 5;
+  const highlightedStars = ref(0);
+  const valoration = ref({ 
+    id_user: userID, 
+    id_media_show: mediaId, 
+    puntuacion: null, 
+    valoracion: ''
+  });
+
+  // Variable para almacenar el estado del botón "Valorar"
   const isValoration = ref(false);
 
   // Función para obtener la ruta de la imagen de visualizada:
@@ -227,20 +352,45 @@
     }
   };
 
-  const showDialog = async (mediaNombre, mediaId) => {
-    // Verificamos si el usuario está autenticado
+  // Verificamos si el usuario está autenticado antes de agregar a valoraciones:
+  const handleValorationAction = async (mediaId) => {
     const actionCallback = async () => {
-      lastRoute.value = router.currentRoute.value.fullPath;
-      router.push({ name: 'media.valoration', params: { mediaId: Getmedia.value.id } });
+      // Si ha iniciado sesión, entonces le mostramos el panel de valorar:
       visible.value = true;
-    } 
-    // Verificamos la autenticación antes de ejecutar la acción
+      // Actualizamos el estado de valoración reactivamente:
+      isValoration.value = await fetchMediaValorationStatus(mediaId);
+    };
+
+    // Verificamos la autenticación antes de ejecutar la acción:
     await checkAuthentication(actionCallback);
+  };
+
+  // Creamos una función para agregar una nueva valoración en la base de datos:
+  const submitValoration = async (nombreUsuario) => {
+    try {
+      await axios.post('/api/media/valoration', valoration.value);
+      const nombreUsuario = user.value.name;
+      Swal.fire({
+        icon: 'success',
+        title: `¡${nombreUsuario}, agradecemos tu opinión!`,
+        showConfirmButton: false,
+        timer: 2000 
+      });
+      visible.value = false;
+      isValoration.value = true;
+    } catch (error) {
+      console.error('Error al subir la valoración:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'No hemos podido subir tu valoración',
+        showConfirmButton: false,
+        timer: 2000 
+      });
+    }
   };
 
   const closeDialog = () => {
     visible.value = false;
-    console.log(1)
     if (lastRoute.value) {
       router.push(lastRoute.value);
       lastRoute.value = null;
@@ -249,9 +399,9 @@
 
   // Funcion para cerrar el popup cuando se vaya hacia atras
   const handlePopState = () => {
-  if (visible.value) {
-    closeDialog();
-  }
+    if (visible.value) {
+      closeDialog();
+    }
   };
 
   // Variable para almacenar el estado del botón "Favoritos"
@@ -266,7 +416,7 @@
     }
   };
 
-  // Ejemplo de uso dentro de las funciones que requieren autenticación:
+  // Verificamos si el usuario está autenticado antes de agregar a favoritos:
   const handleFavoriteAction = async (mediaNombre, mediaId) => {
     const actionCallback = async () => {
       await mediaShowFavorite(mediaNombre, mediaId);
@@ -283,9 +433,6 @@
 
     // Guardamos la ID de la media show en concreto en una variable:
     const mediaShowId = mediaId;
-
-    // Alternamos el valor entre true y false
-    isFavorite.value = !isFavorite.value;
 
     // Llama a esta función para agregar a favoritos
     const manageToFavorites = async (mediaShowId) => {
@@ -328,7 +475,7 @@
     }
   };
 
-  // Función para manejar la acción de marcar como visualizada
+  // Verificamos si el usuario está autenticado antes de agregar a visualizadas:
   const handleWatchedAction = async (mediaId) => {
     // Verificamos si el usuario está autenticado
     const actionCallback = async () => {
@@ -343,9 +490,6 @@
 
   // Función que es llamada en la anterior función:
   const mediaShowWatched = (mediaId) => {
-    
-    // Cambiamos el estado de la imagen:
-    isWatched.value = !isWatched.value;
 
     // Guardamos la ID de la media show en concreto en una variable:
     const mediaShowId = mediaId;
@@ -418,7 +562,7 @@
     }
   };
 
-  // Agregaremos una función para verificar si la media show actual ya se encuentra en visualizadas o no:
+  // Agregaremos una función para verificar si la media show actual ya se encuentra en visualizadas por el usuario o no:
   const fetchMediaVisualizedStatus = async (mediaId) => {
     try {
       const response = await axios.get(`/api/visualizated/${mediaId}`);
@@ -429,11 +573,27 @@
     }
   };
 
+  // Agregaremos una función para verificar si la media show actual ya se encuentra en valoradas por el usuario o no:
+  const fetchMediaValorationStatus = async (mediaId) => {
+    try {
+      const response = await axios.get(`/api/valorations/${mediaId}`);
+      return response.data.isValoration;
+    } catch (error) {
+      console.error('Error al verificar el estado de valoradas:', error);
+      return false;
+    }
+  };
+
   onMounted(async () => {
     try {
+      
       await fetchMediaById(mediaIdAux);
       imageURL.value = Getmedia.value.portada_img;
-      const valorationStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+      mediaId.value = Getmedia.value.id;
+      userID.value = user.value.id;
+
+      // Controlaremos el estado de cada imagen a mostrar según la media show:
+      const valorationStatus = await fetchMediaValorationStatus(mediaIdAux);
       const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
       const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
       isFavorite.value = favoriteStatus;
@@ -443,7 +603,7 @@
       console.error('Error al cargar los datos del medio show:', error);
       strError.value = 'Error al cargar los datos del medio show';
     }
-    //Funcion para cerrar el popup cuando se vaya hacia atras
+    //Función para cerrar el popup cuando se vaya hacia atrás
     window.addEventListener('popstate', handlePopState);
   });
 
@@ -453,7 +613,9 @@
       mediaIdAux = router.currentRoute.value.params.id;
       try {
         await fetchMediaById(mediaIdAux);
-        const valorationStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+
+        // Controlaremos el estado de cada imagen a mostrar cada vez que cambiemos de media show:
+        const valorationStatus = await fetchMediaValorationStatus(mediaIdAux);
         const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
         const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
         isFavorite.value = favoriteStatus;

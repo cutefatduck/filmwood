@@ -16,7 +16,6 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -52,7 +51,12 @@ Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);
 // Obtener los mediashow segun el tipo (Serie o película)
 Route::get('media_show_type/media', [MediaShowController::class, 'getMediaShowByMediaShowType']);
 
+// Modificar los datos del usuario:
+Route::put('/users/{user}', [UserController::class, 'update']);
+
+// Eliminar una media show en concreto en el panel de administrador:
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
+
 #Route::get('/media/{id}', [MediaShowController::class, 'edit']);
 Route::get('/media/{id}', [MediaShowController::class, 'show']);
 
