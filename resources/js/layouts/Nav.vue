@@ -88,12 +88,12 @@
     },
     {
       label: 'MI LISTA',
-      to: '/user/mediashows'
+      to: '/user/saved'
     },
   ]);
 
   // Esta función maneja el redireccionamiento a una vista aleatoria de película o serie
-  function redirectToRandomView() {
+  async function redirectToRandomView() {
     fetchRandomMedia().then(() => {
       if (randomMedia.value) {
         router.push({ name: 'media.view', params: { id: randomMedia.value.id.toString() } });

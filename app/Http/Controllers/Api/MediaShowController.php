@@ -19,6 +19,30 @@ use Illuminate\Support\Facades\DB;
 class MediaShowController extends Controller
 {
 
+    // Obtenemos todas las valoraciones de una media show en conreto:
+    public function getMediaShowValorations($mediaShowId)
+    {
+        // Busca las valoraciones para el medio show específico
+        $valoraciones = p_valorations::with('user')->where('id_media_show', $mediaShowId)->get();
+        return response()->json($valoraciones);
+    }
+
+    // Obtenemos todas las media shows guardadas en favoritos de un user en concreto:
+    public function getMediaShowFavorites($userID)
+    {
+        // Busca las favoritas para el user en especifico
+        $favorites = p_favorite::where('id_user', $userID)->get();
+        return response()->json($favorites);
+    }
+
+    // Obtenemos todas las media shows guardadas en visualizadas de un user en concreto:
+    public function getMediaShowVisualizated($userID)
+    {
+        // Busca las visualizadas para el user en especifico
+        $visualizated = p_visualized::where('id_user', $userID)->get();
+        return response()->json($visualizated);
+    }
+
     // Verificar si el usuario ha creado una valoración para un medio específico
     public function checkIfValuated($mediaShowId)
     {
@@ -49,8 +73,8 @@ class MediaShowController extends Controller
             'id_user' => 'required|numeric',
             'id_media_show' => 'required|numeric',
             'puntuacion' => 'required|numeric',
-            'valoracion' => 'required|string|max:255'
-
+            'valoracion' => 'required|string',
+            'recomendacion' => 'required|boolean'
         ]);
 
         // Si la validación falla, retorna un error con los mensajes correspondientes
@@ -74,8 +98,8 @@ class MediaShowController extends Controller
         $userId = auth()->id();
         
         $favorite = p_favorite::where('id_user', $userId)
-                            ->where('id_media_show', $mediaShowId)
-                            ->exists();
+                               ->where('id_media_show', $mediaShowId)
+                               ->exists();
 
         // Definimos la imagen predeterminada
         $imageSrc = '/images/no_like.svg';
@@ -139,8 +163,8 @@ class MediaShowController extends Controller
 
         // Verificar si ya existe la entrada previamente:
         $existingVisualized = p_visualized::where('id_user', $userId)
-                                        ->where('id_media_show', $mediaShowId)
-                                        ->first();
+                                           ->where('id_media_show', $mediaShowId)
+                                           ->first();
 
         // Si ya existe la misma entrada, la eliminamos:
         if ($existingVisualized) {
@@ -269,17 +293,16 @@ class MediaShowController extends Controller
             $mediaShow->genres()->sync($genres);
         }
     
-    // Obtener los géneros asociados al medio recién creado
-    $mediaShowGenres = $mediaShow->genres()->pluck('name_genre')->toArray();
+        // Obtener los géneros asociados al medio recién creado
+        $mediaShowGenres = $mediaShow->genres()->pluck('name_genre')->toArray();
 
-    // Devolver una respuesta JSON con éxito y los datos del medio y sus géneros asociados
-    return response()->json([
-        'success' => true, 
-        'data' => $mediaShow->fresh(), 
-        'genres_name' => $mediaShowGenres
-    ], 201);
+        // Devolver una respuesta JSON con éxito y los datos del medio y sus géneros asociados
+        return response()->json([
+            'success' => true, 
+            'data' => $mediaShow->fresh(), 
+            'genres_name' => $mediaShowGenres
+        ], 201);
     }
-
 
     public function viewByGenreID($id){
         // Buscar los registros de la tabla p_mediashow_genre donde genre_id coincida con $id

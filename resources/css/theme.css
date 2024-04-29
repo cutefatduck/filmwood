@@ -724,6 +724,88 @@
   .linea-hover:hover::before {
     width: 100%;
   }
+
+  .popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .rating {
+    display: flex;
+    margin-bottom: 25px;
+  }
+
+  .rating input {
+    display: none;
+  }
+
+  .rating label {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background-image: url('/images/estrella_vacia.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .rating input:checked~label {
+    background-image: url('/images/estrella_marcada.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .background-valoration{
+    background-color: #0b0918;
+  }
+
+  .titulo-valoracion{
+    font-size: 35px;
+  }
+
+  .formulario-valoracion-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 25px;
+  }
+
+  .valoracion_texto {
+    display: flex;
+    margin-top: 10px;
+  }
+
+  .valoracion-pregunta {
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: 300;
+  }
+
+  .estrella_valoracion{
+    width: 25px;
+    height: 25px;
+  }
+
+  .estrella_valoracion.resaltada {
+    background-color: white;
+  }
+
+  .volver-valoracion {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    cursor: pointer;
+    border: none;
+  }
   
   .titulo-detalles-valoraciones {
     position: relative;
@@ -833,6 +915,27 @@
     padding: 20px;
     margin-top: 20px;
   }
+
+  .hola{
+    font-size: 20px;
+  }
+
+  .container-valorations{
+    padding: 0;
+  }
+
+  .valorations {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    border: none;
+    margin-top: 20px;
+  }
+
+  .container-no-valorations {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+  }
   
   .details h2 {
     font-size: 24px;
@@ -887,6 +990,45 @@
     color: white;
     font-size: 16px;
     font-weight: bold;
+  }
+
+  .valorarla{
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .review-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  .review-content{
+    font-size: 20px;
+  }
+
+  .recomendacion-inputs input[type="radio"] {
+    display: none;
+  }
+  
+  .recomendacion-inputs label {
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  
+  .recomendacion-inputs input[type="radio"] + label:before {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .recomendacion-inputs input[type="radio"]:checked + label:before {
+    background-color: white;
   }
 
 /*Fin del estilo individual por cada media show*/

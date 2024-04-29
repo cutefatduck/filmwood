@@ -26,7 +26,8 @@ return new class extends Migration
 
             // Creamos el resto de campos de la tabla:
             $table->integer('puntuacion');
-            $table->string('valoracion');
+            $table->longtext('valoracion');
+            $table->boolean('recomendacion');
                         
             $table->timestamps();
         });

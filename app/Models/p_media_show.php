@@ -43,7 +43,6 @@ class p_media_show extends Model //implements HasMedia
         return $this->belongsTo(p_media_show_type::class, 'id_media_show_type');
     }
 
-
     public function pemi()
     {
         return $this->belongsTo(p_pemi::class, 'id_pemi');

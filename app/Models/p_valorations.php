@@ -17,13 +17,14 @@ class p_valorations extends Model
         'id_user',
         'id_media_show',
         'valoracion',
-        'puntuacion'
+        'puntuacion',
+        'recomendacion'
     ];
 
     // Definimos las claves foráneas junto con su respectivo modelo:
-    public function id_user()
+    public function user()
     {
-        return $this->belongsTo(user::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_user');
     }
         
     public function id_media_show()

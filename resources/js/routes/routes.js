@@ -17,6 +17,7 @@ const MediaEdit = () => import('../views/admin/media/Edit.vue')
 const MediaAdminView = () => import('../views/admin/media/View.vue')
 const MediaView = () => import('../views/media/View.vue')
 const PerfilView = () => import('../views/users/View.vue')
+const SavedUser = () => import('../views/users/Saved.vue')
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -58,13 +59,18 @@ export default [
                 component: PerfilView,
             },
             {
-                name: 'media.peliculas',
+                path: 'user/saved',
+                name: 'saved.view',
+                component: SavedUser,
+            },
+            {
                 path: 'media/peliculas',
+                name: 'media.peliculas',
                 component: MediaShows,
             },
             {
-                name: 'media.series',
                 path: 'media/series',
+                name: 'media.series',
                 component: MediaShows,
             },
             

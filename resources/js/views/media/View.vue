@@ -31,16 +31,26 @@
                 <form @submit.prevent="submitValoration" class="formulario-valoracion-wrapper background-valoration">
                   <input type="hidden" v-model="valoration.id_media_show">
                   <h1 class="titulo-valoracion mb-4">¡Valora!</h1>
-                  <label class="valoracion mb-2 mt-4" for="opinionComentario">Tu valoración</label>
+                  <button @click="closeDialog" class="volver-valoracion">
+                    <img src="/images/close.svg" alt="Cerrar">
+                  </button>
+                  <label class="valoracion-pregunta mb-4 mt-4" for="opinionComentario">Tu reseña de {{ Getmedia.nombre }}</label>
                   <textarea v-model="valoration.valoracion" cols="35" rows="10" style="resize: none;" class="input-formulario" id="opinionComentario" placeholder="¿Qué opinas?"></textarea>
-                  <p class="valoracion">¿Cual es tu puntuación?</p>
+                  <p class="valoracion-pregunta">¿Que puntuación le das?</p>
                   <div class="rating d-flex flex-row-reverse justify-content-end">
                     <template v-for="star in starsCount">
                       <input type="radio" :id="'estrella' + star" name="puntuacion" :value="(starsCount - star +1)" v-model="valoration.puntuacion">
                       <label :for="'estrella' + star" :class="{ 'resaltada': star <= highlightedStars }"></label>
                     </template>
                   </div>
-                  <div class="flex items-center justify-end mt-3 mb-2">
+                  <label class="valoracion-pregunta mt-4" for="recomendacion">¿Es recomendable?</label>
+                  <div class="recomendacion-inputs mt-3">
+                    <input type="radio" id="recomendacion_si" name="recomendacion" value="1" v-model="valoration.recomendacion">
+                    <label for="recomendacion_si">Sí</label>
+                    <input type="radio" id="recomendacion_no" name="recomendacion" value="0" v-model="valoration.recomendacion">
+                    <label for="recomendacion_no">No</label>
+                  </div>
+                  <div class="flex items-center justify-end mt-4 mb-2">
                     <button type="submit" class="btn btn-primary boton-principal">Dános tu opinión</button>
                   </div>
                 </form>
@@ -118,28 +128,28 @@
         </div>
       </div>
       <div v-if="showReviewsTab" class="row justify-content-between">
-        <div class="details col-lg-12 ">
-          <div class="reviews-container row justify-content-between">
-            <div class="review-card col-md-2 col-xs-12">
-              <p class="username">Usuario 1</p>
-              <img src="/images/cinco_estrellas.svg" alt="Star" class="mb-2">
-              <p class="opinion">Esta es la opinión del usuario sobre el producto. Puede ser larga o corta, según lo que el usuario quiera expresar.</p>
+        <div :class="{ 'details': showDetailsTab, 'valorations': !showDetailsTab }" class="col-lg-12">
+          <div class="reviews-container row">
+            <div v-if="!GetValorations || GetValorations.length === 0" class="container-no-valorations">
+              <p class="hola">Todavía no hay valoraciones sobre {{ Getmedia.nombre }}</p>
+              <p class="hola">Sé el primero en hacerlo.</p>
+              <button @click="handleValorationAction(Getmedia.id)" class="btn btn-primary boton-principal mt-2">VALORAR</button>
             </div>
-            <div class="review-card col-md-2 col-xs-12">
-              <p class="username">Usuario 2</p>
-              <img src="/images/tres_estrellas.svg" alt="Star" class="mb-2">
-              <p class="opinion">Otra opinión de otro usuario. En esta ocasión, la valoración no es tan alta como la anterior.</p>
-            </div>
-            <div class="review-card col-md-2 col-xs-12">
-              <p class="username">Usuario 3</p>
-              <img src="/images/cero_estrellas.svg" alt="Star" class="mb-2">
-              <p class="opinion">Otra opinión de otro usuario. En esta ocasión, la valoración no es tan alta como la anterior.</p>
-            </div>
-            <div class="review-card col-md-2 col-xs-12">
-              <p class="username">Usuario 4</p>
-              <img src="/images/cero_estrellas.svg" alt="Star" class="mb-2">
-              <p class="opinion">Otra opinión de otro usuario. En esta ocasión, la valoración no es tan alta como la anterior.</p>
-            </div>
+            <template v-else>
+              <div class="col-md-6 col-sm-6 col-lg-12 mb-4 container-valorations" v-for="(opinion, index) in GetValorations" :key="index"> 
+                <div class="review-card"> 
+                  <p class="username">{{ opinion.user.name_user }}</p>
+                  <div class="star-rating">
+                    <img v-for="star in 5" :key="star" :src="getStarImage(star, opinion.puntuacion)" class="star-icon" alt="Star">
+                  </div>
+                  <p class="review-content mt-3">{{ opinion.valoracion }}</p>
+                  <p class="review-content mt-3">¿La recomienda?
+                    <span v-if="opinion.recomendacion === 1">Sí</span>
+                    <span v-else>No</span>
+                  </p>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -147,106 +157,6 @@
     <AppFooter />
   </div>
 </template>
-<style>
-
-  .review-card {
-    border: 1px solid #ffffff;
-    border-radius: 5px;
-    padding: 20px;
-  }
-
-  .popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-
-  .rating {
-      display: flex;
-    }
-
-    .rating input {
-      display: none;
-    }
-
-    .rating label {
-      cursor: pointer;
-      width: 25px;
-      height: 25px;
-      background-image: url('/images/estrella_vacia.svg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-
-    .rating input:checked~label {
-      background-image: url('/images/estrella_marcada.svg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .background-valoration{
-      background-color: #0b0918;
-    }
-    .titulo-valoracion{
-      font-size: 40px;
-    }
-    .volver-valoracion{
-      cursor: pointer;
-      font-size: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .volver-valoracion::before {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--color-boton-hover);
-      transition: width 0.5s ease;
-    }
-
-    .volver-valoracion:hover::before {
-      width: 100%;
-    }
-
-    .formulario-valoracion-wrapper {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 32px;
-    }
-
-    .valoracion_texto {
-      display: flex;
-      margin-top: 10px;
-    }
-
-    .valoracion {
-      font-size: 20px;
-    }
-
-    .estrella_valoracion{
-      width: 25px;
-      height: 25px;
-    }
-
-    .estrella_valoracion.resaltada {
-      background-color: white;
-    }
-
-</style>
 
 <script setup>
 
@@ -254,11 +164,13 @@
   import { useRouter } from 'vue-router';
   import AppFooter from '@/layouts/AppFooter.vue';
   import { useGetMedia } from '@/composables/media';
+  import { useGetValorations } from '@/composables/valorations'
   import Swal from 'sweetalert2';
   import axios from 'axios';
   import { useStore } from 'vuex';
 
   const { Getmedia, fetchMedia, fetchMediaById } = useGetMedia();
+  const { GetValorations, fetchValorationsByMediaId, addValoration } = useGetValorations();
   const router = useRouter();
   const store = useStore();
 
@@ -337,7 +249,8 @@
     id_user: userID, 
     id_media_show: mediaId, 
     puntuacion: null, 
-    valoracion: ''
+    valoracion: '',
+    recomendacion: ''
   });
 
   // Variable para almacenar el estado del botón "Valorar"
@@ -355,6 +268,8 @@
   // Verificamos si el usuario está autenticado antes de agregar a valoraciones:
   const handleValorationAction = async (mediaId) => {
     const actionCallback = async () => {
+      // Asignaremos el ID de la media show actual al objeto de valoración
+      valoration.value.id_media_show = mediaId;
       // Si ha iniciado sesión, entonces le mostramos el panel de valorar:
       visible.value = true;
       // Actualizamos el estado de valoración reactivamente:
@@ -366,30 +281,55 @@
   };
 
   // Creamos una función para agregar una nueva valoración en la base de datos:
-  const submitValoration = async (nombreUsuario) => {
+  const submitValoration = async () => {
     try {
-      await axios.post('/api/media/valoration', valoration.value);
+      const response = await axios.post('/api/media/valoration', valoration.value);
       const nombreUsuario = user.value.name;
-      Swal.fire({
-        icon: 'success',
-        title: `¡${nombreUsuario}, agradecemos tu opinión!`,
-        showConfirmButton: false,
-        timer: 2000 
-      });
-      visible.value = false;
-      isValoration.value = true;
+      // Mostraremos un mensaje de éxito si conseguimos subir la valoración:
+      if (response.data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: `¡${nombreUsuario}, agradecemos tu opinión!`,
+          showConfirmButton: false,
+          timer: 2000 
+        });
+        // Actualizaremos la lista de valoraciones después de enviarlo:
+        await fetchValorationsByMediaId(mediaIdAux);
+        // Restableceremos los valores del formulario de valoración después de enviarlo:
+        valoration.value = { 
+          id_user: userID, 
+          id_media_show: mediaId, 
+          puntuacion: null, 
+          valoracion: '',
+          recomendacion: null
+        };
+        visible.value = false;
+        isValoration.value = true;
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: `No hemos podido subir tu valoración!`,
+          showConfirmButton: false,
+          timer: 2000 
+        });
+        visible.value = false;
+        isValoration.value = false;
+      }
     } catch (error) {
       console.error('Error al subir la valoración:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'No hemos podido subir tu valoración',
-        showConfirmButton: false,
-        timer: 2000 
-      });
     }
   };
 
+  // Función para cerrar el popapp de valorar:
   const closeDialog = () => {
+    // Restablecer los valores del formulario de valoración
+    valoration.value = { 
+      id_user: userID, 
+      id_media_show: mediaId, 
+      puntuacion: null, 
+      valoracion: '',
+      recomendacion: null
+    };
     visible.value = false;
     if (lastRoute.value) {
       router.push(lastRoute.value);
@@ -401,6 +341,15 @@
   const handlePopState = () => {
     if (visible.value) {
       closeDialog();
+    }
+  };
+
+  // Función para imprimir las estrellas según la puntuación que le haya dado el usuario:
+  const getStarImage = (star, rating) => {
+    if (star <= rating) {
+      return '/images/estrella_marcada.svg';
+    } else {
+      return '/images/estrella_vacia.svg';
     }
   };
 
@@ -446,6 +395,14 @@
             showConfirmButton: false,
             timer: 1500 
           });
+          // Restablecer los valores del formulario de valoración después de enviar con éxito
+          valoration.value = { 
+            id_user: userID, 
+            id_media_show: mediaId, 
+            puntuacion: null, 
+            valoracion: '',
+            recomendacion: null
+          };
         } else {
           Swal.fire({
             icon: 'error',
@@ -586,12 +543,11 @@
 
   onMounted(async () => {
     try {
-      
       await fetchMediaById(mediaIdAux);
+      await fetchValorationsByMediaId(mediaIdAux);
       imageURL.value = Getmedia.value.portada_img;
       mediaId.value = Getmedia.value.id;
       userID.value = user.value.id;
-
       // Controlaremos el estado de cada imagen a mostrar según la media show:
       const valorationStatus = await fetchMediaValorationStatus(mediaIdAux);
       const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
@@ -613,7 +569,7 @@
       mediaIdAux = router.currentRoute.value.params.id;
       try {
         await fetchMediaById(mediaIdAux);
-
+        await fetchValorationsByMediaId(mediaIdAux);
         // Controlaremos el estado de cada imagen a mostrar cada vez que cambiemos de media show:
         const valorationStatus = await fetchMediaValorationStatus(mediaIdAux);
         const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);

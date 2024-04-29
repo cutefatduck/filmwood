@@ -136,7 +136,6 @@
     const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
     const { GetMediaShowByGenre, fetchMediaShowByGenre } = useGetGenres();
 
-    console.log(GetMediaShowByGenre)
     // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
 
