@@ -1,41 +1,45 @@
 <template>
-  <div class="contenedor-general-mi-lista">
+  <div class="contenedor-general-mi-lista ">
     <div class="card-header">
       <div class="titulo-container">
         <button @click="showFavorites" class="boton-favoritos-visualizadas me-1 col-lg-2">FAVORITOS</button>
         <button @click="showVisualizadas" class="boton-favoritos-visualizadas me-1 col-lg-2">VISUALIZADAS</button>
       </div>
     </div>
-    <div v-if="activeTab === 'favoritos'" class="row col-xxl-12 col-md-6 mb-4">
-      <div class="card-slider p-5 col-xxl-3 col-md-12 col-lg-3 col-sm-3" v-for="mediaShow in GetFavorites" :key="mediaShow.id" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
-        <div class="mb-1">
-          <div class="font-medium mt-1">
-            <h3>{{ mediaShow.media_show.nombre }}</h3>
-          </div>
-          <div class="d-flex align-items-center mt-5">
-            <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
-              <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
-            </router-link>
-            <span class="me-5 visitar">Visitar</span>
-            <div class="ms-auto">
-              <button class="star-button me-3"></button>
-              <button class="plus-button"></button>
+    <div class="row">
+      <template v-for="mediaShow in GetFavorites">
+        <div v-if="activeTab === 'favoritos'" class="col-4 d-flex">
+          <div class="card-slider p-5">
+            <div class="mb-1">
+              <div class="font-medium mt-1">
+                <h3>{{ mediaShow.media_show.nombre }}</h3>
+              </div>
+              <div class="d-flex align-items-center mt-5">
+                <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+                  <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
+                </router-link>
+                <span class="me-5 visitar">Visitar</span>
+                <div class="ms-auto">
+                  <button class="star-button me-3"></button>
+                  <button class="plus-button"></button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mt-5">
+                <div class="me-3">
+                  <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+                </div>
+                <div class="me-3">
+                  <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
+                </div>
+                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                  <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
+                </div>
+              </div>
+              <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
             </div>
           </div>
-          <div class="d-flex align-items-center mt-5">
-            <div class="me-3">
-              <p>{{ mediaShow.media_show.fecha_media_show }}</p>
-            </div>
-            <div class="me-3">
-              <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
-            </div>
-            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-              <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
-            </div>
-          </div>
-          <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
         </div>
-      </div>
+      </template>
     </div>
     <div v-if="activeTab === 'favoritos' && GetFavorites.length === 0" class="adios-container">
       <div class="adios">
@@ -47,37 +51,43 @@
           <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
         </div>
       </div>
-    </div>
-    <div v-if="activeTab === 'visualizadas'" class="row col-xxl-12 col-md-6 mb-4">
-      <div class="card-slider p-5 col-xxl-3" v-for="mediaShow in GetVisualizated" :key="mediaShow.id" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
-        <div class="mb-1">
-          <div class="font-medium mt-1">
-            <h3>{{ mediaShow.media_show.nombre }}</h3>
-          </div>
-          <div class="d-flex align-items-center mt-5">
-            <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
-              <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
-            </router-link>
-            <span class="me-5 visitar">Visitar</span>
-            <div class="ms-auto">
-              <button class="star-button me-3"></button>
-              <button class="plus-button"></button>
+    </div>    
+    
+    
+    <div class="row">
+      <template v-for="mediaShow in GetVisualizated">
+        <div v-if="activeTab === 'visualizadas'" class="col-4 d-flex">
+          <div class="card-slider p-5">
+            <div class="mb-1">
+              <div class="font-medium mt-1">
+                <h3>{{ mediaShow.media_show.nombre }}</h3>
+              </div>
+              <div class="d-flex align-items-center mt-5">
+                <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+                  <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
+                </router-link>
+                <span class="me-5 visitar">Visitar</span>
+                <div class="ms-auto">
+                  <button class="star-button me-3"></button>
+                  <button class="plus-button"></button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mt-5">
+                <div class="me-3">
+                  <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+                </div>
+                <div class="me-3">
+                  <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
+                </div>
+                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                  <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
+                </div>
+              </div>
+              <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
             </div>
           </div>
-          <div class="d-flex align-items-center mt-5">
-            <div class="me-3">
-              <p>{{ mediaShow.media_show.fecha_media_show }}</p>
-            </div>
-            <div class="me-3">
-              <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
-            </div>
-            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-               <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
-            </div>
-          </div>
-          <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
         </div>
-      </div>
+      </template>
     </div>
     <div v-if="activeTab === 'visualizadas' && GetVisualizated.length === 0" class="adios-container">
       <div class="adios">
@@ -85,7 +95,7 @@
           <router-link to="/">
             <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
           </router-link>
-          <p class="fs-3"> <span class="text-danger">Oops!</span> No hay visualizadas guardadas.</p>
+          <p class="fs-3"> <span class="text-danger">Oops!</span> No hay visualizadas guardados.</p>
           <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
         </div>
       </div>

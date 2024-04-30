@@ -1,12 +1,12 @@
 <template>
     <div class="contenedor-general-movie">
         <div class="filtros">
-            <Dropdown v-model="selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" class="w-full md:w-14rem" />
-            <Dropdown v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" class="w-full md:w-14rem" />
-            <Dropdown v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" class="w-full md:w-14rem" />
+            <Dropdown class="filter-dropdown" v-model="selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" />
+            <Dropdown class="filter-dropdown" v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" />
+            <Dropdown class="filter-dropdown" v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" />
                 <Slider v-model="selectedDate" :min="lastYear" :max="currentYear" range class="w-14rem" />
-                <input type="number" v-model="selectedDate[0]"> <!-- Vinculamos el input al valor del rango -->
-                <input type="number" v-model="selectedDate[1]"> <!-- Vinculamos el input al valor del rango -->
+                <input type="number" v-model="selectedDate[0]">
+                <input type="number" v-model="selectedDate[1]">
         </div>
     <div class="row ">
     <template v-for="media in Getmedias">
@@ -46,9 +46,11 @@
         <AppFooter />
     </div>
 </template>
-<script>
-
-</script>
+<style>
+.filtros{
+    display: flex;
+}
+</style>
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import AppFooter from '@/layouts/AppFooter.vue';
