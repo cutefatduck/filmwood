@@ -25,7 +25,7 @@ class p_favorite extends Model
         return $this->belongsTo(user::class, 'id_user');
     }
 
-    public function id_media_show()
+    public function mediaShow()
     {
         return $this->belongsTo(p_media_show::class, 'id_media_show');
     }

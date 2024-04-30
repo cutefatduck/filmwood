@@ -1,12 +1,12 @@
 <template>
     <div class="contenedor-general-movie">
-        <Dropdown v-model="selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" class="w-full md:w-14rem" />
-        <Dropdown v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" class="w-full md:w-14rem" />
-        <Dropdown v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" class="w-full md:w-14rem" />
-        <div class="card flex justify-content-center">
-            <Slider v-model="selectedDate" :min="lastYear" :max="currentYear" range class="w-14rem" />
-            <input type="number" v-model="selectedDate[0]"> <!-- Vinculamos el input al valor del rango -->
-            <input type="number" v-model="selectedDate[1]"> <!-- Vinculamos el input al valor del rango -->
+        <div class="filtros">
+            <Dropdown v-model="selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" class="w-full md:w-14rem" />
+            <Dropdown v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" class="w-full md:w-14rem" />
+            <Dropdown v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" class="w-full md:w-14rem" />
+                <Slider v-model="selectedDate" :min="lastYear" :max="currentYear" range class="w-14rem" />
+                <input type="number" v-model="selectedDate[0]"> <!-- Vinculamos el input al valor del rango -->
+                <input type="number" v-model="selectedDate[1]"> <!-- Vinculamos el input al valor del rango -->
         </div>
     <div class="row ">
     <template v-for="media in Getmedias">
@@ -44,8 +44,11 @@
         </template>
     </div>
         <AppFooter />
-</div>
+    </div>
 </template>
+<script>
+
+</script>
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import AppFooter from '@/layouts/AppFooter.vue';
@@ -74,8 +77,17 @@ const currentYear = today.getFullYear();
 const lastYear = 1910;
 
 const formateoDuracion = (duration) => {
-  // Lógica de formateo de duración
-};
+        if (!duration) return '';
+        const [hours, minutes, seconds] = duration.split(':');
+        let formattedDuration = '';
+        if (parseInt(hours) > 0) {
+            formattedDuration += `${parseInt(hours)} h`;
+        }
+        if (parseInt(minutes) > 0) {
+            formattedDuration += ` ${parseInt(minutes)} min`;
+        }
+        return formattedDuration.trim();
+    };
 
 const obtenerAnios = (anioFinal) => {
   // Lógica para obtener años
