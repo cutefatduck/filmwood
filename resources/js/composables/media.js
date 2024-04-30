@@ -20,6 +20,18 @@ export function useGetMedia() {
     }
   };
 
+  const fetchMediaInverse = async () => {
+    try {
+      loading.value = true;
+      const response = await axios.get('/api/mediainverse');
+      Getmedias.value = response.data;
+    } catch (error) {
+      console.error('Error fetching media:', error);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const fetchMediaById = async (id) => {
     try {
       loading.value = true;
@@ -44,7 +56,7 @@ export function useGetMedia() {
     }
   };
 
-  return { Getmedias, Getmedia, loading, fetchMedia, fetchMediaById, fetchMediaByGenre };
+  return { Getmedias, Getmedia, loading, fetchMedia, fetchMediaInverse, fetchMediaById, fetchMediaByGenre };
 }
 
 export function useGetRandomMedia() {
@@ -83,7 +95,7 @@ export function useDeleteMedia(medias) {
   
       if (result.isConfirmed) {
         const response = await axios.delete(`/api/media/${id}`);
-        medias.value.splice(index, 1);
+        medias.value.splice(index, 1); // Corregido: usar medias.value
         Swal.fire('¡Eliminado!', 'El registro ha sido eliminado.', 'success');
       }
     } catch (error) {
@@ -99,8 +111,10 @@ export function useAddMedia() {
   const addMedia = async (mediaData) => {
     try {
       const response = await axios.post('/api/media', mediaData);
+      // Aquí podrías manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
       Swal.fire('¡Éxito!', 'El nuevo medio show ha sido agregado.', 'success');
     } catch (error) {
+      // Aquí podrías manejar los errores, por ejemplo, mostrar un mensaje de error
       console.error('Error al agregar nuevo medio show:', error);
       Swal.fire('Error', 'Hubo un problema al intentar agregar el nuevo medio show.', 'error');
     }

@@ -6,28 +6,29 @@
           <h1 class="titulo-principal-cuenta">MI CUENTA</h1>
           <hr>
         </div>
+        {{ information }}
         <div class="card-body">
           <ul class="list-unstyled row col-lg-12 mb-5">
             <h2 class="subtitulo-datos col-xxl-3">DATOS</h2>
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
-                <input class="dato col-md-6 input-formulario-user" type="text" :value="`${user.email}`" :disabled="!emailFieldEnabled" />
+                <input  v-model="information.email" class="dato col-md-6 input-formulario-user" type="text" :disabled="!emailFieldEnabled" />
                 <a href="#" class="modificar-campo col-md-4" @click="activeField('email')">
-                  <template v-if="emailFieldEnabled">Guardar</template>
+                  <template v-if="emailFieldEnabled">Cancelar</template>
                   <template v-else>Modificar</template>
                 </a>
               </li>
               <li class="row mt-5 justify-content-between align-items-center">
-                <input class="dato col-md-6 input-formulario-user" type="text" :value="`${user.name}`" :disabled="!nameFieldEnabled" />
+                <input v-model="information.nombre" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameFieldEnabled" />
                 <a href="#" class="modificar-campo col-md-4" @click="activeField('name')">
-                  <template v-if="nameFieldEnabled">Guardar</template>
+                  <template v-if="nameFieldEnabled">Cancelar</template>
                   <template v-else>Modificar</template>
                 </a>
               </li>
               <li class="row mt-5 justify-content-between align-items-center">
-                <input class="dato col-md-6 input-formulario-user" type="password" :value="`${user.password}`" :disabled="!passwordFieldEnabled" />
+                <input v-model="information.password" class="dato col-md-6 input-formulario-user" type="password" :disabled="!passwordFieldEnabled" />
                 <a href="#" class="modificar-campo col-md-4" @click="activeField('password')">
-                  <template v-if="passwordFieldEnabled">Guardar</template>
+                  <template v-if="passwordFieldEnabled">Cancelar</template>
                   <template v-else>Modificar</template>
                 </a>
               </li>
@@ -38,7 +39,7 @@
             <h2 class="subtitulo-datos col-xxl-3">PERFIL SOCIAL</h2>
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
-                <input class="dato col-md-6 input-formulario-user" type="text" :value="`${user.name_user}`" :disabled="!nameUserFieldEnabled" />
+                <input v-model="information.perfil_social" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameUserFieldEnabled" />
                 <a href="#" class="modificar-campo col-md-4" @click="activeField('name_user')">
                   <template v-if="nameUserFieldEnabled">Guardar</template>
                   <template v-else>Modificar</template>
@@ -82,6 +83,45 @@
   const passwordFieldEnabled = ref(false);
   const nameUserFieldEnabled = ref(false);
 
+
+  const emailUsuario = user.value.email;
+  const nombreUsuario = user.value.name;
+  const passwordUsuario = user.value.password;
+  const perfilUsuario = user.value.name_user;
+
+  const cancelar = async (campo) =>{
+
+    switch (campo) {
+      case "email":
+      emailUsuario = user.value.email;
+        break;
+      case "name":
+      nombreUsuario = user.value.name;
+        break;
+      case "password":
+      passwordUsuario = user.value.password;
+       break; 
+
+      case "perfil":
+
+        break;
+      default:
+        break;
+    }
+    const emailUsuario = user.value.email;
+    const nombreUsuario = user.value.name;
+    const passwordUsuario = user.value.password;
+    const perfilUsuario = user.value.name_user;
+  }
+
+  const information = ref({ 
+    email: emailUsuario, 
+    nombre: nombreUsuario,
+    password: passwordUsuario,
+    perfil_social: perfilUsuario,
+  });
+
+  
   // Crearemos una función para controlar que campo está activo:
   const activeField = (field) => {
     switch (field) {
@@ -103,25 +143,7 @@
   };
 
   const updateUser = async () => {
-    try {
-      const response = await fetch(`/api/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${yourAccessToken}`, // Si es necesario
-        },
-        body: JSON.stringify({
-          name: user.value.name,
-          email: user.value.email,
-          name_user: user.value.name_user,
-          password: user.value.password,
-        }),
-      });
-      const userData = await response.json();
-      console.log('Usuario actualizado:', userData);
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
-    }
+    await axios.put('/api/user', information.value);
   };
 
   // Función para obtener el ID del usuario desde la ruta:

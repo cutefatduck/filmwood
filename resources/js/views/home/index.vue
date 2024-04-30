@@ -132,10 +132,11 @@
     ]);
 
     // Obtenemos todas las media shows:
-    const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
+    const { Getmedias, loading: loadingMedia, fetchMediaInverse } = useGetMedia();
     const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
     const { GetMediaShowByGenre, fetchMediaShowByGenre } = useGetGenres();
 
+    console.log(GetMediaShowByGenre)
     // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
 
@@ -164,7 +165,7 @@
 
     onMounted(async () => {
         try {
-            await fetchMedia();
+            await fetchMediaInverse();
             await fetchGenres();
             await fetchMediaShowByGenre();
             window.addEventListener('scroll', handleScroll);

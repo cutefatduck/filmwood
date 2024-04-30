@@ -17,7 +17,5 @@ export function useGetMediaShowType() {
         }
     };
 
-    fetchMediaShowType();
-
-    return { mediaShowTypes, loading };
+    return { mediaShowTypes, loading, fetchMediaShowType };
 }

@@ -24,6 +24,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('/peliculas', [PeliculasController::class, 'index'])->name('peliculas.index');
 // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
+Route::get('mediainverse', [MediaShowController::class, 'indexInverse']);
 Route::post('media/', [MediaShowController::class, 'store']);
 // Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
 
@@ -33,20 +34,11 @@ Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
 // Verificar si la media show ya ha sido valorada por el usuario actual
 Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);
 
-// Obtenemos las valoraciones de una media show en concreto:
-Route::get('media/valorations/{id}', [MediaShowController::class, 'getMediaShowValorations']);
-
 // Agregar una media show a favoritos:
 Route::post('/favorites/{id}', [MediaShowController::class, 'manageToFavorites']);
 
 // Verificar si la media show ya está en favoritos para mostrar una imagen de favoritos u otra:
 Route::get('/favorites/{id}', [MediaShowController::class, 'checkIfFavorite']);
-
-// Obtenemos los media shows favoritos de un user en concreto:
-Route::get('user/favorites/{id}', [MediaShowController::class, 'getMediaShowFavorites']);
-
-// Obtenemos los media shows visualizadas de un user en concreto:
-Route::get('user/visualizated/{id}', [MediaShowController::class, 'getMediaShowVisualizated']);
 
 // Agregar una media show a visualizadas:
 Route::post('/visualizated/{id}', [MediaShowController::class, 'manageToVisualizated']);
@@ -106,9 +98,3 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
             ->toArray();
     });
 });
-
-
-Route::get('category-list', [CategoryController::class, 'getList']);
-Route::get('get-posts', [PostController::class, 'getPosts']);
-Route::get('get-category-posts/{id}', [PostController::class, 'getCategoryByPosts']);
-Route::get('get-post/{id}', [PostController::class, 'getPost']);

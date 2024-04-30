@@ -186,7 +186,12 @@ class MediaShowController extends Controller
         return $media_show_type; 
     }
 
-    public function index()
+    public function index(){
+        $mediashow = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')->get();
+        return $mediashow;
+    }
+
+    public function indexInverse()
     {
         // Obtener las últimas 6 media shows ordenadas por el ID de forma descendente:
         $mediaShows = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')
