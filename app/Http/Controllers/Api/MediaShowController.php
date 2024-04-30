@@ -27,19 +27,19 @@ class MediaShowController extends Controller
         return response()->json($valoraciones);
     }
 
-    // Obtenemos todas las media shows guardadas en favoritos de un user en concreto:
+    // Obtenemos todas las media shows guardadas en favoritos de un usuario en concreto
     public function getMediaShowFavorites($userID)
     {
-        // Busca las favoritas para el user en especifico
-        $favorites = p_favorite::where('id_user', $userID)->get();
+        // Busca las favoritas para el usuario en especifico
+        $favorites = p_favorite::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userID)->get();
         return response()->json($favorites);
     }
 
-    // Obtenemos todas las media shows guardadas en visualizadas de un user en concreto:
+    // Obtenemos todas las media shows guardadas en visualizadas de un usuario en concreto
     public function getMediaShowVisualizated($userID)
     {
-        // Busca las visualizadas para el user en especifico
-        $visualizated = p_visualized::where('id_user', $userID)->get();
+        // Busca las visualizadas para el usuario en especifico
+        $visualizated = p_visualized::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userID)->get();
         return response()->json($visualizated);
     }
 

@@ -388,7 +388,7 @@
       try {
         const response = await axios.post('/api/favorites/' + mediaShowId);
         // Mostramos un mensaje de éxito si se agrega correctamente
-        if (isFavorite.value) {
+        if (!(isFavorite.value)) {
           Swal.fire({
             icon: 'success',
             title: `¡${mediaNombre} agregada a favoritos!`,

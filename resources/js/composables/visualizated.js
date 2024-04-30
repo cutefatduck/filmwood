@@ -13,9 +13,9 @@ export function useGetVisualizated() {
       const response = await axios.get(`/api/user/visualizated/${userID}`);
       GetVisualizated.value = response.data;
     } catch (error) {
-      console.error(`Error fetching visualizated for media with ID user ${userID}:`, error);
+      console.error(`Error fetching visualizated for media with ID user ${userID}`, error);
     } finally{
-        loading.value = false;
+      loading.value = false;
     }
   };
 

@@ -1,86 +1,179 @@
 <template>
-  <div>
-    <div class="tabs">
-      <button @click="activeTab = 'favoritos'" :class="{ 'active': activeTab === 'favoritos' }">Favoritos</button>
-      <button @click="activeTab = 'visualizados'" :class="{ 'active': activeTab === 'visualizados' }">Visualizados</button>
+  <div class="contenedor-general-mi-lista">
+    <div class="card-header">
+      <div class="titulo-container">
+        <button @click="showFavorites" class="boton-favoritos-visualizadas me-1 col-lg-2">FAVORITOS</button>
+        <button @click="showVisualizadas" class="boton-favoritos-visualizadas me-1 col-lg-2">VISUALIZADAS</button>
+      </div>
     </div>
-    <div v-if="activeTab === 'favoritos'" class="media-container">
-      <div v-for="(media, index) in mediosFavoritos" :key="index" class="card-slider p-5">
-        <div class="media-card">
-          <h3>{{ media.nombre }}</h3>
-          <router-link :to="{ name: 'media.view', params: { id: media.id } }">
-            <button class="play-button" @click="viewMedia(media.id)"></button>
-          </router-link>
-          <span class="visitar">Visitar</span>
-          <div class="icons">
-            <button class="star-button"></button>
-            <button class="plus-button"></button>
+    <div v-if="activeTab === 'favoritos'" class="row col-xxl-12 col-md-6 mb-4">
+      <div class="card-slider p-5 col-xxl-3 col-md-12 col-lg-3 col-sm-3" v-for="mediaShow in GetFavorites" :key="mediaShow.id" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+        <div class="mb-1">
+          <div class="font-medium mt-1">
+            <h3>{{ mediaShow.media_show.nombre }}</h3>
           </div>
-          <div class="info">
-            <p>{{ media.fecha_media_show }}</p>
-            <p>{{ formateoDuracion(media.duracion) }}</p>
-            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-              <p>+{{ media.pemi.number_pemi }}</p>
+          <div class="d-flex align-items-center mt-5">
+            <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+              <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
+            </router-link>
+            <span class="me-5 visitar">Visitar</span>
+            <div class="ms-auto">
+              <button class="star-button me-3"></button>
+              <button class="plus-button"></button>
             </div>
           </div>
-          <p>{{ media.sinopsis_corta }}</p>
+          <div class="d-flex align-items-center mt-5">
+            <div class="me-3">
+              <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+            </div>
+            <div class="me-3">
+              <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
+            </div>
+            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+              <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
+            </div>
+          </div>
+          <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
         </div>
       </div>
     </div>
-    <div v-else-if="activeTab === 'visualizados'" class="media-container">
-      <div v-for="(media, index) in mediosVisualizados" :key="index" class="card-slider p-5">
-        <div class="media-card">
-          <h3>{{ media.nombre }}</h3>
-          <router-link :to="{ name: 'media.view', params: { id: media.id } }">
-            <button class="play-button" @click="viewMedia(media.id)"></button>
+    <div v-if="activeTab === 'favoritos' && GetFavorites.length === 0" class="adios-container">
+      <div class="adios">
+        <div class="text-center">
+          <router-link to="/">
+            <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
           </router-link>
-          <span class="visitar">Visitar</span>
-          <div class="icons">
-            <button class="star-button"></button>
-            <button class="plus-button"></button>
-          </div>
-          <div class="info">
-            <p>{{ media.fecha_media_show }}</p>
-            <p>{{ formateoDuracion(media.duracion) }}</p>
-            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-              <p>+{{ media.pemi.number_pemi }}</p>
-            </div>
-          </div>
-          <p>{{ media.sinopsis_corta }}</p>
+          <p class="fs-3"> <span class="text-danger">Oops!</span> No hay favoritos guardados.</p>
+          <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
         </div>
       </div>
     </div>
+    <div v-if="activeTab === 'visualizadas'" class="row col-xxl-12 col-md-6 mb-4">
+      <div class="card-slider p-5 col-xxl-3" v-for="mediaShow in GetVisualizated" :key="mediaShow.id" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+        <div class="mb-1">
+          <div class="font-medium mt-1">
+            <h3>{{ mediaShow.media_show.nombre }}</h3>
+          </div>
+          <div class="d-flex align-items-center mt-5">
+            <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+              <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
+            </router-link>
+            <span class="me-5 visitar">Visitar</span>
+            <div class="ms-auto">
+              <button class="star-button me-3"></button>
+              <button class="plus-button"></button>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mt-5">
+            <div class="me-3">
+              <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+            </div>
+            <div class="me-3">
+              <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
+            </div>
+            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+               <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
+            </div>
+          </div>
+          <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
+        </div>
+      </div>
+    </div>
+    <div v-if="activeTab === 'visualizadas' && GetVisualizated.length === 0" class="adios-container">
+      <div class="adios">
+        <div class="text-center">
+          <router-link to="/">
+            <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
+          </router-link>
+          <p class="fs-3"> <span class="text-danger">Oops!</span> No hay visualizadas guardadas.</p>
+          <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
+        </div>
+      </div>
+    </div>
+    <AppFooter />
   </div>
 </template>
 
+
+<style scoped>
+
+.contenedor-general-mi-lista{
+  width: 100%;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-top: 5%;
+}
+
+.adios-container {
+  margin-top: 100px; /* Ajusta el margen superior según tu preferencia */
+  padding: 60px;
+  overflow: hidden;
+}
+ 
+  .titulo-container {
+    display: flex;
+  }
+
+  .boton-favoritos-visualizadas {
+    margin-left: 20px;
+    margin: 0px;
+    font-size: 40px;
+    background-color: transparent;
+    font-weight: bold;
+    border: none;
+    color: white;
+  }
+
+  .boton-favoritos-visualizadas::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: white;
+    transition: width 0.3s ease;
+  }
+
+  .boton-favoritos-visualizadas:hover::after,
+  .boton-favoritos-visualizadas.activo::after {
+    width: 100%;
+  }
+
+
+</style>
+
 <script setup>
 
-  import { ref, onMounted } from 'vue';
-  import axios from 'axios';
+  import { ref, onMounted, onUpdated, computed } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useGetFavorites } from '@/composables/favorites';
+  import { useGetMedia } from '@/composables/media';
+  import { useGetVisualizated } from '@/composables/visualizated';
+  import { useStore } from 'vuex';
+  import AppFooter from '@/layouts/AppFooter.vue';
 
-  // Definir variables reactivas
-  const activeTab = ref('favoritos');
   const mediaShowsFavorites = ref([]);
-  const mediaShowsVisualizated = ref([]);
+  const { GetFavorites, fetchFavoritesByUserId } = useGetFavorites();
 
-  // Función para obtener los medios favoritos de un usuario
-  const getFavoritesMediaShowsByUser = async (userID) => {
-    try {
-      const response = await axios.get(`api/user/favorites/${userID}`);
-      mediaShowsFavorites.value = response.data;
-    } catch (error) {
-      console.error('Error al obtener los favoritos:', error);
-    }
+  const mediaShowsVisualizated = ref([]);
+  const { GetVisualizated, fetchVisualizatedByUserId } = useGetVisualizated();
+
+  const { Getmedia, fetchMedia, fetchMediaById } = useGetMedia();
+  
+  const store = useStore();
+  const router = useRouter();
+  const activeTab = ref('favoritos');
+
+  const user = computed(() => store.getters["auth/user"]);
+  const userID = user.value.id;
+
+  const showFavorites = () => {
+    activeTab.value = 'favoritos';
   };
 
-  // Función para obtener los medios visualizados de un usuario
-  const getVisualizatedMediaShowsByUser = async (userID) => {
-    try {
-      const response = await axios.get(`api/'user/visualizated/${userID}`);
-      mediaShowsVisualizated.value = response.data;
-    } catch (error) {
-      console.error('Error al obtener los favoritos:', error);
-    }
+  const showVisualizadas = () => {
+    activeTab.value = 'visualizadas';
   };
 
   // Función para ver un medio
@@ -102,59 +195,8 @@
   };
 
   onMounted(() => {
-    //const userID =
-    getFavoritesMediaShowsByUser(userID);
-    getVisualizatedMediaShowsByUser(userID);
+    fetchFavoritesByUserId(userID);
+    fetchVisualizatedByUserId(userID);
+ 
   });
 </script>
-
-
-<style scoped>
-  /* Estilos para las pestañas */
-  .tabs {
-    display: flex;
-  }
-
-  .tabs button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    padding: 10px 20px;
-  }
-
-  .tabs button.active {
-    background-color: #ddd;
-  }
-
-  /* Estilos para los medios */
-  .media-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .card-slider {
-    width: 25%; /* 4 columnas por fila */
-    padding: 10px;
-  }
-
-  .media-card {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .play-button,
-  .star-button,
-  .plus-button {
-    /* Estilos para los botones */
-  }
-
-  .info {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .id-pemi-box {
-    /* Estilos para la caja de identificación */
-  }
-</style>
