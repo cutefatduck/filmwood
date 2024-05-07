@@ -19,7 +19,6 @@ return new class extends Migration
 
             // Creamos el otro campo de la tabla:
             $table->string('name_genre');
-            $table->timestamps();
         });
     }
 

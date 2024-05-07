@@ -21,7 +21,7 @@ class GenreSeeder extends Seeder
             ["name_genre" => "Ciencia Ficción"],
             ["name_genre" => "Comedia"],
             ["name_genre" => "Drama"],
-            ["name_genre" => "Belico"],
+            ["name_genre" => "Bélico"],
             ["name_genre" => "Thriller"],
             ["name_genre" => "Western"],
             ["name_genre" => "Suspense"],

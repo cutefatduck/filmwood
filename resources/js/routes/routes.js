@@ -77,6 +77,7 @@ export default [
             {
                 path: '/view/:id',
                 name: 'media.view',
+                meta: { breadCrumb: 'Ver el media show', linked: false },
                 component: MediaView,
             },
             
@@ -157,11 +158,12 @@ export default [
                     },
 
                     {
-                        path: 'view/:mediaId',
+                        path: 'view/:id',
                         name: 'admin.media.view',
                         meta: { breadCrumb: 'Ver el media show', linked: false },
                         component: MediaAdminView
                     },
+                    
         
                     {
                         name: 'media.create',
@@ -172,8 +174,8 @@ export default [
                     },
                     
                     {
-                        path: 'edit/:mediaId',
-                        name: 'media.edit',
+                        path: 'edit/:id',
+                        name: 'admin.media.edit',
                         meta: { breadCrumb: 'Editando un media show', linked: false },
                         component: MediaEdit,
                         beforeEnter: requireLogin

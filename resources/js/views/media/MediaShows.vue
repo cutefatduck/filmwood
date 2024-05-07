@@ -1,12 +1,11 @@
 <template>
     <div class="contenedor-general-movie">
         <div class="filtros">
-            <Dropdown class="filter-dropdown" v-model="selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" />
-            <Dropdown class="filter-dropdown" v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" />
-            <Dropdown class="filter-dropdown" v-model="selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" />
-                <Slider v-model="selectedDate" :min="lastYear" :max="currentYear" range class="w-14rem" />
-                <input type="number" v-model="selectedDate[0]">
-                <input type="number" v-model="selectedDate[1]">
+            {{ filters.selectedType }}
+            {{ filters.selectedGenre }}
+            <Dropdown class="filter-dropdown w-full md:w-14rem" v-model="filters.selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" />
+            <Dropdown class="filter-dropdown w-full md:w-14rem" v-model="filters.selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" />
+            <Dropdown class="filter-dropdown w-full md:w-14rem" v-model="filters.selectedValoration" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" />
         </div>
     <div class="row ">
     <template v-for="media in Getmedias">
@@ -52,7 +51,7 @@
 }
 </style>
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import AppFooter from '@/layouts/AppFooter.vue';
 import { useGetMedia } from '@/composables/media';
 import { useGetMediaShowType } from '@/composables/mediaShowType';
@@ -62,17 +61,10 @@ const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
 const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
 const { mediaShowTypes, loading: loadingTypes, fetchMediaShowType } = useGetMediaShowType();
 
-const selectedGenre = ref();
-const selectedType = ref();
-const selectedDate = ref([new Date().getFullYear(), new Date().getFullYear()]); // Rango de fechas por defecto
+// const selectedGenre = ref();
+// const selectedType = ref();
+// const selectedDate = ref([new Date().getFullYear(), new Date().getFullYear()]); // Rango de fechas por defecto
 
-const sortOrder = ref(null);
-const sortField = ref(null);
-const sortKey = ref(null);
-const sortOptions = [
-  { label: 'Price Low to High', value: 'priceAsc' },
-  { label: 'Price High to Low', value: 'priceDesc' },
-];
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -91,16 +83,14 @@ const formateoDuracion = (duration) => {
         return formattedDuration.trim();
     };
 
-const obtenerAnios = (anioFinal) => {
-  // Lógica para obtener años
-};
 
-// Watcher para actualizar el rango del Slider cuando cambia selectedDate
-watch(selectedDate, (newValue) => {
-  // Lógica para actualizar el rango del Slider
-  // Por ejemplo:
-  // this.$refs.slider.updateValue(newValue);
+const filters = ref({
+    selectedGenre: '',
+    selectedType: '',
+    selectedValoration: ''
 });
+
+
 
 onMounted(() => {
   fetchMedia();

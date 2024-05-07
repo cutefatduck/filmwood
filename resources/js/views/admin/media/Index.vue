@@ -44,10 +44,7 @@
 
   const editMedia = async (id) => {
     try {
-      const response = await axios.get(`/api/media/${id}/edit`);
-      const mediaData = response.data.data;
-      // Redirige a la ruta de edición pasando los datos del media show
-      router.push({ name: 'media.edit', params: { mediaId: id, mediaData: mediaData } });
+      router.push({ name: 'admin.media.edit', params: { id: id} });
     } catch (error) {
       console.error('Error fetching media data:', error);
     }
@@ -56,10 +53,7 @@
   // Función para redirigir a la vista de ver media show
   const viewMedia = async (id) => {
     try {
-      const response = await axios.get(`/api/media/${id}/details`);
-      const mediaData = response.data.data;
-      // Redirigir a la vista de ver media show
-      router.push({ name: 'admin.media.view', params: { mediaId: id, mediaData: mediaData } });
+      router.push({ name: 'admin.media.view', params: { id: id} });
     }catch (error) {
       console.error('Error fetching media data:', error);
     }

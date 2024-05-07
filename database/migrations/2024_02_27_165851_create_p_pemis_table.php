@@ -18,7 +18,6 @@ return new class extends Migration
 
             // Creamos los otros campos de la tabla:
             $table->string('number_pemi');
-            $table->timestamps();
         });
     }
 

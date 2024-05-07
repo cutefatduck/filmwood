@@ -18,7 +18,7 @@ import PrimeVue from "primevue/config";
 //import AccordionTab from 'primevue/accordiontab';
 import Avatar from 'primevue/avatar';
 //import AvatarGroup from 'primevue/avatargroup';
-//import Badge from 'primevue/badge';
+import Badge from 'primevue/badge';
 //import BadgeDirective from 'primevue/badgedirective';
 //import BlockUI from 'primevue/blockui';
 import Button from 'primevue/button';
@@ -77,7 +77,7 @@ import Password from 'primevue/password';
 //import ProgressSpinner from 'primevue/progressspinner';
 //import Rating from 'primevue/rating';
 //import RadioButton from 'primevue/radiobutton';
-//import Ripple from 'primevue/ripple';
+import Ripple from 'primevue/ripple';
 //import Row from 'primevue/row';
 //import SelectButton from 'primevue/selectbutton';
 //import ScrollPanel from 'primevue/scrollpanel';
@@ -119,7 +119,7 @@ import 'vue-select/dist/vue-select.css';
 import "primeflex/primeflex.css";
 import '../css/theme.css';
 //import "primevue/resources/themes/lara-light-teal/theme.css";
-//import "primevue/resources/themes/viva-light/theme.css";
+import "primevue/resources/themes/viva-light/theme.css";
 import "primeicons/primeicons.css";
 
 const app = createApp({
@@ -148,7 +148,7 @@ app.use(vClickOutside);
 
 //app.directive('tooltip', Tooltip);
 //app.directive('badge', BadgeDirective);
-//app.directive('ripple', Ripple);
+app.directive('ripple', Ripple);
 //app.directive('styleclass', StyleClass);
 //
 //app.component('BlockViewer', BlockViewer);
@@ -158,7 +158,7 @@ app.use(vClickOutside);
 //app.component('AutoComplete', AutoComplete);
 app.component('Avatar', Avatar);
 //app.component('AvatarGroup', AvatarGroup);
-//app.component('Badge', Badge);
+app.component('Badge', Badge);
 //app.component('BlockUI', BlockUI);
 app.component('Breadcrumb', Breadcrumb);
 app.component('Button', Button);

@@ -24,12 +24,14 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('/peliculas', [PeliculasController::class, 'index'])->name('peliculas.index');
 // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
-Route::get('mediainverse', [MediaShowController::class, 'indexInverse']);
+Route::get('mediaIndex', [MediaShowController::class, 'indexNew']);
 Route::post('media/', [MediaShowController::class, 'store']);
 // Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
 
 // Agregar una valoracion a una media show:
 Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
+
+Route::get('media/search' , [MediaShowController::class, 'search']);
 
 // Verificar si la media show ya ha sido valorada por el usuario actual
 Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);

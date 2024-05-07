@@ -20,10 +20,10 @@ export function useGetMedia() {
     }
   };
 
-  const fetchMediaInverse = async () => {
+  const fetchMediaIndex = async () => {
     try {
       loading.value = true;
-      const response = await axios.get('/api/mediainverse');
+      const response = await axios.get('/api/mediaIndex');
       Getmedias.value = response.data;
     } catch (error) {
       console.error('Error fetching media:', error);
@@ -56,7 +56,26 @@ export function useGetMedia() {
     }
   };
 
-  return { Getmedias, Getmedia, loading, fetchMedia, fetchMediaInverse, fetchMediaById, fetchMediaByGenre };
+  return { Getmedias, Getmedia, loading, fetchMedia, fetchMediaIndex, fetchMediaById, fetchMediaByGenre };
+}
+
+export function useSearchMedia(){
+  const SearchReturn = ref('')
+
+  const fetchsubmitSearch = async (searchTerm) => {
+    try {
+        const response = await axios.get('/api/media/search', {
+            params: {
+                search: searchTerm.value
+            },
+        });
+        SearchReturn.value = response.data
+    } catch (error) {
+        console.error('Error al realizar la búsqueda:', error);
+    }
+    };
+
+    return {SearchReturn, fetchsubmitSearch}
 }
 
 export function useGetRandomMedia() {
@@ -95,7 +114,7 @@ export function useDeleteMedia(medias) {
   
       if (result.isConfirmed) {
         const response = await axios.delete(`/api/media/${id}`);
-        medias.value.splice(index, 1); // Corregido: usar medias.value
+        medias.value.splice(index, 1);
         Swal.fire('¡Eliminado!', 'El registro ha sido eliminado.', 'success');
       }
     } catch (error) {
@@ -108,13 +127,24 @@ export function useDeleteMedia(medias) {
 }
 
 export function useAddMedia() {
-  const addMedia = async (mediaData) => {
+  const addMedia = async (media) => {
     try {
-      const response = await axios.post('/api/media', mediaData);
-      // Aquí podrías manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+      media.genres = Array.isArray(media.genres) ? media.genres : [media.genres];
+      const serializedMedia = new FormData();
+      for (const key in media) {
+        if (media.hasOwnProperty(key)) {
+          serializedMedia.append(key, media[key]);
+        }
+      }
+
+      const response = await axios.post('/api/media', serializedMedia, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      });
+
       Swal.fire('¡Éxito!', 'El nuevo medio show ha sido agregado.', 'success');
     } catch (error) {
-      // Aquí podrías manejar los errores, por ejemplo, mostrar un mensaje de error
       console.error('Error al agregar nuevo medio show:', error);
       Swal.fire('Error', 'Hubo un problema al intentar agregar el nuevo medio show.', 'error');
     }

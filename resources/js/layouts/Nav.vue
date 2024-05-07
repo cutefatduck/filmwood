@@ -7,9 +7,7 @@
         </router-link>
       </template>
       <template #item="{ item, props, hasSubmenu, root }">
-        <AppSearchBar :class="{ 'search-bar': isHomePage, 'search-bar-fixed': !isHomePage }" />
         <a :class="{ 'active-link': $route.path === item.to }" class="flex align-items-center" v-bind="props.action" :href="item.to">
-          <span :class="item.icon"></span>
           <span class="ml-2">{{ item.label }}</span>
           <!-- <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" /> -->
           <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
@@ -17,7 +15,13 @@
         </a>
       </template>
       <template #end>
+        <AppSearchBar :class="{ 'search-bar': isHomePage, 'search-bar-fixed': !isHomePage }" />
         <div class="flex align-items-center gap-2">
+          <template v-if="user?.name">
+            <li class="nav-item lista">
+              <router-link class="nav-boton nav-link" to="/user/saved" >Mi lista</router-link>
+            </li>
+          </template>
           <template v-if="!user?.name">
             <template v-if="$route.name !== 'auth.login'">
               <li class="nav-item">
@@ -85,11 +89,7 @@
     {
       label: 'RANDOM',
       command: () => redirectToRandomView() 
-    },
-    {
-      label: 'MI LISTA',
-      to: '/user/saved'
-    },
+    }
   ]);
 
   // Esta función maneja el redireccionamiento a una vista aleatoria de película o serie

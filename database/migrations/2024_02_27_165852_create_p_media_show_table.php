@@ -38,7 +38,7 @@ return new class extends Migration
             $table->text('directores');
             $table->text('sinopsis');
             $table->date('fecha_media_show');
-            $table->string('trailer');
+            $table->string('trailer')->nullable();
             $table->string('saga')->nullable();
             $table->integer('episodios')->nullable();
             $table->integer('temporadas')->nullable();

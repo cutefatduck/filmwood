@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Models;
+    namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use Illuminate\Database\Eloquent\Model;
+    use Spatie\MediaLibrary\HasMedia;
+    use Spatie\MediaLibrary\InteractsWithMedia;
+    use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class p_media_show extends Model //implements HasMedia
+class p_media_show extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'id_country',
@@ -21,7 +24,6 @@ class p_media_show extends Model //implements HasMedia
         'portada_img',
         'idioma',
         'directores',
-        'sinopsis',
         'trailer',
         'fecha_media_show',
         'saga',
@@ -29,10 +31,8 @@ class p_media_show extends Model //implements HasMedia
         'temporadas',
     ];
 
-    // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
     protected $table = 'p_media_show';
-    
-    // Definimos las claves foráneas junto con su respectivo modelo:
+
     public function country()
     {
         return $this->belongsTo(p_country::class, 'id_country');
@@ -51,5 +51,22 @@ class p_media_show extends Model //implements HasMedia
     public function genres()
     {
         return $this->belongsToMany(p_genres::class, 'p_media_show_genres', 'id_media_show', 'id_genre');
+    }
+
+    // Define la colección de medios y su conversión
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->useFallbackUrl('/images/placeholder.jpg')
+            ->useFallbackPath(public_path('/images/placeholder.jpg'));
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        if (env('RESIZE_IMAGE') === true) {
+            $this->addMediaConversion('resized-image')
+                ->width(env('IMAGE_WIDTH', 300))
+                ->height(env('IMAGE_HEIGHT', 300));
+        }
     }
 }

@@ -70,7 +70,6 @@ class MediaShowController extends Controller
         
         // Validación de los datos recibidos
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required|numeric',
             'id_media_show' => 'required|numeric',
             'puntuacion' => 'required|numeric',
             'valoracion' => 'required|string',
@@ -83,8 +82,9 @@ class MediaShowController extends Controller
         }
     
         // Creamos un nuevo registro de valoración con los datos proporcionados
-        $valoration = $request->all();
-        $valorations = p_valorations::create($valoration);
+        $valorationData = $request->all();
+        $valorationData['id_user'] = $userId;
+        $valorations = p_valorations::create($valorationData);
 
         return response()->json([
             'success' => true, 
@@ -191,39 +191,15 @@ class MediaShowController extends Controller
         return $mediashow;
     }
 
-    public function indexInverse()
+
+    public function indexNew()
     {
-        // Obtener las últimas 6 media shows ordenadas por el ID de forma descendente:
-        $mediaShows = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')
+        // Obtener las últimas 9 media shows ordenadas por el ID de forma descendente:
+        $mediashow = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')
         ->orderBy('id', 'desc')
         ->take(9)
         ->get();
-
-        // Iterar sobre cada medio de muestra y añadir los campos adicionales
-        $mediaShowsWithAdditionalFields = $mediaShows->map(function ($mediaShow) {
-            return [
-                'id' => $mediaShow->id,
-                'nombre' => $mediaShow->nombre,
-                'duracion' => $mediaShow->duracion,
-                'actores' => $mediaShow->actores,
-                'sinopsis_corta' => $mediaShow->sinopsis_corta,
-                'sinopsis' => $mediaShow->sinopsis,
-                'portada_img' => $mediaShow->portada_img,
-                'idioma' => $mediaShow->idioma,
-                'directores' => $mediaShow->directores,
-                'trailer' => $mediaShow->trailer,
-                'fecha_media_show' => $mediaShow->fecha_media_show,
-                'saga' => $mediaShow->saga,
-                'episodios' => $mediaShow->episodios,
-                'temporadas' => $mediaShow->temporadas,
-                'country_name' => $mediaShow->country->name ?? null,
-                'mediashowtype_name' => $mediaShow->mediaShowType->type ?? null,
-                'pemi_name' => $mediaShow->pemi->number_pemi ?? null,
-                'genres_name' => $mediaShow->genres->pluck('name_genre')->toArray() ?? [],
-            ];
-        });
-        
-        return response()->json($mediaShowsWithAdditionalFields);
+        return $mediashow;
     }
 
     public function show($id)
@@ -251,6 +227,17 @@ class MediaShowController extends Controller
             ]);
     }
 
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+    
+        $results = p_media_show::with('mediaShowType')
+            ->where('nombre', 'like', "%$search%")
+            ->take(5)
+            ->get();
+    
+        return $results;
+    }
     public function destroy($id)
     {
         $media = p_media_show::findOrFail($id);
@@ -269,17 +256,20 @@ class MediaShowController extends Controller
             'duracion' => 'required|date_format:H:i:s',
             'actores' => 'required|string|max:255',
             'sinopsis_corta' => 'required|string|max:255',
-            'portada_img' => 'required|string|max:255',
             'idioma' => 'required|string|max:255',
             'directores' => 'required|string|max:255',
             'sinopsis' => 'required|string',
             'fecha_media_show' => 'required|date',
-            'trailer' => 'required|string|max:255',
             'saga' => 'nullable|string|max:255',
             'episodios' => 'nullable|integer',
             'temporadas' => 'nullable|integer',
             'genres'
         ]);
+
+        // Subir imagen si se proporciona
+        if ($request->hasFile('thumbnail')) {
+            $mediaShow->addMediaFromRequest('thumbnail')->toMediaCollection('images');
+        }
     
         // Si la validación falla, retorna un error con los mensajes correspondientes
         if ($validator->fails()) {
@@ -292,12 +282,15 @@ class MediaShowController extends Controller
     
         // Adjuntar géneros al medio
         if ($request->has('genres')) {
-            // Convertir la cadena JSON a un array de géneros
-            $genres = json_decode($request->input('genres'), true);
-            // Sincronizar los géneros asociados al medio
+            $genres = p_genres::findMany(explode(',',$request->genres));
             $mediaShow->genres()->sync($genres);
         }
-    
+
+        // Subir imagen si se proporciona
+        if ($request->hasFile('thumbnail')) {
+            $mediaShow->addMediaFromRequest('thumbnail')->toMediaCollection('images');
+        }
+
         // Obtener los géneros asociados al medio recién creado
         $mediaShowGenres = $mediaShow->genres()->pluck('name_genre')->toArray();
 
@@ -308,7 +301,6 @@ class MediaShowController extends Controller
             'genres_name' => $mediaShowGenres
         ], 201);
     }
-
     public function viewByGenreID($id){
         // Buscar los registros de la tabla p_mediashow_genre donde genre_id coincida con $id
         $media = p_media_show_genres::where('id_genre', $id)->get();
@@ -329,5 +321,33 @@ class MediaShowController extends Controller
         ], 201);
         
     }
+
+    public function getFilteredMedia(Request $request)
+{
+        $query = Media::query();
+
+        // Aplicar filtro por género si está presente en la solicitud
+        if ($request->has('selectedGenre')) {
+            $query->where('genre', $request->input('selectedGenre'));
+        }
+
+        // Aplicar filtro por tipo si está presente en la solicitud
+        if ($request->has('selectedType')) {
+            $query->where('type', $request->input('selectedType'));
+        }
+
+        // Aplicar filtro por rango de fechas si están presentes en la solicitud
+        if ($request->has('selectedDate')) {
+            $dates = explode(',', $request->input('selectedDate'));
+            $startDate = $dates[0];
+            $endDate = $dates[1];
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        // Obtener los resultados finales de la consulta
+        $filteredMedia = $query->get();
+
+    return response()->json(['filteredMedia' => $filteredMedia]);
+}
 
 }

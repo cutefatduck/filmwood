@@ -1,29 +1,65 @@
 <template>
-  <div :class="searchBarClass">
-    <InputText placeholder="Search" type="text" class="custom-search-input" />
-    <div class="search-icon">
-      <button @click="search" class="search-button">
-        <i class="pi pi-search"></i>
-      </button>
+    <div class="position-box">
+      <div class="search-box" v-click-outside="onClickOutside" >
+          <form @submit.prevent="submitSearch">
+              
+              <input class="search-input" v-model="searchTerm" @input="submitSearch"  autocomplete="off" type="text" name="search" placeholder="Buscar entretenimento">
+              
+              <div class="search-results-box">
+                <div v-for="result in SearchReturn" :key="result.id" class="search-results">
+                    <div v-if="SearchReturn == ''">
+                        <li>No hay resultados</li>
+                    </div>
+                    <div v-else>
+                        <router-link :to="{ name: 'media.view', params: { id: result.id } }">
+
+                          <div class="row">
+                            <div class="col-3">
+                              <img class="search-results-image" :src="result?.portada_img" alt="" srcset="">
+                            </div>
+                            <div class="col-9">
+                              <li>
+                              {{ result.nombre }}
+                              <div class="result-type">
+                                {{ result.media_show_type.type }}
+                              </div>
+                            </li>
+                            </div>
+                          </div>
+
+                            
+                        </router-link>
+                    </div>
+                </div>
+              </div>
+          </form>
+      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue';
+  import { onMounted, ref } from 'vue';
+  import { useGetMedia, useSearchMedia } from '@/composables/media';
+  import { useGetGenres } from '@/composables/genres';
+  // Obtenemos todas las media shows:
+  const { Getmedias, loading: loadingMedia, fetchMediaIndex } = useGetMedia();
+  const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
+  const { SearchReturn, fetchsubmitSearch } = useSearchMedia();
 
-  const searchBarFixed = ref(false);
+  const searchTerm = ref('');
+    const submitSearch = () => {
+      fetchsubmitSearch(searchTerm);
+    };
 
-  window.addEventListener('scroll', () => {
-    searchBarFixed.value = window.scrollY > 0;
-  });
+    const onClickOutside = () => {
+      SearchReturn.value = [];
+    }
 
-  const searchBarClass = computed(() => ({
-    'search-bar': true,
-    'search-bar-fixed': searchBarFixed.value,
-  }));
+  const showTrailer = ref(false); // Para controlar la visibilidad del reproductor
+  const trailerSrc = ref(''); // URL del tráiler
 
-  const search = () => {
-    // Lógica para realizar la búsqueda
-  };
+  onMounted(()=>{
+        fetchMediaIndex();
+        fetchGenres();
+    })
 </script>

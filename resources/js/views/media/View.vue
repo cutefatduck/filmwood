@@ -169,7 +169,7 @@
   import axios from 'axios';
   import { useStore } from 'vuex';
 
-  const { Getmedia, fetchMedia, fetchMediaById } = useGetMedia();
+  const { Getmedia, fetchMediaById } = useGetMedia();
   const { GetValorations, fetchValorationsByMediaId, addValoration } = useGetValorations();
   const router = useRouter();
   const store = useStore();
