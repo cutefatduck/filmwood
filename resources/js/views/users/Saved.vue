@@ -1,14 +1,14 @@
 <template>
   <div class="contenedor-general-mi-lista ">
-    <div class="card-header">
-      <div class="titulo-container">
-        <button @click="showFavorites" class="boton-favoritos-visualizadas me-1 col-lg-2">FAVORITOS</button>
-        <button @click="showVisualizadas" class="boton-favoritos-visualizadas me-1 col-lg-2">VISUALIZADAS</button>
+    <div class="row mx-6 mx-sm-0">
+      <div class="titulo-container col-sm-12 col-xxl-12">
+        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" :class="{ 'active-tab': showFavoritesTab, 'inactive-tab': !showFavoritesTab }" @click="switchToFavorites">FAVORITAS</h2>
+        <h2 class="titulo-detalles-valoraciones linea-hover-detalles-valoraciones" :class="{ 'active-tab': showWatchedTab, 'inactive-tab': !showWatchedTab }" @click="switchToVisualizated">VISUALIZADAS</h2>
       </div>
     </div>
-    <div class="row">
+    <div v-if="showFavoritesTab" class="row">
       <template v-for="mediaShow in GetFavorites">
-        <div v-if="activeTab === 'favoritos'" class="col-4 d-flex">
+        <div v-if="activeTab === 'favoritos'" class="col-xxl-4 col-md-6 col-lg-6 d-flex contenedor-guardadas-visualizadas">
           <div class="card-slider p-5">
             <div class="mb-1">
               <div class="font-medium mt-1">
@@ -16,12 +16,12 @@
               </div>
               <div class="d-flex align-items-center mt-5">
                 <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
-                  <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
+                  <img class="play-button me-3" src="/images/play-button.svg">
                 </router-link>
                 <span class="me-5 visitar">Visitar</span>
                 <div class="ms-auto">
-                  <button class="star-button me-3"></button>
-                  <button class="plus-button"></button>
+                  <img class="favorite-button me-3" src="/images/no_like_home.svg">
+                  <img class="visualizated-button me-3" src="/images/no_visualization_home.svg">
                 </div>
               </div>
               <div class="d-flex align-items-center mt-5">
@@ -41,22 +41,18 @@
         </div>
       </template>
     </div>
-    <div v-if="activeTab === 'favoritos' && GetFavorites.length === 0" class="adios-container">
-      <div class="adios">
-        <div class="text-center">
-          <router-link to="/">
-            <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
-          </router-link>
-          <p class="fs-3"> <span class="text-danger">Oops!</span> No hay favoritos guardados.</p>
-          <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
-        </div>
+    <div v-if="activeTab === 'favoritos' && GetFavorites.length === 0" class="sin-contenido-container">
+      <div class="text-center">
+        <router-link to="/">
+          <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
+        </router-link>
+        <p class="fs-3"> <span class="text-danger">Oops!</span> No hay favoritas guardadas.</p>
+        <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
       </div>
     </div>    
-    
-    
-    <div class="row">
+    <div v-if="showWatchedTab" class="row">
       <template v-for="mediaShow in GetVisualizated">
-        <div v-if="activeTab === 'visualizadas'" class="col-4 d-flex">
+        <div v-if="activeTab === 'visualizadas'" class="col-xxl-4 col-md-6 col-lg-6 d-flex contenedor-guardadas-visualizadas">
           <div class="card-slider p-5">
             <div class="mb-1">
               <div class="font-medium mt-1">
@@ -64,12 +60,12 @@
               </div>
               <div class="d-flex align-items-center mt-5">
                 <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
-                  <button class="play-button me-3" @click="viewMedia(mediaShow.media_show.id)"></button>
+                  <img class="play-button me-3" src="/images/play-button.svg">
                 </router-link>
                 <span class="me-5 visitar">Visitar</span>
                 <div class="ms-auto">
-                  <button class="star-button me-3"></button>
-                  <button class="plus-button"></button>
+                  <img class="favorite-button me-3" src="/images/no_like_home.svg">
+                  <img class="visualizated-button me-3" src="/images/no_visualization_home.svg">
                 </div>
               </div>
               <div class="d-flex align-items-center mt-5">
@@ -89,108 +85,54 @@
         </div>
       </template>
     </div>
-    <div v-if="activeTab === 'visualizadas' && GetVisualizated.length === 0" class="adios-container">
-      <div class="adios">
-        <div class="text-center">
-          <router-link to="/">
-            <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
-          </router-link>
-          <p class="fs-3"> <span class="text-danger">Oops!</span> No hay visualizadas guardados.</p>
-          <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
+    <div v-if="activeTab === 'visualizadas' && GetVisualizated.length === 0" class="sin-contenido-container">
+      <div class="text-center">
+        <router-link to="/">
+          <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
+        </router-link>
+        <p class="fs-3"> <span class="text-danger">Oops!</span> No hay visualizadas guardadas.</p>
+        <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
         </div>
-      </div>
     </div>
     <AppFooter />
   </div>
 </template>
-
-
-<style scoped>
-
-.contenedor-general-mi-lista{
-  width: 100%;
-    padding-left: 7%;
-    padding-right: 7%;
-    padding-top: 5%;
-}
-
-.adios-container {
-  margin-top: 100px; /* Ajusta el margen superior según tu preferencia */
-  padding: 60px;
-  overflow: hidden;
-}
- 
-  .titulo-container {
-    display: flex;
-  }
-
-  .boton-favoritos-visualizadas {
-    margin-left: 20px;
-    margin: 0px;
-    font-size: 40px;
-    background-color: transparent;
-    font-weight: bold;
-    border: none;
-    color: white;
-  }
-
-  .boton-favoritos-visualizadas::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background-color: white;
-    transition: width 0.3s ease;
-  }
-
-  .boton-favoritos-visualizadas:hover::after,
-  .boton-favoritos-visualizadas.activo::after {
-    width: 100%;
-  }
-
-
-</style>
 
 <script setup>
 
   import { ref, onMounted, onUpdated, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import { useGetFavorites } from '@/composables/favorites';
-  import { useGetMedia } from '@/composables/media';
   import { useGetVisualizated } from '@/composables/visualizated';
   import { useStore } from 'vuex';
   import AppFooter from '@/layouts/AppFooter.vue';
 
-  const mediaShowsFavorites = ref([]);
-  const { GetFavorites, fetchFavoritesByUserId } = useGetFavorites();
-
-  const mediaShowsVisualizated = ref([]);
-  const { GetVisualizated, fetchVisualizatedByUserId } = useGetVisualizated();
-
-  const { Getmedia, fetchMedia, fetchMediaById } = useGetMedia();
-  
-  const store = useStore();
-  const router = useRouter();
+  const showFavoritesTab = ref(true);
+  const showWatchedTab = ref(false);
   const activeTab = ref('favoritos');
-
-  const user = computed(() => store.getters["auth/user"]);
-  const userID = user.value.id;
-
-  const showFavorites = () => {
+  
+  const switchToFavorites = () => {
+    showFavoritesTab.value = true;
+    showWatchedTab.value = false;
     activeTab.value = 'favoritos';
   };
 
-  const showVisualizadas = () => {
+  const switchToVisualizated = () => {
+    showFavoritesTab.value = false;
+    showWatchedTab.value = true;
     activeTab.value = 'visualizadas';
   };
 
-  // Función para ver un medio
-  const viewMedia = (id) => {
-    // Lógica para ver un medio
-  };
+  // Recuperamos las media shows en favoritos y en visualizadas:
+  const { GetFavorites, fetchFavoritesByUserId } = useGetFavorites();
+  const { GetVisualizated, fetchVisualizatedByUserId } = useGetVisualizated();
 
+  const store = useStore();
+  const router = useRouter();
+  const user = computed(() => store.getters["auth/user"]);
+  const userID = user.value.id;
+
+  // Formateamos la duración que mostraremos:
   const formateoDuracion = (duration) => {
     if (!duration) return '';
       const [hours, minutes, seconds] = duration.split(':');
@@ -207,6 +149,6 @@
   onMounted(() => {
     fetchFavoritesByUserId(userID);
     fetchVisualizatedByUserId(userID);
- 
   });
+
 </script>

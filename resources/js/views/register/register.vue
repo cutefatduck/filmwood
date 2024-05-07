@@ -29,9 +29,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Tu nombre de usuario</label>
-                        <InputText v-model="registerForm.username" id="username" type="text" class="input-formulario" required/>
+                        <InputText v-model="registerForm.name_user" id="username" type="text" class="input-formulario" required/>
                         <div class="text-danger mt-1">
-                            <div v-for="message in validationErrors?.username" :key="message">
+                            <div v-for="message in validationErrors?.name_user" :key="message">
                                 {{ message }}
                             </div>
                         </div>

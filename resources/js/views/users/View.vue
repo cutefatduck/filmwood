@@ -1,12 +1,11 @@
 <template>
-  <div id="perfil-user" class="contenedor-global-perfil-user mb-5">
-    <div class="row col-sm-6">
+  <div id="perfil-user" class="contenedor-global-perfil-user mt-5 mb-5">
+    <div class="row col-xxl-6 mb-4 mt-5">
       <div class="card">
         <div class="card-header">
           <h1 class="titulo-principal-cuenta">MI CUENTA</h1>
           <hr>
         </div>
-        {{ information }}
         <div class="card-body">
           <ul class="list-unstyled row col-lg-12 mb-5">
             <h2 class="subtitulo-datos col-xxl-3">DATOS</h2>
@@ -117,7 +116,7 @@
   const information = ref({ 
     email: emailUsuario, 
     nombre: nombreUsuario,
-    password: passwordUsuario,
+    password: '*****',
     perfil_social: perfilUsuario,
   });
 
