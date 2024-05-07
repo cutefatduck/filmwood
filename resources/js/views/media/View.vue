@@ -19,8 +19,8 @@
           </div>
         </div>
       </div>
-      <div class="col-4 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
-        <button type="valoration" @click="handleValorationAction(Getmedia.id)" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
+      <div class="col-5 col-xs-12 d-flex align-items-center contenedor-interactuar-media-show">
+        <button type="button" @click="handleValorationAction(Getmedia.id)" class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover button-valoration">
           <img :src="getValorationImageSrc()" alt="VALORAR">
           <p class="mt-1 titulo-interactuar-media-show">VALORAR</p>
         </button>
@@ -28,10 +28,10 @@
           <template #container="{ closeCallback }">
             <div class="row">
               <div class="col-12 col-md-8 col-lg-12 mb-0 pt-2 d-flex justify-content-center mb-3 ">
-                <form @submit.prevent="submitValoration" class="formulario-valoracion-wrapper background-valoration">
+                <form id="valorationForm" @submit.prevent=submitValorationView class="formulario-valoracion-wrapper background-valoration">
                   <input type="hidden" v-model="valoration.id_media_show">
                   <h1 class="titulo-valoracion mb-4">¡Valora!</h1>
-                  <button @click="closeDialog" class="volver-valoracion">
+                  <button @click="closeValorationDialog" class="volver-valoracion">
                     <img src="/images/close.svg" alt="Cerrar">
                   </button>
                   <label class="valoracion-pregunta mb-4 mt-4" for="opinionComentario">Tu reseña de {{ Getmedia.nombre }}</label>
@@ -51,7 +51,7 @@
                     <label for="recomendacion_no">No</label>
                   </div>
                   <div class="flex items-center justify-end mt-4 mb-2">
-                    <button type="submit" class="btn btn-primary boton-principal">Dános tu opinión</button>
+                    <button type="submit" id="submitButton" @click="submitButtonClicked = true" class="btn btn-primary boton-principal">Dános tu opinión</button>
                   </div>
                 </form>
               </div>
@@ -62,7 +62,7 @@
           <img :src="getFavoriteImageSrc()" alt="FAVORITOS">
           <p class="mt-1 titulo-interactuar-media-show">FAVORITOS</p>
         </div>
-        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover"@click="handleWatchedAction(Getmedia.id)">
+        <div class="elemento-interactuar-media-show d-flex col-xs-12 linea-hover" @click="handleWatchedAction(Getmedia.id)">
           <img :src="getWatchedImageSrc()" alt="VISUALIZAR">
           <p class="mt-1 titulo-interactuar-media-show">VISUALIZADA</p>
         </div>
@@ -131,8 +131,8 @@
         <div :class="{ 'details': showDetailsTab, 'valorations': !showDetailsTab }" class="col-lg-12">
           <div class="reviews-container row">
             <div v-if="!GetValorations || GetValorations.length === 0" class="container-no-valorations">
-              <p class="hola">Todavía no hay valoraciones sobre {{ Getmedia.nombre }}</p>
-              <p class="hola">Sé el primero en hacerlo.</p>
+              <p class="no-valorations">Todavía no hay valoraciones sobre {{ Getmedia.nombre }}</p>
+              <p class="no-valorations">Sé el primero en hacerlo.</p>
               <button @click="handleValorationAction(Getmedia.id)" class="btn btn-primary boton-principal mt-2">VALORAR</button>
             </div>
             <template v-else>
@@ -143,7 +143,7 @@
                     <img v-for="star in 5" :key="star" :src="getStarImage(star, opinion.puntuacion)" class="star-icon" alt="Star">
                   </div>
                   <p class="review-content mt-3">{{ opinion.valoracion }}</p>
-                  <p class="review-content mt-3">¿La recomienda?
+                  <p class="review-content mt-3">¿La recomiendo?
                     <span v-if="opinion.recomendacion === 1">Sí</span>
                     <span v-else>No</span>
                   </p>
@@ -162,18 +162,27 @@
 
   import { ref, onMounted, onUpdated, computed } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useStore } from 'vuex';
   import AppFooter from '@/layouts/AppFooter.vue';
   import { useGetMedia } from '@/composables/media';
   import { useGetValorations } from '@/composables/valorations'
+  import { useGetFavorites } from '@/composables/favorites';
+  import { useGetVisualizated } from '@/composables/visualizated';
+  import { useGetShare } from '@/composables/share';
   import Swal from 'sweetalert2';
-  import axios from 'axios';
-  import { useStore } from 'vuex';
 
+  const { isFavorite, getFavoriteImageSrc, handleFavoriteAction, fetchMediaFavoriteStatus } = useGetFavorites();
+  const { isWatched, getWatchedImageSrc, handleWatchedAction, fetchMediaVisualizedStatus } = useGetVisualizated();
+  const { isValoration, GetValorations, getValorationImageSrc, handleValorationAction, fetchMediaValorationStatus, fetchValorationsByMediaId, closeDialog, handlePopState, getStarImage, visible, submitValoration } = useGetValorations();
   const { Getmedia, fetchMediaById } = useGetMedia();
-  const { GetValorations, fetchValorationsByMediaId, addValoration } = useGetValorations();
+  const { copyURL } = useGetShare();
+  
   const router = useRouter();
   const store = useStore();
-
+  const mediaId = ref('');
+  const user = computed(() => store.getters["auth/user"]);
+  const userID = ref('');
+  
   // Variable que definimos para imprimir la imagen de portada:
   const imageURL = ref('');
   
@@ -215,285 +224,6 @@
     trailerUrl.value = ''; 
   };
 
-  // Variable para almacenar la última ruta
-  const visible = ref(false);
-  const lastRoute = ref(null); 
-
-  // Función para verificar la autenticación del usuario antes de ejecutar una acción
-  const checkAuthentication = async (actionCallback) => {
-    if (store.state.auth.authenticated) {
-      // Si está autenticado, realizamos la acción que desee:
-      await actionCallback();
-    } else {
-      // Si no,mostramos un mensaje indicando al usuario que inicie sesión
-      loginRequired();
-    }
-  };
-
-  // Función para mostrar un mensaje de que se requiere un inicio de sesión
-  const loginRequired = () => {
-    Swal.fire({
-      icon: 'info',
-      title: 'Inicia sesión para realizar esta acción',
-      showConfirmButton: false,
-      timer: 1500
-    });
-  };
-
-  const mediaId = ref('');
-  const user = computed(() => store.getters["auth/user"]);
-  const userID = ref('');
-  const starsCount = 5;
-  const highlightedStars = ref(0);
-  const valoration = ref({ 
-    id_user: userID, 
-    id_media_show: mediaId, 
-    puntuacion: null, 
-    valoracion: '',
-    recomendacion: ''
-  });
-
-  // Variable para almacenar el estado del botón "Valorar"
-  const isValoration = ref(false);
-
-  // Función para obtener la ruta de la imagen de visualizada:
-  const getValorationImageSrc = () => {
-    if (isValoration.value) {
-      return '/images/valoration.svg';
-    } else {
-      return '/images/no_valoration.svg';
-    }
-  };
-
-  // Verificamos si el usuario está autenticado antes de agregar a valoraciones:
-  const handleValorationAction = async (mediaId) => {
-    const actionCallback = async () => {
-      // Asignaremos el ID de la media show actual al objeto de valoración
-      valoration.value.id_media_show = mediaId;
-      // Si ha iniciado sesión, entonces le mostramos el panel de valorar:
-      visible.value = true;
-      // Actualizamos el estado de valoración reactivamente:
-      isValoration.value = await fetchMediaValorationStatus(mediaId);
-    };
-
-    // Verificamos la autenticación antes de ejecutar la acción:
-    await checkAuthentication(actionCallback);
-  };
-
-  // Creamos una función para agregar una nueva valoración en la base de datos:
-  const submitValoration = async () => {
-    try {
-      const response = await axios.post('/api/media/valoration', valoration.value);
-      const nombreUsuario = user.value.name;
-      // Mostraremos un mensaje de éxito si conseguimos subir la valoración:
-      if (response.data.success) {
-        Swal.fire({
-          icon: 'success',
-          title: `¡${nombreUsuario}, agradecemos tu opinión!`,
-          showConfirmButton: false,
-          timer: 2000 
-        });
-        // Actualizaremos la lista de valoraciones después de enviarlo:
-        await fetchValorationsByMediaId(mediaIdAux);
-        // Restableceremos los valores del formulario de valoración después de enviarlo:
-        valoration.value = { 
-          id_user: userID, 
-          id_media_show: mediaId, 
-          puntuacion: null, 
-          valoracion: '',
-          recomendacion: null
-        };
-        visible.value = false;
-        isValoration.value = true;
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: `No hemos podido subir tu valoración!`,
-          showConfirmButton: false,
-          timer: 2000 
-        });
-        visible.value = false;
-        isValoration.value = false;
-      }
-    } catch (error) {
-      console.error('Error al subir la valoración:', error);
-    }
-  };
-
-  // Función para cerrar el popapp de valorar:
-  const closeDialog = () => {
-    // Restablecer los valores del formulario de valoración
-    valoration.value = { 
-      id_user: userID, 
-      id_media_show: mediaId, 
-      puntuacion: null, 
-      valoracion: '',
-      recomendacion: null
-    };
-    visible.value = false;
-    if (lastRoute.value) {
-      router.push(lastRoute.value);
-      lastRoute.value = null;
-    }
-  };
-
-  // Funcion para cerrar el popup cuando se vaya hacia atras
-  const handlePopState = () => {
-    if (visible.value) {
-      closeDialog();
-    }
-  };
-
-  // Función para imprimir las estrellas según la puntuación que le haya dado el usuario:
-  const getStarImage = (star, rating) => {
-    if (star <= rating) {
-      return '/images/estrella_marcada.svg';
-    } else {
-      return '/images/estrella_vacia.svg';
-    }
-  };
-
-  // Variable para almacenar el estado del botón "Favoritos"
-  const isFavorite = ref(false);
-
-  // Función para obtener la ruta de la imagen de favoritos
-  const getFavoriteImageSrc = () => {
-    if (isFavorite.value) {
-      return '/images/like.svg';
-    } else {
-      return '/images/no_like.svg';
-    }
-  };
-
-  // Verificamos si el usuario está autenticado antes de agregar a favoritos:
-  const handleFavoriteAction = async (mediaNombre, mediaId) => {
-    const actionCallback = async () => {
-      await mediaShowFavorite(mediaNombre, mediaId);
-      // Actualizamos el estado de favoritos reactivamente
-      isFavorite.value = await fetchMediaFavoriteStatus(mediaId);
-    };
-
-    // Verificamos la autenticación antes de ejecutar la acción
-    await checkAuthentication(actionCallback);
-  };
-
-  // Función que es llamada en la anterior función:
-  const mediaShowFavorite = async (mediaNombre, mediaId) => {
-
-    // Guardamos la ID de la media show en concreto en una variable:
-    const mediaShowId = mediaId;
-
-    // Llama a esta función para agregar a favoritos
-    const manageToFavorites = async (mediaShowId) => {
-      try {
-        const response = await axios.post('/api/favorites/' + mediaShowId);
-        // Mostramos un mensaje de éxito si se agrega correctamente
-        if (!(isFavorite.value)) {
-          Swal.fire({
-            icon: 'success',
-            title: `¡${mediaNombre} agregada a favoritos!`,
-            showConfirmButton: false,
-            timer: 1500 
-          });
-          // Restablecer los valores del formulario de valoración después de enviar con éxito
-          valoration.value = { 
-            id_user: userID, 
-            id_media_show: mediaId, 
-            puntuacion: null, 
-            valoracion: '',
-            recomendacion: null
-          };
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: `¡${mediaNombre} eliminada de favoritos!`,
-            showConfirmButton: false,
-            timer: 1500 
-          });
-        }
-      } catch (error) {
-        console.error("No se ha podido agregar la media show a favoritos:", error);
-      }
-    };
-
-    // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
-    manageToFavorites(mediaShowId);
-  };
-
-  // Variable para almacenar el estado del botón "Visualizada"
-  const isWatched = ref(false);
-
-  // Función para obtener la ruta de la imagen de visualizada:
-  const getWatchedImageSrc = () => {
-    if (isWatched.value) {
-      return '/images/visualization.svg';
-    } else {
-      return '/images/no_visualization.svg';
-    }
-  };
-
-  // Verificamos si el usuario está autenticado antes de agregar a visualizadas:
-  const handleWatchedAction = async (mediaId) => {
-    // Verificamos si el usuario está autenticado
-    const actionCallback = async () => {
-      await mediaShowWatched(mediaId);
-      // Actualizamos el estado de visualizadas reactivamente
-      isWatched.value = await fetchMediaVisualizedStatus(mediaId);
-    }
-
-    // Verificamos la autenticación antes de ejecutar la acción
-    await checkAuthentication(actionCallback);
-  };
-
-  // Función que es llamada en la anterior función:
-  const mediaShowWatched = (mediaId) => {
-
-    // Guardamos la ID de la media show en concreto en una variable:
-    const mediaShowId = mediaId;
-
-    // Llama a esta función para agregar a visualizadas:
-    const manageToVisualizated = async (mediaShowId) => {
-      try {
-          
-        const response = await axios.post('/api/visualizated/' + mediaShowId);
-          
-      } catch (error) {
-        console.error("No se ha podido agregar la media show a visualizadas:", error);
-      }
-    };
-      
-    // Llamamos a la función para agregar a favoritos, pasando el ID de media show:
-    manageToVisualizated(mediaShowId);
-  };
-
-  // Variable reactiva para almacenar la URL
-  const pageURL = ref('');
-
-  // Función para obtener la URL de la página actual
-  const getCurrentPageURL = () => {
-    pageURL.value = window.location.href;
-  };
-
-  // Función que se ejecuta al pulsar el botón de "Compartir:":
-  const copyURL = () => {
-    // Obtenemos la URL actual
-    getCurrentPageURL();
-    const textarea = document.createElement('textarea');
-    textarea.value = pageURL.value;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-      
-    // Mostraremos el mensaje de éxito:
-    Swal.fire({
-      icon: 'success',
-      title: '¡URL copiada al portapapeles!',
-      showConfirmButton: false,
-      timer: 2000 
-    });
-  };
-
   // Formateamos la duración que mostraremos:
   const formateoDuracion = (duration) => {
     if (!duration) return '';
@@ -505,40 +235,81 @@
       if (parseInt(minutes) > 0) {
         formattedDuration += ` ${parseInt(minutes)} min`;
       }
-      return formattedDuration.trim();
+    return formattedDuration.trim();
   };
 
-  // Agregaremos una función para verificar si la media show actual ya se encuentra en favoritos o no para el usuario actual:
-  const fetchMediaFavoriteStatus = async (mediaId) => {
-    try {
-      const response = await axios.get(`/api/favorites/${mediaId}`);
-      return response.data.isFavorite;
-    } catch (error) {
-      console.error('Error al verificar el estado de favoritos:', error);
-      return false;
+  const starsCount = 5;
+  const highlightedStars = ref(0);
+  const valoration = ref({ 
+    id_user: userID, 
+    id_media_show: mediaId, 
+    puntuacion: null, 
+    valoracion: '',
+    recomendacion: ''
+  });
+
+  // Referencia reactiva para controlar si se ha hecho clic en el botón de enviar
+  const submitButtonClicked = ref(false);
+
+  const submitValorationView = async () => {
+    // Verificamos si el botón de enviar ha sido pulsado
+    if (submitButtonClicked.value) {
+      try {
+        // Verificamos si todos los campos están llenos
+        if (valoration.value.id_user && valoration.value.id_media_show && valoration.value.puntuacion && valoration.value.valoracion && valoration.value.recomendacion !== null) {
+          // Envíamos la valoración
+          const valorationData = {
+            id_user: userID.value,
+            id_media_show: mediaId.value,
+            puntuacion: valoration.value.puntuacion,
+            valoracion: valoration.value.valoracion,
+            recomendacion: valoration.value.recomendacion
+          };
+          await submitValoration(valorationData);
+          // Limpiaremos los valores del formulario
+          valoration.value = {
+            id_user: userID,
+            id_media_show: mediaId,
+            puntuacion: null,
+            valoracion: '',
+            recomendacion: null
+          };
+        } else {
+          // Avisaremos al usuario si algún campo está incompleto:
+          Swal.fire({
+            icon: 'warning',
+            title: 'Por favor, completa todos los campos del formulario de valoración.',
+            showConfirmButton: false,
+            timer: 2000 
+          });
+          return;
+        }
+      } catch (error) {
+        console.error('Error al enviar la valoración:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al enviar la valoración',
+          text: 'No hemos podido subir tu valoración. Por favor, inténtalo de nuevo más tarde.',
+          showConfirmButton: true
+        });
+      }
+      // Restableceremos el estado del botón de enviar
+      submitButtonClicked.value = false;
     }
   };
 
-  // Agregaremos una función para verificar si la media show actual ya se encuentra en visualizadas por el usuario o no:
-  const fetchMediaVisualizedStatus = async (mediaId) => {
-    try {
-      const response = await axios.get(`/api/visualizated/${mediaId}`);
-      return response.data.isWatched;
-    } catch (error) {
-      console.error('Error al verificar el estado de visualizadas:', error);
-      return false;
-    }
-  };
-
-  // Agregaremos una función para verificar si la media show actual ya se encuentra en valoradas por el usuario o no:
-  const fetchMediaValorationStatus = async (mediaId) => {
-    try {
-      const response = await axios.get(`/api/valorations/${mediaId}`);
-      return response.data.isValoration;
-    } catch (error) {
-      console.error('Error al verificar el estado de valoradas:', error);
-      return false;
-    }
+  // Funcion para cerrar el popapp de valorar al pulsar el botón de cerrar:
+  const closeValorationDialog = () => {
+    visible.value = false;
+    valoration.value = { 
+      id_user: userID, 
+      id_media_show: mediaId, 
+      puntuacion: null, 
+      valoracion: '',
+      recomendacion: null
+    };
+    // Restablece el estado del botón de enviar
+    submitButtonClicked.value = false;
   };
 
   onMounted(async () => {
@@ -563,10 +334,18 @@
     window.addEventListener('popstate', handlePopState);
   });
 
+  // Agregaremos un listener para limpiar el formulario si presionamos la tecla de escape:
+  document.addEventListener('keydown', (event) => {
+    if (event.keyCode === 27) {
+      closeValorationDialog();
+    }
+  });
+
   onUpdated( async() => {
     // Comprueba si el ID del medio show ha cambiado
     if(mediaIdAux !=router.currentRoute.value.params.id){
       mediaIdAux = router.currentRoute.value.params.id;
+      mediaId.value = mediaIdAux;
       try {
         await fetchMediaById(mediaIdAux);
         await fetchValorationsByMediaId(mediaIdAux);

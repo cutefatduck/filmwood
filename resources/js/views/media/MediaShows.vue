@@ -17,7 +17,7 @@
                         </div>
                         <div class="d-flex align-items-center mt-5">
                             <router-link :to="{ name: 'media.view', params: { id: media.id } }">
-                                <button class="play-button me-3" @click="viewMedia(media.id)"></button>
+                                <button class="play-button me-3"></button>
                             </router-link>
                             <span class="me-5 visitar">Visitar</span>
                             <div class="ms-auto">
