@@ -191,7 +191,6 @@ class MediaShowController extends Controller
         return $mediashow;
     }
 
-
     public function indexNew()
     {
         // Obtener las últimas 9 media shows ordenadas por el ID de forma descendente:
@@ -238,13 +237,7 @@ class MediaShowController extends Controller
     
         return $results;
     }
-    public function destroy($id)
-    {
-        $media = p_media_show::findOrFail($id);
-        $media->delete();
-        return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
-    }
-
+    
     public function store(Request $request)
     {
         // Validación de los datos recibidos
@@ -301,6 +294,35 @@ class MediaShowController extends Controller
             'genres_name' => $mediaShowGenres
         ], 201);
     }
+
+    public function update($id, $request)
+    {
+
+        $mediaShow = p_media_show::find($id);
+
+        if ($mediaShow->user_id !== auth()->id() && !auth()->user()->hasPermissionTo('media-edit')) {
+            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own mediashow']);
+        } else {
+            $mediaShow->update($request->validated());
+            // $category = Category::findMany($request->categories);
+            $mediaShow->genres()->sync($genres);
+    
+            if($request->hasFile('thumbnail')) {
+                $mediaShow->media()->delete();
+                $mediaShow->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('images');
+            }
+
+            return new MediaShowResource($mediaShow);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $media = p_media_show::findOrFail($id);
+        $media->delete();
+        return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
+    }
+
     public function viewByGenreID($id){
         // Buscar los registros de la tabla p_mediashow_genre donde genre_id coincida con $id
         $media = p_media_show_genres::where('id_genre', $id)->get();
@@ -323,31 +345,30 @@ class MediaShowController extends Controller
     }
 
     public function getFilteredMedia(Request $request)
-{
-        $query = Media::query();
+    {
+            $query = Media::query();
 
-        // Aplicar filtro por género si está presente en la solicitud
-        if ($request->has('selectedGenre')) {
-            $query->where('genre', $request->input('selectedGenre'));
-        }
+            // Aplicar filtro por género si está presente en la solicitud
+            if ($request->has('selectedGenre')) {
+                $query->where('genre', $request->input('selectedGenre'));
+            }
 
-        // Aplicar filtro por tipo si está presente en la solicitud
-        if ($request->has('selectedType')) {
-            $query->where('type', $request->input('selectedType'));
-        }
+            // Aplicar filtro por tipo si está presente en la solicitud
+            if ($request->has('selectedType')) {
+                $query->where('type', $request->input('selectedType'));
+            }
 
-        // Aplicar filtro por rango de fechas si están presentes en la solicitud
-        if ($request->has('selectedDate')) {
-            $dates = explode(',', $request->input('selectedDate'));
-            $startDate = $dates[0];
-            $endDate = $dates[1];
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
+            // Aplicar filtro por rango de fechas si están presentes en la solicitud
+            if ($request->has('selectedDate')) {
+                $dates = explode(',', $request->input('selectedDate'));
+                $startDate = $dates[0];
+                $endDate = $dates[1];
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
 
-        // Obtener los resultados finales de la consulta
-        $filteredMedia = $query->get();
+            // Obtener los resultados finales de la consulta
+            $filteredMedia = $query->get();
 
-    return response()->json(['filteredMedia' => $filteredMedia]);
-}
-
+        return response()->json(['filteredMedia' => $filteredMedia]);
+    }
 }

@@ -129,7 +129,6 @@ export function useDeleteMedia(medias) {
 export function useAddMedia() {
   const addMedia = async (media) => {
     try {
-      media.genres = Array.isArray(media.genres) ? media.genres : [media.genres];
       const serializedMedia = new FormData();
       for (const key in media) {
         if (media.hasOwnProperty(key)) {
@@ -151,4 +150,27 @@ export function useAddMedia() {
   };
 
   return { addMedia };
+}
+
+export function useEditMedia() {
+  const editMedia = async (media, id) => {
+    try {const serializedMedia = new FormData();
+      for (const key in media) {
+        if (media.hasOwnProperty(key)) {
+          serializedMedia.append(key, media[key]);
+        }
+      }
+      const response = await axios.post('/api/media', serializedMedia, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      });
+      Swal.fire('¡Éxito!', 'El nuevo medio show ha sido modificado.', 'success');
+    } catch (error) {
+      console.error('Error al actualizar los datos del medio show:', error);
+      Swal.fire('Error', 'Hubo un problema al intentar actualizar los datos del medio show.', 'error');
+    }
+  };
+
+  return { editMedia };
 }

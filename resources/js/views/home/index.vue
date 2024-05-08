@@ -122,18 +122,18 @@
 
     // Función para mostrar u ocultar el botón de scroll según la posición del usuario:
     const handleScroll = () => {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-
-    // Mostrar el botón cuando el usuario ha scrollado más allá de cierta posición:
-    showScrollButton.value = scrollPosition > 300;
+        const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+        // Mostrar el botón cuando el usuario ha scrollado más allá de cierta posición:
+        showScrollButton.value = scrollPosition > 300;
+        console.log('showScrollButton:', showScrollButton.value);
     };
 
     // Función para hacer scroll hacia arriba
     const scrollToTop = () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
     const responsiveOptions = ref([
@@ -148,8 +148,6 @@
             numScroll: 1,
         },
     ]);
-
-    
 
     // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
@@ -177,18 +175,18 @@
         return formattedDuration.trim();
     };
 
-    const mediaIdAux = Getmedia.id;
-    console.log(mediaIdAux);
+    // const mediaIdAux = Getmedia.id;
+    // console.log(mediaIdAux);
 
     onMounted(async () => {
         try {
             await fetchMediaIndex();
             await fetchGenres();
             await fetchMediaShowByGenre();
-            const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
-            const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
-            isFavorite.value = favoriteStatus;
-            isWatched.value = visualizatedStatus;
+            // const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+            // const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
+            // isFavorite.value = favoriteStatus;
+            // isWatched.value = visualizatedStatus;
             window.addEventListener('scroll', handleScroll);
         } catch (error) {
             console.error('Error fetching media:', error);
@@ -198,10 +196,10 @@
     onUpdated( async() => {
       try {
         // Controlaremos el estado de cada imagen a mostrar cada vez que cambiemos de media show:
-        const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
-        const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
-        isFavorite.value = favoriteStatus;
-        isWatched.value = visualizatedStatus;
+        // const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+        // const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
+        // isFavorite.value = favoriteStatus;
+        // isWatched.value = visualizatedStatus;
       } catch (error) {
         console.error('Error al cargar los datos del medio show:', error);
       }

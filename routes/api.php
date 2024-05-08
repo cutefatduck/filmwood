@@ -25,7 +25,18 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
 Route::get('mediaIndex', [MediaShowController::class, 'indexNew']);
+
+// Mostrar una media show:
+Route::get('/media/{id}', [MediaShowController::class, 'show']);
+
+// Crear una nueva media show:
 Route::post('media/', [MediaShowController::class, 'store']);
+
+// Eliminar una media show en concreto en el panel de administrador:
+Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
+
+
+
 // Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
 
 // Agregar una valoracion a una media show:
@@ -65,12 +76,6 @@ Route::get('media_show_type/media', [MediaShowController::class, 'getMediaShowBy
 
 // Modificar los datos del usuario:
 Route::put('/users/{user}', [UserController::class, 'update']);
-
-// Eliminar una media show en concreto en el panel de administrador:
-Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
-
-#Route::get('/media/{id}', [MediaShowController::class, 'edit']);
-Route::get('/media/{id}', [MediaShowController::class, 'show']);
 
 Route::post('/agregar-media', [MediaController::class, 'store'])->name('media.store');
 Route::get('countries', [CountryController::class, 'view']);

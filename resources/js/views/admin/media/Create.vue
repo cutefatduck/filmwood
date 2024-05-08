@@ -15,61 +15,61 @@
                 <strong>{{ strError }}</strong>
             </div>
 
-            <p>{{ media }}</p>
+            <!-- <p>{{ media }}</p> -->
 
             <form @submit.prevent="addMedia(media)" enctype="multipart/form-data">
                 <div class="form-group mb-2">
-                    <label>Tipo de Media Show</label>
-                    <select v-model="media.id_media_show_type">
+                    <label class="mb-3">Tipo de Media Show</label>
+                    <select v-model="media.id_media_show_type" class="mb-2">
                         <option v-for="mediaShowType in mediaShowTypes" :key="mediaShowType.id" :value="mediaShowType.id">{{ mediaShowType.type }}</option>
                     </select>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Titulo</label>
+                    <label class="mb-3">Titulo</label>
                     <input v-model="media.nombre" type="text" class="input-formulario">
                 </div>
                 <div class="form-group mb-2">
-                    <label>Sinopsis corta</label>
+                    <label class="mb-3">Sinopsis corta</label>
                     <input v-model="media.sinopsis_corta" class="input-formulario">
                 </div>
                 <div class="form-group mb-2">
-                    <label>Sinopsis larga</label>
+                    <label class="mb-3">Sinopsis larga</label>
                     <textarea v-model="media.sinopsis" rows="3" class="input-formulario"></textarea>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Pemi</label>
+                    <label class="mb-3">Pemi</label>
                     <select v-model="media.id_pemi">
                         <option v-for="pemi in pemis" :key="pemi.id" :value="pemi.id">{{ pemi.number_pemi }}</option>
                     </select>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Género</label>
+                    <label class="mb-3">Género</label>
                     <MultiSelect multiple v-model="selectedGenres" :options="genres" filter optionLabel="name_genre" optionValue="id" placeholder="Select genres" :maxSelectedLabels="3" class="w-full md:w-20rem" />
                 </div>
                 <div class="form-group mb-2">
-                    <label>País de origen</label>
-                    <select v-model="media.id_country">
+                    <label class="mb-3">País de origen</label>
+                    <select v-model="media.id_country" class="mb-2">
                         <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
                     </select>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Duración (HH:MM:SS)</label>
+                    <label class="mb-3">Duración (HH:MM:SS)</label>
                     <input v-model="media.duracion" class="input-formulario" type="text" name="duration" pattern="^([0-9]{2}):([0-5][0-9]):([0-5][0-9])$" title="Ingrese la duración en el formato HH:MM:SS"/>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Actores</label>
+                    <label class="mb-3">Actores</label>
                     <input v-model="media.actores" class="input-formulario" type="text" name="actors"/>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Portada</label>
+                    <label class="mb-3">Portada</label>
                     <DropZone v-model="media.portada_img" />
                 </div>
                 <div class="form-group mb-2">
-                    <label>Idioma</label>
+                    <label class="mb-3">Idioma</label>
                     <input v-model="media.idioma" class="input-formulario" type="text" name="language"/>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Directores</label>
+                    <label class="mb-3">Directores</label>
                     <input v-model="media.directores" class="input-formulario" type="text" name="directors"/>
                 </div>
                 <!-- <div class="form-group mb-2">
@@ -77,20 +77,20 @@
                     <DropZone v-model="media.trailer" />
                 </div> -->
                 <div class="form-group mb-2">
-                    <label>Fecha estreno</label>
+                    <label class="mb-3">Fecha de estreno</label>
                     <input v-model="media.fecha_media_show" class="input-formulario" type="datetime-local" name="release_date"/>
                 </div>
                 <div class="form-group mb-2" v-if="media.id_media_show_type === 1">
-                    <label>Saga</label>
+                    <label class="mb-3">Saga</label>
                     <input v-model="media.saga" class="input-formulario" type="text" name="saga"/>
                 </div>
                 <div v-else-if="media.id_media_show_type === 2">
                     <div class="form-group mb-2">
-                        <label>Temporadas</label>
+                        <label class="mb-3">Temporadas</label>
                         <input v-model="media.temporadas" class="input-formulario" type="number" name="seasons"/>
                     </div>
                     <div class="form-group mb-2">
-                        <label>Episodios</label>
+                        <label class="mb-3">Episodios</label>
                         <input v-model="media.episodios" class="input-formulario" type="number" name="episodes"/>
                     </div>
                 </div>
@@ -110,7 +110,6 @@
     const selectedGenres = ref([]);
     const strError = ref('');
     const strSuccess = ref('');
-
     const genres = ref([]);
     const countries = ref([]);
     const mediaShowTypes = ref([]);
@@ -139,12 +138,9 @@
         episodios: '' 
     });
     
-
-
     onMounted(async () => {
         try {
 
-            console.log(media.genres)
             const genresResponse = await axios.get('/api/genres');
             genres.value = genresResponse.data;
 
