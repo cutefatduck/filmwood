@@ -25,15 +25,14 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
 Route::get('media', [MediaShowController::class, 'index']);
 Route::get('mediaIndex', [MediaShowController::class, 'indexNew']);
+Route::get('media/search' , [MediaShowController::class, 'search']);
 
 // Mostrar una media show:
 Route::get('/media/{id}', [MediaShowController::class, 'show']);
-
-// Crear una nueva media show:
-Route::post('media/', [MediaShowController::class, 'store']);
-
 // Eliminar una media show en concreto en el panel de administrador:
 Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
+// Crear una nueva media show:
+Route::post('media/', [MediaShowController::class, 'store']);
 
 
 
@@ -42,7 +41,7 @@ Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 // Agregar una valoracion a una media show:
 Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
 
-Route::get('media/search' , [MediaShowController::class, 'search']);
+
 
 // Verificar si la media show ya ha sido valorada por el usuario actual
 Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);

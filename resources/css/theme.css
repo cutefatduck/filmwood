@@ -588,9 +588,9 @@
     overflow: hidden;
   }
 
-  /* .play-button:hover, .favorite-button:hover, .visualizated-button:hover {
+  .play-button:hover, .favorite-button:hover, .visualizated-button:hover {
     filter: invert(100%);
-  } */
+  } 
 
 /* Fin del estilo de la página home */
 

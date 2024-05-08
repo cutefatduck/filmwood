@@ -129,7 +129,6 @@
         sinopsis:'',
         sinopsis_corta: '',
         id_media_show_type: '',
-        idioma: '',
         // trailer: '', 
         fecha_media_show: '', 
         saga: '', 

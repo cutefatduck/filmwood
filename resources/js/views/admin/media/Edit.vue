@@ -20,54 +20,54 @@
             <form @submit.prevent="editMedia(media)" enctype="multipart/form-data">
                 <div class="form-group mb-2">
                     <label class="mb-3">Titulo</label>
-                    <input :value="Getmedia.nombre"  type="text" class="input-formulario">
+                    <input v-model="media.nombre"  type="text" class="input-formulario">
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Tipo de Media Show</label>
-                    <input :value="Getmedia.mediashowtype_name" type="text" class="input-formulario">
-                    <input v-value="Getmedia.id_media_show_type" type="hidden">
+                    <input :value="media.mediashowtype_name" type="text" class="input-formulario">
+                    <input v-value="media.id_media_show_type" type="hidden">
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Género</label>
-                    <input :value="Getmedia.genres_name" type="text" class="input-formulario">
+                    <input :value="media.genres_name" type="text" class="input-formulario">
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">País de procedencia</label>
-                    <input :value="Getmedia.country_name" type="text" class="input-formulario">
-                    <input v-model="Getmedia.id_country" type="hidden">
+                    <input :value="media.country_name" type="text" class="input-formulario">
+                    <input v-model="media.id_country" type="hidden">
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Pemi</label>
-                    <input :value="Getmedia.pemi_name" type="text" class="input-formulario">
-                    <input v-model="Getmedia.id_pemi" type="hidden">
+                    <input :value="media.pemi_name" type="text" class="input-formulario">
+                    <input v-model="media.id_pemi" type="hidden">
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis corta</label>
-                    <textarea v-model="Getmedia.sinopsis_corta" class="input-formulario"></textarea>
+                    <textarea v-model="media.sinopsis_corta" class="input-formulario"></textarea>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis larga</label>
-                    <textarea v-model="Getmedia.sinopsis" rows="3" class="input-formulario"></textarea>
+                    <textarea v-model="media.sinopsis" rows="3" class="input-formulario"></textarea>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Duración (HH:MM:SS)</label>
-                    <input v-model="Getmedia.duracion" class="input-formulario" type="text" name="duration" pattern="^([0-9]{2}):([0-5][0-9]):([0-5][0-9])$"/>
+                    <input v-model="media.duracion" class="input-formulario" type="text" name="duration" pattern="^([0-9]{2}):([0-5][0-9]):([0-5][0-9])$"/>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Actores</label>
-                    <input v-model="Getmedia.actores" class="input-formulario" type="text" name="actors"/>
+                    <input v-model="media.actores" class="input-formulario" type="text" name="actors"/>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Portada</label>
-                    <img :src="Getmedia.portada_img" alt="Portada del Media Show" class="img-fluid mt-2" >
+                    <img :src="media.portada_img" alt="Portada del Media Show" class="img-fluid mt-2" >
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Idioma</label>
-                    <input v-model="Getmedia.idioma" class="input-formulario" type="text" name="language"/>
+                    <input v-model="media.idioma" class="input-formulario" type="text" name="language"/>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Directores</label>
-                    <input v-model="Getmedia.directores" class="input-formulario" type="text" name="directors"/>
+                    <input v-model="media.directores" class="input-formulario" type="text" name="directors"/>
                 </div>
                 <!-- <div class="form-group mb-2">
                     <label class="mb-3">Trailer</label>
@@ -77,22 +77,22 @@
                 </div> -->
                 <div class="form-group mb-2">
                     <label class="mb-3">Fecha de estreno</label>
-                    <input v-model="Getmedia.fecha_media_show" class="input-formulario" type="text" name="release_date"/>
+                    <input v-model="media.fecha_media_show" class="input-formulario" type="text" name="release_date"/>
                 </div>
                 <div v-if="Getmedia.id_media_show_type === 'Pelicula'">
                     <div class="form-group mb-2">
                         <label class="mb-3">Saga</label>
-                        <input v-model="Getmedia.saga" class="input-formulario" type="text" name="saga"/>
+                        <input v-model="media.saga" class="input-formulario" type="text" name="saga"/>
                     </div>
                 </div>
                 <div v-else-if="Getmedia.id_media_show_type === 2">
                     <div class="form-group mb-2">
                         <label class="mb-3">Temporadas</label>
-                        <input v-model="Getmedia.temporadas" class="input-formulario" type="number" name="seasons"/>
+                        <input v-model="media.temporadas" class="input-formulario" type="number" name="seasons"/>
                     </div>
                     <div class="form-group mb-2">
                         <label class="mb-3">Episodios</label>
-                        <input v-model="Getmedia.episodios" class="input-formulario" type="number" name="episodes"/>
+                        <input v-model="media.episodios" class="input-formulario" type="number" name="episodes"/>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary boton-principal mt-4 mb-4">Edita esta media show</button>
@@ -113,25 +113,42 @@
     const router = useRouter();
     let mediaID = router.currentRoute.value.params.id
 
+    const nombreMedia = Getmedia.value.nombre;
+    const pemiMedia = Getmedia.value.id_pemi;
+    const duracionMedia = Getmedia.value.duracion;
+    const id_countryMedia = Getmedia.value.id_country;
+    const actoresMedia = Getmedia.value.actores;
+    const portada_imgMedia = Getmedia.value.portada_img;
+    const idiomaMedia = Getmedia.value.idioma;
+    const directoresMedia = Getmedia.value.directores;
+    const sinopsisMedia = Getmedia.value.sinopsis;
+    const sinopsis_cortaMedia = Getmedia.value.sinopsis_corta;
+    const id_media_show_typeMedia = Getmedia.value.id_media_show_type;
+    const fecha_media_showMedia = Getmedia.value.fecha_media_show;
+    const sagaMedia = Getmedia.value.saga;
+    const temporadasMedia = Getmedia.value.temporadas;
+    const genresMedia = Getmedia.value.genres;
+    const episodiosMedia = Getmedia.value.episodios;
+
+
     const media = ref({ 
-        nombre: '',
-        id_pemi: '', 
-        duracion: '', 
-        id_country:'', 
-        actores: '', 
-        portada_img: '', 
-        idioma: '', 
-        directores: '',
-        sinopsis:'',
-        sinopsis_corta: '',
-        id_media_show_type: '',
-        idioma: '',
+        nombre: nombreMedia,
+        id_pemi: pemiMedia, 
+        duracion: duracionMedia, 
+        id_country: id_countryMedia, 
+        actores: actoresMedia, 
+        portada_img: portada_imgMedia, 
+        idioma: idiomaMedia, 
+        directores: directoresMedia,
+        sinopsis: sinopsisMedia,
+        sinopsis_corta: sinopsis_cortaMedia,
+        id_media_show_type: id_media_show_typeMedia,
         // trailer: '', 
-        fecha_media_show: '', 
-        saga: '', 
-        temporadas: '',
-        genres: '',
-        episodios: '' 
+        fecha_media_show: fecha_media_showMedia, 
+        saga: sagaMedia, 
+        temporadas: temporadasMedia,
+        genres: genresMedia,
+        episodios: episodiosMedia 
     });
 
     onMounted (() =>{
