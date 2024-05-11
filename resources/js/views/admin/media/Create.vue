@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between pb-2 mb-2">
-                <h1 class="titulo-slider">Añade un nuevo medio show</h1>
+                <h1 class="titulo-media">Añade un nuevo medio show</h1>
             </div>
 
             <div v-if="strSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -104,7 +104,7 @@
 
     import axios from 'axios';
     import { onMounted, ref } from 'vue';
-    import { useAddMedia } from '@/composables/media';
+    import { useGetMedia } from '@/composables/media';
     import DropZone from "@/components/DropZone.vue";
 
     const selectedGenres = ref([]);
@@ -115,7 +115,7 @@
     const mediaShowTypes = ref([]);
     const pemis = ref([]);  
 
-    const { addMedia } = useAddMedia(); 
+    const { addMedia } = useGetMedia(); 
 
     const media = ref({ 
         nombre: '',

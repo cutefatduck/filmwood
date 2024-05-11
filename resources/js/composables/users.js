@@ -1,5 +1,6 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 export function useGetUser() {
     const Getusers = ref([]);
@@ -33,9 +34,8 @@ export function useGetUser() {
     };
   
     return { Getusers, loading, fetchUser, fetchUserById };
-  }
+}
 
-// Esta parte es la que sirve para modificar y administrar usuarios en: http://127.0.0.1:8000/admin/botón de user
 export default function useUsers() {
     const users = ref([])
     const user = ref({
@@ -125,36 +125,33 @@ export default function useUsers() {
     }
 
     const deleteUser = async (id) => {
-        swal({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this action!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            confirmButtonColor: '#ef4444',
-            timer: 20000,
-            timerProgressBar: true,
-            reverseButtons: true
-        })
-            .then(result => {
-                if (result.isConfirmed) {
-                    axios.delete('/api/users/' + id)
-                        .then(response => {
-                            getUsers()
-                            router.push({name: 'users.index'})
-                            swal({
-                                icon: 'success',
-                                title: 'User deleted successfully'
-                            })
-                        })
-                        .catch(error => {
-                            swal({
-                                icon: 'error',
-                                title: 'Something went wrong'
-                            })
-                        })
-                }
+        try {
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
+            if (result.isConfirmed) {
+                const response = await axios.delete(`/api/users/${id}`);
+                Swal.fire({
+                    icon: 'success',
+                    title:'¡Tu cuenta se ha eliminado!', 
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title:'¡Tu cuenta no ha podido eliminarse!', 
+                showConfirmButton: false,
+                timer: 1500
             })
+        }
     }
 
     return {

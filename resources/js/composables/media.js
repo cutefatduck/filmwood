@@ -4,6 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export function useGetMedia() {
+
   const Getmedias = ref([]);
   const Getmedia = ref('');
   const loading = ref(false);
@@ -36,7 +37,7 @@ export function useGetMedia() {
     try {
       loading.value = true;
       const response = await axios.get(`/api/media/${id}`);
-      Getmedia.value = response.data; // Asignamos el resultado a un array para mantener la consistencia con la lista de medios
+      Getmedia.value = response.data.data; // Asignamos el resultado a un array para mantener la consistencia con la lista de medios
     } catch (error) {
       console.error(`Error fetching media with ID ${id}:`, error);
     } finally {
@@ -56,77 +57,70 @@ export function useGetMedia() {
     }
   };
 
-  return { Getmedias, Getmedia, loading, fetchMedia, fetchMediaIndex, fetchMediaById, fetchMediaByGenre };
-}
-
-export function useSearchMedia(){
   const SearchReturn = ref('')
-
   const fetchsubmitSearch = async (searchTerm) => {
     try {
-        const response = await axios.get('/api/media/search', {
-            params: {
-                search: searchTerm.value
-            },
-        });
-        SearchReturn.value = response.data
+      const response = await axios.get('/api/media/search', {
+        params: {
+        search: searchTerm.value
+        },
+      });
+      SearchReturn.value = response.data
     } catch (error) {
-        console.error('Error al realizar la búsqueda:', error);
+      console.error('Error al realizar la búsqueda:', error);
     }
-    };
-
-    return {SearchReturn, fetchsubmitSearch}
-}
-
-export function useGetRandomMedia() {
-  const randomMedia = ref(null);
-
-  const fetchRandomMedia = async () => {
-      try {
-          const response = await axios.get('/api/media');
-          if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-              // Obtenemos un ID aleatorio dentro del rango de la longitud del array de media shows
-              const randomIndex = Math.floor(Math.random() * response.data.length);
-              // Obtenemos la media show aleatoria utilizando el ID aleatorio dentro
-              randomMedia.value = response.data[randomIndex];
-          } else {
-              console.error('No se encontraron datos de media shows disponibles.');
-          }
-      } catch (error) {
-          console.error('Error fetching random media:', error);
-      }
   };
 
-  return { randomMedia, fetchRandomMedia };
-}
+  const randomMedia = ref(null);
+  const fetchRandomMedia = async () => {
+    try {
+      const response = await axios.get('/api/media');
+      if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+        // Obtenemos un ID aleatorio dentro del rango de la longitud del array de media shows
+        const randomIndex = Math.floor(Math.random() * response.data.length);
+        // Obtenemos la media show aleatoria utilizando el ID aleatorio dentro
+        randomMedia.value = response.data[randomIndex];
+      } else {
+        console.error('No se encontraron datos de media shows disponibles.');
+      }
+    } catch (error) {
+      console.error('Error fetching random media:', error);
+    }
+  };
 
-export function useDeleteMedia(medias) {
   const deleteMedia = async (id, index) => {
     try {
       const result = await Swal.fire({
         title: '¿Estás seguro?',
         text: 'Esta acción no se puede deshacer.',
         icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Sí, eliminar',
-          cancelButtonText: 'Cancelar'
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
       });
   
       if (result.isConfirmed) {
-        const response = await axios.delete(`/api/media/${id}`);
-        medias.value.splice(index, 1);
-        Swal.fire('¡Eliminado!', 'El registro ha sido eliminado.', 'success');
+        // Primero elimina los géneros asociados a la media show
+        const mediaResponse = await axios.delete(`/api/media/${id}`);
+        Getmedias.value.splice(index, 1);
+        Swal.fire({
+          icon: 'success',
+          title: '¡La media show ha sido eliminada correctamente!', 
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     } catch (error) {
-      console.log(error)
-      Swal.fire('Error', 'Hubo un problema al intentar eliminar el registro.', 'error');
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: '¡La media show no ha podido eliminarse!', 
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
-  
-  return { deleteMedia };
-}
 
-export function useAddMedia() {
   const addMedia = async (media) => {
     try {
       const serializedMedia = new FormData();
@@ -135,24 +129,28 @@ export function useAddMedia() {
           serializedMedia.append(key, media[key]);
         }
       }
-
       const response = await axios.post('/api/media', serializedMedia, {
         headers: {
           'content-type': 'multipart/form-data'
         }
       });
-
-      Swal.fire('¡Éxito!', 'El nuevo medio show ha sido agregado.', 'success');
+      Swal.fire({
+        icon: 'success',
+        title:'¡La nueva media show ha sido creada correctamente!', 
+        showConfirmButton: false,
+        timer: 1500
+      })
     } catch (error) {
       console.error('Error al agregar nuevo medio show:', error);
-      Swal.fire('Error', 'Hubo un problema al intentar agregar el nuevo medio show.', 'error');
+      Swal.fire({
+        icon: 'error',
+        title:'¡La media show no ha podido crearse!', 
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   };
 
-  return { addMedia };
-}
-
-export function useEditMedia() {
   const editMedia = async (media, id) => {
     try {const serializedMedia = new FormData();
       for (const key in media) {
@@ -165,12 +163,37 @@ export function useEditMedia() {
           'content-type': 'multipart/form-data'
         }
       });
-      Swal.fire('¡Éxito!', 'El nuevo medio show ha sido modificado.', 'success');
+      Swal.fire({
+        icon: 'success',
+        title:'¡La media show ha sido modificada correctamente!', 
+        showConfirmButton: false,
+        timer: 1500
+      })
     } catch (error) {
       console.error('Error al actualizar los datos del medio show:', error);
-      Swal.fire('Error', 'Hubo un problema al intentar actualizar los datos del medio show.', 'error');
+      Swal.fire({
+        icon: 'error',
+        title:'¡La media show no ha podido modificarse!', 
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   };
 
-  return { editMedia };
+  return { 
+    Getmedias, 
+    Getmedia, 
+    loading, 
+    fetchMedia, 
+    fetchMediaIndex, 
+    fetchMediaById, 
+    fetchMediaByGenre, 
+    fetchsubmitSearch, 
+    SearchReturn, 
+    randomMedia, 
+    fetchRandomMedia, 
+    deleteMedia, 
+    addMedia, 
+    editMedia 
+  };
 }

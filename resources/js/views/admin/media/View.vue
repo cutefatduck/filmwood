@@ -16,11 +16,11 @@
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis corta</label>
-                    <textarea v-model="Getmedia.sinopsis_corta" class="input-formulario" disabled></textarea>
+                    <textarea v-model="Getmedia.sinopsis_corta" rows="3" class="input-formulario" disabled></textarea>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis larga</label>
-                    <textarea v-model="Getmedia.sinopsis" rows="3" class="input-formulario" disabled></textarea>
+                    <textarea v-model="Getmedia.sinopsis" rows="8" class="input-formulario" disabled></textarea>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Duración (HH:MM:SS)</label>
@@ -85,7 +85,6 @@
 
     onMounted (() =>{
         try{
-            console.log(mediaID)
             fetchMediaById(mediaID);
         }catch (error){
             console.error('Error al cargar los datos del medio show:', error);

@@ -115,11 +115,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $this->authorize('user-delete');
+        $user = User::findOrFail($id);
         $user->delete();
-
-        return response()->noContent();
+        return response()->json(['message' => 'El usuario ha sido eliminado correctamente']);
     }
 }

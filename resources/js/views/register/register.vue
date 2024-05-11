@@ -8,7 +8,7 @@
             </div>
             <div class="col-8 col-md-8 col-lg-12 mb-0 pt-6 formulario">
                 <form @submit.prevent="submitRegister" class="container container-form-login-register mb-2 pt-5 mt-5">
-                    <h1>Crea tu cuenta</h1>
+                    <h1 class="register">Crea tu cuenta</h1>
                     <div class="mb-3">
                         <label for="name" class="form-label">Tu nombre</label>
                         <InputText v-model="registerForm.name" id="name" type="text" class="input-formulario" required/>

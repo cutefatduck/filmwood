@@ -19,9 +19,9 @@
                 <td class="text-center">{{ media.id }}</td>
                 <td>{{ media.nombre }}</td>
                 <td class="text-center">
-                  <button class="btn btn-success mr-1" @click="viewMedia(media.id, index)">Ver</button>
-                  <button class="btn btn-warning mr-1" @click="editMedia(media.id)">Edit</button>
-                  <button class="btn btn-danger" @click="deleteMedia(media.id, index)">Delete</button>
+                  <button class="btn btn-success mr-1 action-btn" @click="viewMedia(media.id, index)">View</button>
+                  <button class="btn btn-warning mr-1 action-btn" @click="editMedia(media.id)">Edit</button>
+                  <button class="btn btn-danger mr-1 action-btn" @click="deleteMedia(media.id, index)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -33,33 +33,29 @@
 </template>
 
 <script setup>
+import { ref, onMounted, inject } from "vue";
+import { useRouter } from "vue-router";
+import { useGetMedia } from '@/composables/media';
 
-  import { ref, onMounted, inject } from "vue";
-  import { useRouter } from "vue-router";
-  import { useDeleteMedia, useGetMedia } from '@/composables/media';
+const { Getmedias, fetchMedia, deleteMedia, editMedia } = useGetMedia();
+const router = useRouter();
 
-  const { Getmedias, fetchMedia } = useGetMedia();
-  const { deleteMedia } = useDeleteMedia(Getmedias);
-  const router = useRouter();
+// Función para redirigir a la vista de ver media show
+const viewMedia = async (id) => {
+  try {
+    router.push({ name: 'admin.media.view', params: { id: id} });
+  }catch (error) {
+    console.error('Error fetching media data:', error);
+  }
+};
 
-  const editMedia = async (id) => {
-    try {
-      router.push({ name: 'admin.media.edit', params: { id: id} });
-    } catch (error) {
-      console.error('Error fetching media data:', error);
-    }
-  };
-
-  // Función para redirigir a la vista de ver media show
-  const viewMedia = async (id) => {
-    try {
-      router.push({ name: 'admin.media.view', params: { id: id} });
-    }catch (error) {
-      console.error('Error fetching media data:', error);
-    }
-  };
-
-  onMounted(() => {
-    fetchMedia();
-  });
+onMounted(() => {
+  fetchMedia();
+});
 </script>
+
+<style scoped>
+  .action-btn {
+    width: calc(100% / 5 - 4px);
+  }
+</style>

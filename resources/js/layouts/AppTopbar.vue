@@ -44,7 +44,6 @@
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><router-link class="dropdown-item" to="/user/perfil" >Perfil</router-link></li>
                 <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
-                <li><router-link to="/admin/media" class="dropdown-item">Media</router-link></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" @click="logout">Cerrar sesión</a></li>
               </ul>
@@ -62,12 +61,12 @@
   import { useStore } from "vuex";
   import useAuth from "@/composables/auth";
   import { useRouter } from "vue-router";
-  import { useGetRandomMedia } from '@/composables/media';
+  import { useGetMedia } from '@/composables/media';
   import AppSearchBar from '@/layouts/SearchBar.vue';
 
   const isHomePage = computed(() => router.currentRoute.value.name === 'home');
 
-  const { randomMedia, fetchRandomMedia } = useGetRandomMedia();
+  const { randomMedia, fetchRandomMedia } = useGetMedia();
   const router = useRouter();
   const store = useStore();
   const user = computed(() => store.getters["auth/user"]);

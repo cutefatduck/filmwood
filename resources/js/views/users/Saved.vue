@@ -47,7 +47,7 @@
           <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
         </router-link>
         <p class="fs-3"> <span class="text-danger">Oops!</span> No hay favoritas guardadas.</p>
-        <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
+        <button class="btn btn-primary boton-principal mt-2" @click="redirectToRandomView()">Descubre una joya oculta</button>
       </div>
     </div>    
     <div v-if="showWatchedTab" class="row">
@@ -91,7 +91,7 @@
           <img src="/images/mascota_404.svg" alt="Filmwood Logo" class="logo mb-3" />
         </router-link>
         <p class="fs-3"> <span class="text-danger">Oops!</span> No hay visualizadas guardadas.</p>
-        <router-link to="/" class="btn btn-primary boton-principal mt-2">Ir al inicio</router-link>
+        <button class="btn btn-primary boton-principal mt-2" @click="redirectToRandomView()">Descubre una joya oculta</button>
         </div>
     </div>
     <AppFooter />
@@ -106,6 +106,9 @@
   import { useGetVisualizated } from '@/composables/visualizated';
   import { useStore } from 'vuex';
   import AppFooter from '@/layouts/AppFooter.vue';
+  import { useGetMedia } from '@/composables/media';
+
+  const { randomMedia, fetchRandomMedia } = useGetMedia();
 
   const showFavoritesTab = ref(true);
   const showWatchedTab = ref(false);
@@ -144,6 +147,15 @@
         formattedDuration += ` ${parseInt(minutes)} min`;
       }
       return formattedDuration.trim();
+  };
+
+  const redirectToRandomView = async () => {
+    await fetchRandomMedia();
+    if (randomMedia.value) {
+      router.push({ name: 'media.view', params: { id: randomMedia.value.id.toString() } });
+    } else {
+      console.error('No se encontraron datos de media shows disponibles.');
+    }
   };
 
   onMounted(() => {

@@ -8,7 +8,7 @@
             </div>
             <div class="col-8 col-md-8 col-lg-12 mb-0 pt-6 formulario">
                 <form @submit.prevent="submitLogin" class="container-form-login-register mb-2 pt-5 mt-5">
-                    <h1>Iniciar sesión</h1>
+                    <h1 class="titulo-login-registro">Iniciar sesión</h1>
                     <label class="mb-2" for="user">Tu email</label>
                     <InputText v-model="loginForm.email" class="input-formulario" id="user" placeholder="Tu email" required/>
                     <div class="mb-3">

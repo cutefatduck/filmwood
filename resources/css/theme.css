@@ -60,6 +60,10 @@
     font-weight: 800 ;
   }
 
+  .ol, ul{
+    padding-left: 0;
+  }
+
   p{
     color: var(--color-p-pagina) ;
   }
@@ -103,7 +107,7 @@
 
   .background-pagina{
     background: radial-gradient(circle at 50% 0, var(--color-fondo-pagina-difuminado-2), var(--color-fondo-pagina-difuminado-1) 53%, var(--color-fondo-pagina) 54%);
-    height: 89dvh;
+    height: 87dvh;
     overflow: hidden;
   }
 
@@ -147,8 +151,12 @@
   }
 
   .boton-principal{
-    background-color: #0c0c1d !important;
-    border-color: white !important;
+    /* background-color: #140c1d !important; */
+    background-color: #280055 !important;
+    /* background-color: #12a86f !important; */
+    /* border-color: white !important; */
+    border-color: #280055 !important;
+    /* border-color: white !important; */
   }
 
   .boton-principal:hover {
@@ -163,6 +171,8 @@
 /*Fin del estilo del login y del registro*/
 
 /*Inicio del estilo del header*/
+
+  
 
   .sticky-menu {
     position: sticky;
@@ -243,10 +253,11 @@
 
   .nav-item{
     font-size: 18px;
+    margin-right: 25px;
   }
 
-  .lista{
-    margin-right: 25px;
+  .nav-item:focus{
+    font-size: 18px;
   }
 
   .nav-boton{
@@ -262,7 +273,7 @@
 
   .nav-boton:hover{
     border: 2px solid var(--color-boton-hover);
-    color: #0b0918;
+    color: #140918;
     background-color: white;
   }
 
@@ -414,9 +425,14 @@
     height: 35px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     top: 37px;
-    right: 350px;
+    right: 550px;
     position: absolute;
     width: 20%
+  }
+
+  .p-menubar.p-menubar-mobile .p-menubar-root-list {
+    background: #000000;
+    /* width: auto; */
   }
 
 /* Estilos para el campo de búsqueda */
@@ -425,14 +441,14 @@
     height: 35px;
     padding: 20px;
     background-color: var(--color-fondo-pagina);
-    border-radius: 20px;
+    border-radius: 5px;
     font-size: 16px;
     border: none;
     color: white;
     background-image: url('/images/search.svg');
     background-size: 30px;
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: calc(100% - 10px) center;
   }
 
   /* Estilos para el campo de búsqueda */
@@ -450,7 +466,7 @@
   .search-results {
     list-style: none;
     background-color: var(--color-fondo-pagina);
-    padding: 0;
+    padding: 10px;
   }
 
   .search-results-box{
@@ -462,7 +478,7 @@
   }
 
   .search-results li {
-    padding: 10px 0 10px 10px;
+    padding: 20px 10px 25px 10px;
     font-size: 16px;
   }
 
@@ -597,7 +613,6 @@
 /* Inicio del estilo individual por cada media show */
 
   .contenedor-general-movie {
-    height: 100vh;
     width: 100%;
     padding-left: 7%;
     padding-right: 7%;
@@ -815,7 +830,7 @@
     width: 200px;
     height: 80px;
     border-radius: 20px;
-    background-color: #0b0918;
+    background-color: #280055;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -893,6 +908,12 @@
 
   .movie-genre-details{
     font-size: 16px;
+    margin-right: 10px;
+  }
+
+  .p-tag{
+    font-size: 20px;
+    margin-bottom: 20px;
   }
   
   .movie-trailer {
@@ -1010,9 +1031,20 @@
     font-size: 20px;
   }
 
+  .container-button{
+    display: grid;
+  }
+
   .eliminar-cuenta {
     color: red;
     font-size: 20px;
+    border: none;
+    background-color: transparent;
+  }
+
+  .card-header{
+
+    background-color: transparent;
   }
 
   .modificar-campo:hover,
@@ -1086,7 +1118,7 @@
   }
 
   .sin-contenido-container {
-    margin-top: 35px;
+    margin-top: 60px;
     padding: 59px;
     overflow: hidden;
   }
@@ -1098,13 +1130,39 @@
 
 /*Fin del estilo de mi lista*/
 
+/*Inicio del estilo de crear una nueva media show*/
+
+  .titulo-media{
+    font-size: 40px;
+  }
+
+  .dropzone-container{
+    background: transparent !important;
+    width: 400px;
+    padding: 0px !important;
+  }
+
+  .dropzone-container[data-v-ad77ed98]{
+    padding: 40px !important;
+  }
+
+  .card {
+    border: none;
+  }
+
+  .card-body {
+    padding: 0px;
+  }
+
+/*Fin del estilo de mi lista*/
+
 /*Inicio del responsive*/
 
 /* Estilos para el login y registro */
+
 #login,
 #register {
-  /* Media query para tamaños de pantalla específicos */
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 750px) {
     .input_formulario {
       width: 500px;
     }
@@ -1150,8 +1208,8 @@
   }
 
   @media screen and (max-width: 462px) {
-    .h1 {
-      width: 40px;
+    .register{
+      font-size: 50px;
     }
   }
 }
@@ -1163,23 +1221,113 @@
     text-align: center !important;
     margin-left: 110px;
   }
+  .p-menubar.p-menubar-mobile .p-menubar-root-list .p-menuitem {
+    width: 30%; 
+    position: static;
+  }
 }
 
 @media screen and (max-width: 1600px) {
   .generos-container {
     justify-content: center;
-    margin-left: 110px !important;
+    margin-left: 90px !important;
+  }
+}
+
+/* Estilos para el header */
+
+@media screen and (max-width: 1800px) {
+  .nav-item {
+    margin-right: auto;
+  }
+  .p-menuitem{
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 1480px) {
+  .search-input {
+    display: block;
+  }
+  .search-box{
+    right: 300px;
+  }
+}
+
+@media screen and (max-width: 1110px) {
+  .search-input {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 955px) {
+  .search-input {
+    display: block;
+    width: 150%;
+  }
+  .search-box{
+    left: 300px;
+  }
+}
+
+@media screen and (max-width: 815px) {
+  .search-box{
+    left:250px;
+  }
+} 
+
+@media screen and (max-width: 740px) {
+  .search-input {
+    display: none;
+  }
+} 
+
+@media screen and (max-width: 640px) {
+  .p-menubar-end {
+    margin-right: 0px;
+  }
+  .nav-item {
+    font-size: 12px;
+  }
+  .username{
+    font-size: 12px;
+  }
+  .dropdown-menu {
+    top: 65px;
+    display: none;
+    position: absolute;
+    right: 10px;
+    z-index: 1000;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    left: 10px;
   }
 }
 
 /* Estilos para el perfil de usuario */
+
+.eliminar-cuenta {
+  background: none;
+  border: none;
+  color: #ff0000;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0; 
+  font-size: 20px;
+}
+
+.eliminar-cuenta:hover {
+  text-decoration: underline;
+}
+
 #perfil-user {
   @media screen and (max-width: 887px) {
-    .modificar-campo {
+    .modificar-campo, .eliminar-cuenta {
       width: auto;
     }
 
-    .input-formulario-user {
+    .input-formulario-user, .eliminar-cuenta {
       width: auto;
     }
   }
@@ -1197,11 +1345,7 @@
 
     .card {
       border: none !important;
-      padding-right: 5px !important;
-    }
-
-    .row > * {
-      padding-left: 5px !important;
+      padding-right: 25px !important;
     }
 
     .eliminar-cuenta {
@@ -1331,6 +1475,20 @@
     .mx-sm-0 {
       margin-right: 0 !important;
       margin-left: 0 !important;
+    }
+  }
+
+  @media screen and (max-width: 459px) {
+    .contenedor-general-mi-lista {
+      padding-left: 0px !important;
+    }
+  }
+
+  /* Estilos para las media shows en el panel de administración */
+
+  @media screen and (max-width: 750px) {
+    .action-btn{
+      width: auto !important;
     }
   }
 

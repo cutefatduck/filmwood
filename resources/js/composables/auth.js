@@ -69,30 +69,53 @@ export default function useAuth() {
     }
 
     const submitRegister = async () => {
-        if (processing.value) return
-
-        processing.value = true
-        validationErrors.value = {}
-
+        if (processing.value) return;
+    
+        processing.value = true;
+        validationErrors.value = {};
+    
         await axios.post('/register', registerForm)
             .then(async response => {
-                // await store.dispatch('auth/getUser')
-                // await loginUser()
+                // Iniciar sesión automáticamente después del registro exitoso
+                await submitLoginAfterRegister(registerForm.email, registerForm.password);
+    
                 swal({
                     icon: 'success',
-                    title: 'Registrado correctamente',
+                    title: 'Bienvenido a Filmwood',
                     showConfirmButton: false,
                     timer: 1500
-                })
-                await router.push({ name: 'auth.login' })
+                });
+    
+                await router.push({ name: 'home' });
             })
             .catch(error => {
                 if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
+                    validationErrors.value = error.response.data.errors;
                 }
             })
-            .finally(() => processing.value = false)
+            .finally(() => processing.value = false);
     }
+    
+    // Función para iniciar sesión después de registrar al usuario
+    const submitLoginAfterRegister = async (email, password) => {
+
+        // Recogemos las variables necesarias para iniciar sesión:
+        loginForm.email = email;
+        loginForm.password = password;
+    
+        // Enviamos el formulario de inicio de sesión
+        await axios.post('/login', loginForm)
+            .then(async response => {
+                // Obtenemos los detalles del usuario
+                await store.dispatch('auth/getUser');
+            })
+            .catch(error => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors;
+                }
+            });
+    }
+    
 
     const submitForgotPassword = async () => {
         if (processing.value) return
@@ -180,6 +203,31 @@ export default function useAuth() {
             })
     }
 
+    const logoutDeleteAccount = async () => {
+        if (processing.value) return
+
+        processing.value = true
+
+        axios.post('/logout')
+            .then(response => {
+                user.name = ''
+                user.email = ''
+                store.dispatch('auth/logout')
+                router.push({ name: 'auth.register' })
+            })
+            .catch(error => {
+                // swal({
+                //     icon: 'error',
+                //     title: error.response.status,
+                //     text: error.response.statusText
+                // })
+            })
+            .finally(() => {
+                processing.value = false
+                // Cookies.remove('loggedIn')
+            })
+    }
+
     const getAbilities = async() => {
         await axios.get('/api/abilities')
             .then(response => {
@@ -206,6 +254,7 @@ export default function useAuth() {
         user,
         getUser,
         logout,
-        getAbilities
+        getAbilities,
+        logoutDeleteAccount
     }
 }
