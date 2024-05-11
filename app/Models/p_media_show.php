@@ -52,7 +52,7 @@ class p_media_show extends Model implements HasMedia
     {
         return $this->belongsToMany(p_genres::class, 'p_media_show_genres', 'id_media_show', 'id_genre');
     }
-
+    
     // Define la colección de medios y su conversión
     public function registerMediaCollections(): void
     {

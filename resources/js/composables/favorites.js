@@ -9,13 +9,13 @@ export function useGetFavorites() {
   const GetFavorites = ref([]);
   const loading = ref(false);
 
-  const fetchFavoritesByUserId = async (userID) => {
+  const fetchFavoritesByUserId = async () => {
     try {
       loading.value = true;
-      const response = await axios.get(`/api/user/favorites/${userID}`);
+      const response = await axios.get(`/api/favorites`);
       GetFavorites.value = response.data;
     } catch (error) {
-      console.error(`Error fetching favorites for media with ID user ${userID}:`, error);
+      console.error(`Error fetching favorites for media with ID user :`, error);
     } finally {
       loading.value = false;
     }
@@ -52,6 +52,7 @@ export function useGetFavorites() {
 
   // Variable para almacenar el estado del botón "Favoritos"
   const isFavorite = ref(false);
+  
 
   // Función para obtener la ruta de la imagen de favoritos
   const getFavoriteImageSrc = () => {
@@ -63,13 +64,33 @@ export function useGetFavorites() {
   };
 
   // Agregaremos una función para verificar si la media show actual ya se encuentra en favoritos o no para el usuario actual:
-  const fetchMediaFavoriteStatus = async (mediaId) => {
+  const fetchMediaFavoriteStatus =  async (mediaId) => {
     try {
       const response = await axios.get(`/api/favorites/${mediaId}`);
-      return response.data.isFavorite;
+      const hasData = Array.isArray(response.data) && response.data.length > 0;
+      return hasData;
     } catch (error) {
       console.error('Error al verificar el estado de favoritos:', error);
       return false;
+    } finally {
+        loading.value = false;
+      }
+  };
+  const favoritesStatus = ref([]);
+  const fetchMediaFavoriteStatusArray = async (mediaIds) => {
+    try {
+      // Array para almacenar las promesas de las llamadas a la API
+      const promises = mediaIds.map(mediaId => axios.get(`/api/favorites/${mediaId}`));
+  
+      // Esperar a que todas las promesas se resuelvan
+      const responses = await Promise.all(promises);
+  
+      // Mapear las respuestas para obtener el estado de favoritos de cada elemento
+      favoritesStatus.value = responses.map(response => response.data);
+  
+    } catch (error) {
+      console.error('Error al verificar el estado de favoritos:', error);
+      return [];
     }
   };
 
@@ -123,7 +144,9 @@ export function useGetFavorites() {
   return {
     GetFavorites,
     loading,
+    favoritesStatus,
     fetchFavoritesByUserId,
+    fetchMediaFavoriteStatusArray,
     fetchMediaFavoriteStatus,
     addFavorites,
     isFavorite,

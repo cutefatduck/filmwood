@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PemiController;
 use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,6 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::get('media', [MediaShowController::class, 'index']);
 Route::get('mediaIndex', [MediaShowController::class, 'indexNew']);
 Route::get('media/search' , [MediaShowController::class, 'search']);
-
 // Mostrar una media show:
 Route::get('/media/{id}', [MediaShowController::class, 'show']);
 // Eliminar una media show en concreto en el panel de administrador:
@@ -34,14 +34,10 @@ Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
 // Crear una nueva media show:
 Route::post('media/', [MediaShowController::class, 'store']);
 
-
-
 // Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
 
 // Agregar una valoracion a una media show:
 Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
-
-
 
 // Verificar si la media show ya ha sido valorada por el usuario actual
 Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);
@@ -53,7 +49,8 @@ Route::get('media/valorations/{id}', [MediaShowController::class, 'getMediaShowV
 Route::post('/favorites/{id}', [MediaShowController::class, 'manageToFavorites']);
 
 // Verificar si la media show ya está en favoritos para mostrar una imagen de favoritos u otra:
-Route::get('/favorites/{id}', [MediaShowController::class, 'checkIfFavorite']);
+// Route::get('/favorites/{id}', [MediaShowController::class, 'checkIfFavorite']);
+Route::get('/favorites/{id}', [FavoriteController::class, 'getCheckFavorites']);
 
 // Obtenemos los media shows favoritos de un user en concreto:
 Route::get('user/favorites/{id}', [MediaShowController::class, 'getMediaShowFavorites']);
@@ -84,6 +81,9 @@ Route::get('genres', [GenreController::class, 'view']);
 Route::get('mediaShowType', [TypeMediaShowController::class, 'view']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+    // Eliminar el usuario:
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
     Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);
     Route::apiResource('categories', CategoryController::class);

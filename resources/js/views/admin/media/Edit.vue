@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between pb-2 mb-2">
-                <h1 class="titulo-slider">Edita este medio show</h1>
+                <h1 class="titulo-media">Edita este medio show</h1>
             </div>
 
             <div v-if="strSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -15,59 +15,54 @@
                 <strong>{{ strError }}</strong>
             </div>
 
-            <p>{{ media }}</p>
-
             <form @submit.prevent="editMedia(media)" enctype="multipart/form-data">
-                <div class="form-group mb-2">
-                    <label class="mb-3">Titulo</label>
-                    <input v-model="media.nombre"  type="text" class="input-formulario">
-                </div>
+                {{ Getmedia }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Tipo de Media Show</label>
-                    <input :value="media.mediashowtype_name" type="text" class="input-formulario">
-                    <input v-value="media.id_media_show_type" type="hidden">
+                    <Dropdown v-model="Getmedia.mediashowtype" :modelValue="selected" :options="mediaShowTypes" optionLabel="type" op placeholder="Select a City" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
+                {{ Getmedia.genres }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Género</label>
-                    <input :value="media.genres_name" type="text" class="input-formulario">
+
+                    <!--optionValue="id"-->
+                    <MultiSelect multiple v-model="Getmedia.genres" :options="GetGenres" filter optionLabel="name_genre" dataKey="id" placeholder="Select genres" :maxSelectedLabels="3" objeclass="w-full md:w-20rem" />
                 </div>
                 <div class="form-group mb-2">
-                    <label class="mb-3">País de procedencia</label>
-                    <input :value="media.country_name" type="text" class="input-formulario">
-                    <input v-model="media.id_country" type="hidden">
+                    <label class="mb-3">País de origen</label>
+                    <Dropdown v-model="Getmedia.country" :options="countries" optionLabel="name" op placeholder="Select a City" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Pemi</label>
-                    <input :value="media.pemi_name" type="text" class="input-formulario">
-                    <input v-model="media.id_pemi" type="hidden">
+                    <Dropdown v-model="Getmedia.pemi" :options="pemis" optionLabel="number_pemi" op placeholder="Select a City" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis corta</label>
-                    <textarea v-model="media.sinopsis_corta" class="input-formulario"></textarea>
+                    <textarea v-model="Getmedia.sinopsis_corta" class="input-formulario"></textarea>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis larga</label>
-                    <textarea v-model="media.sinopsis" rows="3" class="input-formulario"></textarea>
+                    <textarea v-model="Getmedia.sinopsis" rows="3" class="input-formulario"></textarea>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Duración (HH:MM:SS)</label>
-                    <input v-model="media.duracion" class="input-formulario" type="text" name="duration" pattern="^([0-9]{2}):([0-5][0-9]):([0-5][0-9])$"/>
+                    <input v-model="Getmedia.duracion" class="input-formulario" type="text" name="duration" pattern="^([0-9]{2}):([0-5][0-9]):([0-5][0-9])$"/>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Actores</label>
-                    <input v-model="media.actores" class="input-formulario" type="text" name="actors"/>
+                    <input v-model="Getmedia.actores" class="input-formulario" type="text" name="actors"/>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Portada</label>
-                    <img :src="media.portada_img" alt="Portada del Media Show" class="img-fluid mt-2" >
+                    <img :src="Getmedia.portada_img" alt="Portada del Media Show" class="img-fluid mt-2" >
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Idioma</label>
-                    <input v-model="media.idioma" class="input-formulario" type="text" name="language"/>
+                    <input v-model="Getmedia.idioma" class="input-formulario" type="text" name="language"/>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Directores</label>
-                    <input v-model="media.directores" class="input-formulario" type="text" name="directors"/>
+                    <input v-model="Getmedia.directores" class="input-formulario" type="text" name="directors"/>
                 </div>
                 <!-- <div class="form-group mb-2">
                     <label class="mb-3">Trailer</label>
@@ -107,53 +102,53 @@
     import { useRouter } from 'vue-router';
     import { useGetMedia } from '@/composables/media';
     import { useEditMedia } from '@/composables/media';
+    import { useGetMediaShowType } from '@/composables/mediaShowType';
+    import { useGetGenres } from '@/composables/genres';
+    import { useGetCountries } from '@/composables/countries';
+    import { useGetPemi } from '@/composables/pemis';
 
     const { Getmedia, fetchMediaById } = useGetMedia();
+    const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
+    const { mediaShowTypes, loading: loadingTypes, fetchMediaShowType } = useGetMediaShowType();
+    const { countries, fetchCountries } = useGetCountries();
+    const { pemis, fetchPemi } = useGetPemi();
+    
     const { editMedia } = useEditMedia();
     const router = useRouter();
+    const strError = ref('');
+    const strSuccess = ref('');
+    const selected = ref('');
+
     let mediaID = router.currentRoute.value.params.id
-
-    const nombreMedia = Getmedia.value.nombre;
-    const pemiMedia = Getmedia.value.id_pemi;
-    const duracionMedia = Getmedia.value.duracion;
-    const id_countryMedia = Getmedia.value.id_country;
-    const actoresMedia = Getmedia.value.actores;
-    const portada_imgMedia = Getmedia.value.portada_img;
-    const idiomaMedia = Getmedia.value.idioma;
-    const directoresMedia = Getmedia.value.directores;
-    const sinopsisMedia = Getmedia.value.sinopsis;
-    const sinopsis_cortaMedia = Getmedia.value.sinopsis_corta;
-    const id_media_show_typeMedia = Getmedia.value.id_media_show_type;
-    const fecha_media_showMedia = Getmedia.value.fecha_media_show;
-    const sagaMedia = Getmedia.value.saga;
-    const temporadasMedia = Getmedia.value.temporadas;
-    const genresMedia = Getmedia.value.genres;
-    const episodiosMedia = Getmedia.value.episodios;
-
-
+    
     const media = ref({ 
-        nombre: nombreMedia,
-        id_pemi: pemiMedia, 
-        duracion: duracionMedia, 
-        id_country: id_countryMedia, 
-        actores: actoresMedia, 
-        portada_img: portada_imgMedia, 
-        idioma: idiomaMedia, 
-        directores: directoresMedia,
-        sinopsis: sinopsisMedia,
-        sinopsis_corta: sinopsis_cortaMedia,
-        id_media_show_type: id_media_show_typeMedia,
+        nombre: Getmedia.mediashowtype,
+        id_pemi: Getmedia.sinopsis_corta, 
+        duracion: '', 
+        id_country:'', 
+        actores: '', 
+        portada_img: '', 
+        idioma: '', 
+        directores: '',
+        sinopsis:'',
+        sinopsis_corta: '',
+        id_media_show_type: '',
         // trailer: '', 
-        fecha_media_show: fecha_media_showMedia, 
-        saga: sagaMedia, 
-        temporadas: temporadasMedia,
-        genres: genresMedia,
-        episodios: episodiosMedia 
+        fecha_media_show: '', 
+        saga: '', 
+        temporadas: '',
+        genres: Getmedia.genres,
+        episodios: '' 
     });
 
     onMounted (() =>{
         try{
+            console.log(selected)
             fetchMediaById(mediaID);
+            fetchGenres();
+            fetchMediaShowType();
+            fetchCountries();
+            fetchPemi();
         }catch (error){
             console.error('Error al cargar los datos del medio show:', error);
         }

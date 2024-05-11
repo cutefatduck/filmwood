@@ -8,7 +8,7 @@
         <div class="col-lg-6 ms-lg-5 offset-sm-1">
             <h2 class="titulo-slider mt-6 mx-6">Lo más nuevo</h2>
         </div>
-        <Carousel :value="Getmedias" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
+        <Carousel :value="Getmedias.data" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" :showIndicators="false">
             <template #item="{ data }">
                 <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
                     <div class="mb-1">
@@ -20,14 +20,19 @@
                                 <img class="play-button me-3" src="/images/play-button.svg">
                             </router-link>
                             <span class="me-5 visitar">Visitar</span>
+                            
                             <div class="ms-auto">
-
-                                <img v-if="data.isFavorite == 1"  src="/images/like.svg"   class="visualizated-button me-3" @click="data.isFavorite=0" alt="VISUALIZAR">
-                                <img v-else src="/images/no_like.svg"  class="favoritos-home me-2" @click="data.isFavorite=1" alt="FAVORITOS" title="Agrega a favoritos">
-
-                                <!-- Para devolver si una es favorita o no, modificar el onclick para llamar al server y pedir que se actualice y en el controlador, al devolver las pelis si son favoritas o no-->
-                                <!-- <img :src="getFavoriteImageSrc(data.id)" class="favoritos-home me-2" @click="handleFavoriteAction(data.nombre, data.id)" alt="FAVORITOS" title="Agrega a favoritos">
-                                <img :src="getWatchedImageSrc()" class="visualizated-button me-3" @click="handleWatchedAction(data.id)" alt="VISUALIZAR"> -->
+                                <div v-if="getFavoriteImageSrc(data.id)">
+                                    <div v-if=" true1 ">
+                                        {{ 1 }}
+                                    </div>
+                                    
+                                    <img src="/images/like.svg"  alt="Toggle Favorite"/>
+                                </div>
+                                <div v-else>
+                                    <img src="/images/no_like.svg"  alt="Toggle Favorite"/>
+                                </div>
+                                
                             </div>
                         </div>
                         <div class="d-flex align-items-center mt-5">
@@ -38,7 +43,7 @@
                                 <p>{{ formateoDuracion(data.duracion) }}</p>
                             </div>
                             <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                                <p class="m-0">+{{ data.pemi_name }}</p>
+                                <p class="m-0">+{{ data.pemi }}</p>
                             </div>
                         </div>
                         <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
@@ -105,28 +110,43 @@
 
 <script setup>
 
-    import { ref, onMounted, onUpdated, onBeforeUnmount } from 'vue';
+    import { ref, computed, onMounted, onUpdated, onBeforeUnmount } from 'vue';
     import { useGetMedia } from '@/composables/media';
     import { useGetGenres } from '@/composables/genres';
     import { useGetFavorites } from '@/composables/favorites';
     import { useGetVisualizated } from '@/composables/visualizated';
     import AppFooter from '@/layouts/AppFooter.vue';
     import { useRouter } from "vue-router";
+    import VueLazyload from 'vue-lazyload'
 
-    const { isFavorite, getFavoriteImageSrc, handleFavoriteAction, fetchMediaFavoriteStatus } = useGetFavorites();
-    const { isWatched, getWatchedImageSrc, handleWatchedAction, fetchMediaVisualizedStatus } = useGetVisualizated();
+    const { loading, fetchMediaFavoriteStatus, handleFavoriteAction, GetFavorites, favoritesStatus, fetchFavoritesByUserId } = useGetFavorites();
+    const { isWatched, getWatchedImageSrc, handleWatchedAction, fetchMediaVisualizedStatus, } = useGetVisualizated();
     const { Getmedias, loading: loadingMedia, fetchMediaIndex } = useGetMedia();
     const { GetMediaShowByGenre, fetchMediaShowByGenre, fetchGenres, GetGenres } = useGetGenres();
 
     const showScrollButton = ref(false);
+    const user = computed(() => store.getters["auth/user"]);
 
+    let true1 = []
+    
     // Función para mostrar u ocultar el botón de scroll según la posición del usuario:
     const handleScroll = () => {
         const scrollPosition = window.scrollY || document.documentElement.scrollTop;
         // Mostrar el botón cuando el usuario ha scrollado más allá de cierta posición:
         showScrollButton.value = scrollPosition > 300;
-        console.log('showScrollButton:', showScrollButton.value);
     };
+    const getFavoriteImageSrc = async(mediaId) => {
+    try {
+      const isTrue = await fetchMediaFavoriteStatus(mediaId);
+      true1.push(isTrue);
+      return isTrue;
+    } catch (error) {
+      console.error('Error fetching image source:', error);
+      return ''; // Return default image source or handle error as needed
+    }
+  };
+  console.log(true1)
+
 
     // Función para hacer scroll hacia arriba
     const scrollToTop = () => {
@@ -135,6 +155,8 @@
             behavior: 'smooth'
         });
     };
+
+
 
     const responsiveOptions = ref([
         {
@@ -152,16 +174,6 @@
     // Variable que al darle clic al botón de play, nos lleve a la vista de la media show en particular:
     const router = useRouter();
 
-    // Función para redirigir a la vista de ver una media show en concreto:
-    const viewMedia = async (id) => {
-        try {
-            // Redirigir a la vista de ver media show
-            router.push({ name: 'media.view', params: { id: id } });
-        } catch (error) {
-            console.error('Error fetching media data:', error);
-        }
-    };
-
     const formateoDuracion = (duration) => {
         if (!duration) return '';
         const [hours, minutes, seconds] = duration.split(':');
@@ -175,15 +187,14 @@
         return formattedDuration.trim();
     };
 
-    // const mediaIdAux = Getmedia.id;
-    // console.log(mediaIdAux);
-
+    
     onMounted(async () => {
         try {
             await fetchMediaIndex();
             await fetchGenres();
             await fetchMediaShowByGenre();
-            // const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
+            await fetchFavoritesByUserId();
+            //const mediaIds = extractMediaIds(Getmedias);
             // const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
             // isFavorite.value = favoriteStatus;
             // isWatched.value = visualizatedStatus;

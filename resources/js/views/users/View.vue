@@ -12,23 +12,23 @@
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
                 <input  v-model="information.email" class="dato col-md-6 input-formulario-user" type="text" :disabled="!emailFieldEnabled" />
-                <a href="#" class="modificar-campo col-md-4" @click="activeField('email')">
-                  <template v-if="emailFieldEnabled">Cancelar</template>
-                  <template v-else>Modificar</template>
+                <a href="#" class="modificar-campo col-md-4">
+                  <template v-if="emailFieldEnabled"><div @click="cancelar('email')">Cancelar</div></template>
+                  <template v-else><div @click="activeField('email')">Modificar</div></template>
                 </a>
               </li>
               <li class="row mt-5 justify-content-between align-items-center">
-                <input v-model="information.nombre" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameFieldEnabled" />
-                <a href="#" class="modificar-campo col-md-4" @click="activeField('name')">
-                  <template v-if="nameFieldEnabled">Cancelar</template>
-                  <template v-else>Modificar</template>
+                <input v-model="information.name" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameFieldEnabled" />
+                <a href="#" class="modificar-campo col-md-4">
+                  <template v-if="nameFieldEnabled"><div @click="cancelar('name')">Cancelar</div></template>
+                  <template v-else><div @click="activeField('name')">Modificar</div></template>
                 </a>
               </li>
               <li class="row mt-5 justify-content-between align-items-center">
-                <input v-model="information.password" class="dato col-md-6 input-formulario-user" type="password" :disabled="!passwordFieldEnabled" />
-                <a href="#" class="modificar-campo col-md-4" @click="activeField('password')">
-                  <template v-if="passwordFieldEnabled">Cancelar</template>
-                  <template v-else>Modificar</template>
+                <input v-model="information.password" placeholder="*****" class="dato col-md-6 input-formulario-user" type="password" :disabled="!passwordFieldEnabled" />
+                <a href="#" class="modificar-campo col-md-4">
+                  <template v-if="passwordFieldEnabled"><div @click="cancelar('password')">Cancelar</div></template>
+                  <template v-else><div @click="activeField('password')">Modificar</div></template>
                 </a>
               </li>
             </div>
@@ -38,20 +38,24 @@
             <h2 class="subtitulo-datos col-xxl-3">PERFIL SOCIAL</h2>
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
-                <input v-model="information.perfil_social" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameUserFieldEnabled" />
-                <a href="#" class="modificar-campo col-md-4" @click="activeField('name_user')">
-                  <template v-if="nameUserFieldEnabled">Guardar</template>
-                  <template v-else>Modificar</template>
+                <input v-model="information.name_user" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameUserFieldEnabled" />
+                <a href="#" class="modificar-campo col-md-4">
+                  <template v-if="nameUserFieldEnabled"><div @click="cancelar('name_user')">Cancelar</div></template>
+                  <template v-else><div @click="activeField('name_user')">Modificar</div></template>
                 </a>
               </li>
             </div>
           </ul>
+          <div class="container-button">
+            <button class="btn btn-primary boton-principal buton-guardar" @click="updateUser">Guardar Cambios</button>
+          </div>
+          
           <hr>
           <ul class="list-unstyled row mt-5">
             <h2 class="subtitulo-datos col-xxl-3">CONFIGURACIÓN</h2>
             <div class="col-xxl-8">
-              <li class="row">
-                <a href="#" class="eliminar-cuenta">Eliminar cuenta</a>
+              <li class="row justify-content-between align-items-center">
+                <button class="eliminar-cuenta col-4" @click="deleteUserAccount(user.id)">Eliminar cuenta</button>
               </li>
             </div>
           </ul>
@@ -70,8 +74,11 @@
   import useAuth from "@/composables/auth";
   import { useGetUser } from '@/composables/users';
   import AppFooter from '@/layouts/AppFooter.vue';
+  import Swal from 'sweetalert2';
 
   const { Getusers, loading, fetchUser, fetchUserById } = useGetUser();
+  const { deleteUser } = useUsers();
+  const { logoutDeleteAccount } = useAuth();
   const router = useRouter();
   const store = useStore();
   const userId = router.currentRoute.value.params.userId;
@@ -88,61 +95,77 @@
   const passwordUsuario = user.value.password;
   const perfilUsuario = user.value.name_user;
 
-  const cancelar = async (campo) =>{
-
-    switch (campo) {
-      case "email":
-      emailUsuario = user.value.email;
-        break;
-      case "name":
-      nombreUsuario = user.value.name;
-        break;
-      case "password":
-      passwordUsuario = user.value.password;
-       break; 
-
-      case "perfil":
-
-        break;
-      default:
-        break;
-    }
-    const emailUsuario = user.value.email;
-    const nombreUsuario = user.value.name;
-    const passwordUsuario = user.value.password;
-    const perfilUsuario = user.value.name_user;
+  const cancelar = (campo) => {
+  switch (campo) {
+    case "email":
+      information.value.email = emailUsuario;
+      emailFieldEnabled.value = false;
+      break;
+    case "name":
+      information.value.name = nombreUsuario;
+      nameFieldEnabled.value = false;
+      break;
+    case "password":
+      information.value.password = passwordUsuario;
+      passwordFieldEnabled.value = false;
+      break;
+    case "name_user":
+      information.value.name_user = perfilUsuario;
+      nameUserFieldEnabled.value = false;
+      break;
+    default:
+      break;
   }
+};
 
   const information = ref({ 
     email: emailUsuario, 
-    nombre: nombreUsuario,
-    password: '*****',
-    perfil_social: perfilUsuario,
+    name: nombreUsuario,
+    password: '',
+    name_user: perfilUsuario,
   });
 
   
   // Crearemos una función para controlar que campo está activo:
   const activeField = (field) => {
-    switch (field) {
-      case 'email':
-        emailFieldEnabled.value = !emailFieldEnabled.value;
-        break;
-      case 'name':
-        nameFieldEnabled.value = !nameFieldEnabled.value;
-        break;
-      case 'password':
-        passwordFieldEnabled.value = !passwordFieldEnabled.value;
-        break;
-      case 'name_user':
-        nameUserFieldEnabled.value = !nameUserFieldEnabled.value;
-        break;
-      default:
-        break;
+  // Activar solo el campo seleccionado
+  switch (field) {
+    case 'email':
+      emailFieldEnabled.value = true;
+      break;
+    case 'name':
+      nameFieldEnabled.value = true;
+      break;
+    case 'password':
+      passwordFieldEnabled.value = true;
+      break;
+    case 'name_user':
+      nameUserFieldEnabled.value = true;
+      break;
+    default:
+      break;
+  }
+};
+
+const deleteUserAccount = async (user) => {
+    try {
+        await deleteUser(user);
+        await logoutDeleteAccount();
+        router.push({ name: 'auth.register' });
+    } catch (error) {
+        console.error('Error al eliminar la cuenta:', error);
     }
-  };
+};
 
   const updateUser = async () => {
     await axios.put('/api/user', information.value);
+    emailFieldEnabled.value = false;
+    nameFieldEnabled.value = false;
+    passwordFieldEnabled.value = false;
+    nameUserFieldEnabled.value = false;
+    Swal.fire('Guardado!', 'Se han guardado los cambios correctamente.', 'success');
+    
+    
   };
 
   // Función para obtener el ID del usuario desde la ruta:
@@ -154,5 +177,6 @@
       strError.value = 'Error al cargar los datos del user';
     }
   });
+  
 
 </script>

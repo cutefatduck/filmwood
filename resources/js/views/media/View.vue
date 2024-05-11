@@ -6,14 +6,16 @@
           <img :src="Getmedia?.portada_img" alt="Portada del Media Show" class="poster-image col-sm-4">
           <div class="details-right col-sm-8">
             <h1 class="movie-title">{{ Getmedia.nombre }}</h1>
-            <p><span v-for="(genre, index) in Getmedia.genres_name" :key="index" class="movie-genre">{{ genre }}<span v-if="index !== Getmedia.genres_name.length - 1">, </span></span></p>
+            <span v-for="genre in Getmedia.genres" :key="index" class="movie-genre-details">
+              <Tag value="secondary">{{ genre.name_genre }}</Tag>
+            </span>
             <div class="meta-container">
               <p class="meta-item">{{Getmedia.fecha_media_show}}</p>
               <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.temporadas}} temporadas</p>
               <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.episodios}} episodios</p>
               <p class="meta-item">{{formateoDuracion(Getmedia.duracion)}}</p>
               <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded mb-3">
-                <p class="m-0">+{{ Getmedia.pemi_name }}</p>
+                <p class="m-0">+{{ Getmedia.pemi }}</p>
               </div>
             </div>
           </div>
@@ -105,26 +107,26 @@
           <p>Actores: {{ Getmedia.actores }}</p>
         </div>
         <div class="details col-lg-3">
-          <h2 v-if="Getmedia.mediashowtype_name === 'Pelicula'">Películas relacionadas</h2>
-          <h2 v-if="Getmedia.mediashowtype_name === 'Serie'">Episodios y temporadas</h2>
+          <h2 v-if="Getmedia.mediashowtype === 'Pelicula'">Películas relacionadas</h2>
+          <h2 v-if="Getmedia.mediashowtype === 'Serie'">Episodios y temporadas</h2>
           <template v-if="Getmedia.saga">
             <template v-for="movie in Getmedia.saga.split('/')">
               <p class="meta-item">{{ movie.trim() }}</p>
             </template>
           </template>
-          <p class="meta-item" v-else-if="Getmedia.mediashowtype_name === 'Pelicula'">No hay películas relacionadas</p>
-          <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{ Getmedia.temporadas }} temporadas</p>
-          <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.episodios}} episodios</p>
+          <p class="meta-item" v-else-if="Getmedia.mediashowtype === 'Pelicula'">No hay películas relacionadas</p>
+          <p class="meta-item" v-if="Getmedia.mediashowtype == 'Serie'">{{ Getmedia.temporadas }} temporadas</p>
+          <p class="meta-item" v-if="Getmedia.mediashowtype == 'Serie'">{{Getmedia.episodios}} episodios</p>
         </div>
         <div class="details col-lg-4">
           <h2>Audio y Región</h2>
           <p>Idioma: {{ Getmedia.idioma }}</p>
-          <p>Pais de Origen: {{Getmedia.country_name}}</p>
+          <p>Pais de Origen: {{Getmedia.country}}</p>
         </div>
         <div class="details col-lg-3">
           <h2>Géneros y Edad</h2>
-          <p>Géneros: <span v-for="(genre, index) in Getmedia.genres_name" :key="index" class="movie-genre-details">{{ genre }}<span v-if="index !== Getmedia.genres_name.length - 1">, </span></span></p>
-          <p>Edad: {{ Getmedia.pemi_name }} años</p>
+          <p>Géneros: <span v-for="(genre, index) in Getmedia.genres" :key="index" class="movie-genre-details">{{ genre.name_genre }}<span v-if="index !== Getmedia.genres.length - 1">, </span></span></p>
+          <p>Edad: {{ Getmedia.pemi }} años</p>
         </div>
       </div>
       <div v-if="showReviewsTab" class="row justify-content-between">
@@ -182,7 +184,7 @@
   const mediaId = ref('');
   const user = computed(() => store.getters["auth/user"]);
   const userID = ref('');
-  
+
   // Variable que definimos para imprimir la imagen de portada:
   const imageURL = ref('');
   

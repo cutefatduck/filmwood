@@ -9,6 +9,7 @@ use App\Models\p_favorite;
 use App\Models\p_visualized;
 use App\Models\p_pemi;
 use App\Models\p_media_show_type;
+use App\Http\Resources\MediaShowResource;
 use App\Models\p_genres;
 use App\Models\p_valorations;
 use Illuminate\Http\Request;
@@ -194,36 +195,16 @@ class MediaShowController extends Controller
     public function indexNew()
     {
         // Obtener las últimas 9 media shows ordenadas por el ID de forma descendente:
-        $mediashow = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')
-        ->orderBy('id', 'desc')
+        $mediashow = p_media_show::orderBy('id', 'desc')
         ->take(9)
         ->get();
-        return $mediashow;
+        return MediaShowResource::collection($mediashow);
     }
 
     public function show($id)
     {
-        $media = p_media_show::findOrFail($id);
-            return response()->json([
-                'id' => $media->id,
-                'nombre' => $media->nombre,
-                'duracion' => $media->duracion,
-                'actores' => $media->actores,
-                'sinopsis_corta' => $media->sinopsis_corta,
-                'sinopsis' => $media->sinopsis,
-                'portada_img' => $media->portada_img,
-                'idioma' => $media->idioma,
-                'directores' => $media->directores,
-                'trailer' => $media->trailer,
-                'fecha_media_show' => $media->fecha_media_show,
-                'saga' => $media->saga,
-                'episodios' => $media->episodios,
-                'temporadas' => $media->temporadas,
-                'country_name' => $media->country->name ?? null,
-                'mediashowtype_name' => $media->mediaShowType->type ?? null,
-                'pemi_name' => $media->pemi->number_pemi ?? null,
-                'genres_name' => $media->genres->pluck('name_genre')->toArray() ?? [],
-            ]);
+            $mediashow = p_media_show::findOrFail($id);
+            return new MediaShowResource($mediashow);
     }
 
     public function search(Request $request)
@@ -318,9 +299,16 @@ class MediaShowController extends Controller
 
     public function destroy($id)
     {
+
+        // Eliminamos cada genero asociado a la media show en particular:
+        $genres = p_media_show_genres::where('id_media_show', $id)->get();
+        foreach ($genres as $genre) {
+            $genre->delete();
+        }
+
         $media = p_media_show::findOrFail($id);
         $media->delete();
-        return response()->json(['message' => 'El registro ha sido eliminado correctamente']);
+        return response()->json(['success'=>true, 'data'=> 'Media show elimina']);
     }
 
     public function viewByGenreID($id){

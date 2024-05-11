@@ -1,6 +1,7 @@
 import './bootstrap';
 
 import { createApp } from 'vue';
+import VueLazyload from 'vue-lazyload'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import store from './store'
 import router from './routes/index'
@@ -131,6 +132,7 @@ const app = createApp({
 
 
 app.use(router)
+app.use(VueLazyload)
 app.use(store)
 app.use(VueSweetalert2)
 app.use(i18n)
