@@ -151,12 +151,8 @@
   }
 
   .boton-principal{
-    /* background-color: #140c1d !important; */
-    background-color: #280055 !important;
-    /* background-color: #12a86f !important; */
-    /* border-color: white !important; */
-    border-color: #280055 !important;
-    /* border-color: white !important; */
+    background-color: #5472D4 !important;
+    border-color: #5472D4 !important;
   }
 
   .boton-principal:hover {
@@ -171,8 +167,6 @@
 /*Fin del estilo del login y del registro*/
 
 /*Inicio del estilo del header*/
-
-  
 
   .sticky-menu {
     position: sticky;
@@ -830,12 +824,12 @@
     width: 200px;
     height: 80px;
     border-radius: 20px;
-    background-color: #280055;
+    background-color: #5472D4;
     color: #fff;
     border: none;
     cursor: pointer;
     text-align: center;
-    border: 2px solid white;
+    border: none;
     margin-bottom: 50px;
     margin-top: 50px;
   }
