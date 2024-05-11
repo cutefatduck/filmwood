@@ -22,27 +22,30 @@ class MediaShowController extends Controller
 
     // Obtenemos todas las valoraciones de una media show en conreto:
     public function getMediaShowValorations($mediaShowId)
-    {
+    {   
         // Busca las valoraciones para el medio show específico
         $valoraciones = p_valorations::with('user')->where('id_media_show', $mediaShowId)->get();
         return response()->json($valoraciones);
     }
 
     // Obtenemos todas las media shows guardadas en favoritos de un usuario en concreto
-    public function getMediaShowFavorites($userID)
+    public function getMediaShowFavorites()
     {
+        $userId = auth()->id();
         // Busca las favoritas para el usuario en especifico
-        $favorites = p_favorite::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userID)->get();
+        $favorites = p_favorite::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userId)->get();
         return response()->json($favorites);
     }
 
     // Obtenemos todas las media shows guardadas en visualizadas de un usuario en concreto
-    public function getMediaShowVisualizated($userID)
-    {
+    public function getMediaShowVisualizated()
+    {   
+        $userId = auth()->id();
         // Busca las visualizadas para el usuario en especifico
-        $visualizated = p_visualized::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userID)->get();
+        $visualizated = p_visualized::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userId)->get();
         return response()->json($visualizated);
     }
+
 
     // Verificar si el usuario ha creado una valoración para un medio específico
     public function checkIfValuated($mediaShowId)
@@ -92,25 +95,6 @@ class MediaShowController extends Controller
             'data' => $valorations->fresh(), 
         ], 201);
 
-    }
-
-    public function checkIfFavorite($mediaShowId)
-    {
-        $userId = auth()->id();
-        
-        $favorite = p_favorite::where('id_user', $userId)
-                               ->where('id_media_show', $mediaShowId)
-                               ->exists();
-
-        // Definimos la imagen predeterminada
-        $imageSrc = '/images/no_like.svg';
-        
-        // Si la media show está en favoritos por el usuario, cambiamos la imagen
-        if ($favorite) {
-            $imageSrc = '/images/like.svg';
-        }
-        
-        return response()->json(['isFavorite' => $favorite, 'imageSrc' => $imageSrc]);
     }
 
     public function manageToFavorites(Request $request, $mediaShowId)

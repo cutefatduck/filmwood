@@ -21,11 +21,16 @@ export function useGetFavorites() {
     }
   };
 
-  const addFavorites = async (favoriteData) => {
+
+  const fetchFavoritesByMedia = async () => {
     try {
-      await axios.post('/api/user/favorites', favoriteData);
+      loading.value = true;
+      const response = await axios.get(`/api/user/favorites`);
+      GetFavorites.value = response.data;
     } catch (error) {
-      console.error('Error adding favorites:', error);
+      console.error(`Error fetching favorites for media with ID user :`, error);
+    } finally {
+      loading.value = false;
     }
   };
 
@@ -145,10 +150,10 @@ export function useGetFavorites() {
     GetFavorites,
     loading,
     favoritesStatus,
+    fetchFavoritesByMedia,
     fetchFavoritesByUserId,
     fetchMediaFavoriteStatusArray,
     fetchMediaFavoriteStatus,
-    addFavorites,
     isFavorite,
     getFavoriteImageSrc,
     handleFavoriteAction,

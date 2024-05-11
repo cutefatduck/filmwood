@@ -37,7 +37,7 @@ import { ref, onMounted, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useGetMedia } from '@/composables/media';
 
-const { Getmedias, fetchMedia, deleteMedia, editMedia } = useGetMedia();
+const { Getmedias, fetchMedia, deleteMedia } = useGetMedia();
 const router = useRouter();
 
 // Función para redirigir a la vista de ver media show
@@ -48,14 +48,15 @@ const viewMedia = async (id) => {
     console.error('Error fetching media data:', error);
   }
 };
+const editMedia = async (id) => {
+    try {
+      router.push({ name: 'admin.media.edit', params: { id: id} });
+    } catch (error) {
+      console.error('Error fetching media data:', error);
+    }
+  };
 
 onMounted(() => {
   fetchMedia();
 });
 </script>
-
-<style scoped>
-  .action-btn {
-    width: calc(100% / 5 - 4px);
-  }
-</style>

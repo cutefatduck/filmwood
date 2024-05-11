@@ -9,10 +9,10 @@ export function useGetVisualizated() {
   const GetVisualizated = ref([]);
   const loading = ref(false);
 
-  const fetchVisualizatedByUserId = async (userID) => {
+  const fetchVisualizatedByUserId = async () => {
     try {
       loading.value = true;
-      const response = await axios.get(`/api/user/visualizated/${userID}`);
+      const response = await axios.get(`/api/visualizated`);
       GetVisualizated.value = response.data;
     } catch (error) {
       console.error(`Error fetching visualizated for media with ID user ${userID}`, error);
@@ -21,13 +21,18 @@ export function useGetVisualizated() {
     }
   };
 
-  const addVisualizated = async (visualizatedData) => {
+  const fetchVisualizatedByMedia = async () => {
     try {
-      await axios.post('/api/user/visualizated', visualizatedData);
+      loading.value = true;
+      const response = await axios.get(`/api/user/visualizated`);
+      GetVisualizated.value = response.data;
     } catch (error) {
-      console.error('Error adding visualizated:', error);
+      console.error(`Error fetching visualizated for media with ID user ${userID}`, error);
+    } finally{
+      loading.value = false;
     }
   };
+
 
   // Función para verificar la autenticación del usuario antes de ejecutar una acción
   const checkAuthentication = async (actionCallback) => {
@@ -113,7 +118,7 @@ export function useGetVisualizated() {
     loading,
     fetchVisualizatedByUserId,
     fetchMediaVisualizedStatus,
-    addVisualizated,
+    fetchVisualizatedByMedia,
     isWatched,
     getWatchedImageSrc,
     handleWatchedAction,

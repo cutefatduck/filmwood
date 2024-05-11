@@ -36,7 +36,7 @@ export function useGetUser() {
     return { Getusers, loading, fetchUser, fetchUserById };
 }
 
-export default function useUsers() {
+export function useUsers() {
     const users = ref([])
     const user = ref({
         name: ''

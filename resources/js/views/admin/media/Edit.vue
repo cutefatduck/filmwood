@@ -101,19 +101,17 @@
     import { ref, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
     import { useGetMedia } from '@/composables/media';
-    import { useEditMedia } from '@/composables/media';
     import { useGetMediaShowType } from '@/composables/mediaShowType';
     import { useGetGenres } from '@/composables/genres';
     import { useGetCountries } from '@/composables/countries';
     import { useGetPemi } from '@/composables/pemis';
 
-    const { Getmedia, fetchMediaById } = useGetMedia();
+    const { Getmedia, fetchMediaById, editMedia } = useGetMedia();
     const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
     const { mediaShowTypes, loading: loadingTypes, fetchMediaShowType } = useGetMediaShowType();
     const { countries, fetchCountries } = useGetCountries();
     const { pemis, fetchPemi } = useGetPemi();
     
-    const { editMedia } = useEditMedia();
     const router = useRouter();
     const strError = ref('');
     const strSuccess = ref('');

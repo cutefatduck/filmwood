@@ -12,7 +12,7 @@
           <div class="card-slider p-5">
             <div class="mb-1">
               <div class="font-medium mt-1">
-                <h3>{{ mediaShow.media_show.nombre }}</h3>
+                <h3>{{mediaShow.media_show.nombre}}</h3>
               </div>
               <div class="d-flex align-items-center mt-5">
                 <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
@@ -38,7 +38,7 @@
               <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
             </div>
           </div>
-        </div>
+        </div> 
       </template>
     </div>
     <div v-if="activeTab === 'favoritos' && GetFavorites.length === 0" class="sin-contenido-container">
@@ -127,8 +127,8 @@
   };
 
   // Recuperamos las media shows en favoritos y en visualizadas:
-  const { GetFavorites, fetchFavoritesByUserId } = useGetFavorites();
-  const { GetVisualizated, fetchVisualizatedByUserId } = useGetVisualizated();
+  const { GetFavorites, fetchFavoritesByMedia } = useGetFavorites();
+  const { GetVisualizated, fetchVisualizatedByMedia } = useGetVisualizated();
 
   const store = useStore();
   const router = useRouter();
@@ -159,8 +159,8 @@
   };
 
   onMounted(() => {
-    fetchFavoritesByUserId(userID);
-    fetchVisualizatedByUserId(userID);
+    fetchFavoritesByMedia();
+    fetchVisualizatedByMedia();
   });
 
 </script>

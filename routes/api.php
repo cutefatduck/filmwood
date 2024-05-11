@@ -43,20 +43,21 @@ Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
 Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);
 
 // Obtenemos las valoraciones de una media show en concreto:
-Route::get('media/valorations/{id}', [MediaShowController::class, 'getMediaShowValorations']);
+Route::get('/media/valorations/{id}', [MediaShowController::class, 'getMediaShowValorations']);
 
 // Agregar una media show a favoritos:
 Route::post('/favorites/{id}', [MediaShowController::class, 'manageToFavorites']);
 
 // Verificar si la media show ya está en favoritos para mostrar una imagen de favoritos u otra:
-// Route::get('/favorites/{id}', [MediaShowController::class, 'checkIfFavorite']);
 Route::get('/favorites/{id}', [FavoriteController::class, 'getCheckFavorites']);
 
 // Obtenemos los media shows favoritos de un user en concreto:
-Route::get('user/favorites/{id}', [MediaShowController::class, 'getMediaShowFavorites']);
+Route::get('user/favorites', [MediaShowController::class, 'getMediaShowFavorites']);
 
 // Obtenemos los media shows visualizadas de un user en concreto:
-Route::get('user/visualizated/{id}', [MediaShowController::class, 'getMediaShowVisualizated']);
+// Route::get('user/visualizated/{id}', [MediaShowController::class, 'getMediaShowVisualizated']);
+Route::get('user/visualizated', [MediaShowController::class, 'getMediaShowVisualizated']);
+
 
 // Agregar una media show a visualizadas:
 Route::post('/visualizated/{id}', [MediaShowController::class, 'manageToVisualizated']);

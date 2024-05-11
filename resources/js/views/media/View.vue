@@ -6,7 +6,7 @@
           <img :src="Getmedia?.portada_img" alt="Portada del Media Show" class="poster-image col-sm-4">
           <div class="details-right col-sm-8">
             <h1 class="movie-title">{{ Getmedia.nombre }}</h1>
-            <span v-for="genre in Getmedia.genres" :key="index" class="movie-genre-details">
+            <span v-for="genre in Getmedia.genres" class="movie-genre-details">
               <Tag value="secondary">{{ genre.name_genre }}</Tag>
             </span>
             <div class="meta-container">
@@ -129,6 +129,7 @@
           <p>Edad: {{ Getmedia.pemi }} años</p>
         </div>
       </div>
+      
       <div v-if="showReviewsTab" class="row justify-content-between">
         <div :class="{ 'details': showDetailsTab, 'valorations': !showDetailsTab }" class="col-lg-12">
           <div class="reviews-container row">

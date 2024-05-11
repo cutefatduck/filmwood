@@ -2,17 +2,20 @@
     <div class="card">
         <div class="card-body">
             <form>
+                {{ Getmedia }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Titulo</label>
                     <input :value="Getmedia.nombre" type="text" class="input-formulario" disabled>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Tipo de Media Show</label>
-                    <input :value="Getmedia.mediashowtype_name" type="text" class="input-formulario" disabled>
+                    <input :value="Getmedia.mediashowtype" type="text" class="input-formulario" disabled>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Género</label>
-                    <input :value="Getmedia.genres_name" type="text" class="input-formulario" disabled>
+                    <div v-for="genre in Getmedia.genres" class="mb-3">
+                        <input :value="genre.name_genre" type="text" class="input-formulario" disabled>
+                    </div>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis corta</label>

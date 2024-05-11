@@ -72,7 +72,7 @@
   import { useStore } from "vuex";
   import { useRouter } from 'vue-router';
   import useAuth from "@/composables/auth";
-  import { useGetUser } from '@/composables/users';
+  import { useGetUser, useUsers } from '@/composables/users';
   import AppFooter from '@/layouts/AppFooter.vue';
   import Swal from 'sweetalert2';
 
