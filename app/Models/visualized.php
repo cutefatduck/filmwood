@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class p_visualized extends Model
+class visualized extends Model
 {
     use HasFactory;
 
     // Especificaremos el nombre de la tabla de la base de datos a la que hacemos referencia:
-    protected $table = 'p_visualized';
+    protected $table = 'visualized';
 
     // Indicamos los atributos que son modificables:
     protected $fillable = [
@@ -26,6 +26,6 @@ class p_visualized extends Model
     
     public function mediaShow()
     {
-        return $this->belongsTo(p_media_show::class, 'id_media_show');
+        return $this->belongsTo(media_show::class, 'id_media_show');
     }
 }

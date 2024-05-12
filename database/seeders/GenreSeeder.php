@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\p_genres; 
+use App\Models\genres; 
 
 class GenreSeeder extends Seeder
 {
@@ -30,7 +30,7 @@ class GenreSeeder extends Seeder
 
         foreach ($genres as $genre){
             
-            p_genres::create($genre);
+            genres::create($genre);
         }     
     }
 }

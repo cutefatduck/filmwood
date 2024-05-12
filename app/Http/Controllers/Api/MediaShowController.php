@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\p_media_show;
-use App\Models\p_media_show_genres;
-use App\Models\p_favorite;
-use App\Models\p_visualized;
-use App\Models\p_pemi;
-use App\Models\p_media_show_type;
+use App\Models\media_show;
+use App\Models\media_show_genres;
+use App\Models\favorite;
+use App\Models\visualized;
+use App\Models\pemi;
+use App\Models\media_show_type;
 use App\Http\Resources\MediaShowResource;
-use App\Models\p_genres;
-use App\Models\p_valorations;
+use App\Models\genres;
+use App\Models\valorations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +24,7 @@ class MediaShowController extends Controller
     public function getMediaShowValorations($mediaShowId)
     {   
         // Busca las valoraciones para el medio show específico
-        $valoraciones = p_valorations::with('user')->where('id_media_show', $mediaShowId)->get();
+        $valoraciones = valorations::with('user')->where('id_media_show', $mediaShowId)->get();
         return response()->json($valoraciones);
     }
 
@@ -33,7 +33,7 @@ class MediaShowController extends Controller
     {
         $userId = auth()->id();
         // Busca las favoritas para el usuario en especifico
-        $favorites = p_favorite::with('mediaShow', 'mediaShow.pemi', 'mediaShow.genres')->where('id_user', $userId)->get();
+        $favorites = favorite::with('mediaShow', 'mediaShow.pemi', 'mediaShow.genres')->where('id_user', $userId)->get();
         return response()->json($favorites);
     }
 
@@ -42,7 +42,7 @@ class MediaShowController extends Controller
     {   
         $userId = auth()->id();
         // Busca las visualizadas para el usuario en especifico
-        $visualizated = p_visualized::with('mediaShow', 'mediaShow.pemi', 'mediaShow.genres')->where('id_user', $userId)->get();
+        $visualizated = visualized::with('mediaShow', 'mediaShow.pemi', 'mediaShow.genres')->where('id_user', $userId)->get();
         return response()->json($visualizated);
     }
 
@@ -51,7 +51,7 @@ class MediaShowController extends Controller
     {
         $userId = auth()->id();
         
-        $valuated = p_valorations::where('id_user', $userId)
+        $valuated = valorations::where('id_user', $userId)
                                  ->where('id_media_show', $mediaShowId)
                                  ->exists();
 
@@ -78,7 +78,7 @@ class MediaShowController extends Controller
             'valoracion' => 'required|string',
             'recomendacion' => 'required|boolean'
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
@@ -86,7 +86,7 @@ class MediaShowController extends Controller
         // Creamos un nuevo registro de valoración con los datos proporcionados
         $valorationData = $request->all();
         $valorationData['id_user'] = $userId;
-        $valorations = p_valorations::create($valorationData);
+        $valorations = valorations::create($valorationData);
 
         return response()->json([
             'success' => true, 
@@ -101,7 +101,7 @@ class MediaShowController extends Controller
         $userId = auth()->id();
 
         // Verificar si ya existe la entrada previamente:
-        $existingFavorite = p_favorite::where('id_user', $userId)
+        $existingFavorite = favorite::where('id_user', $userId)
                                        ->where('id_media_show', $mediaShowId)
                                        ->first();
 
@@ -112,7 +112,7 @@ class MediaShowController extends Controller
         }
 
         // Si no, creamos una nueva entrada en favoritos:
-        p_favorite::create([
+        favorite::create([
             'id_user' => $userId,
             'id_media_show' => $mediaShowId,
         ]);
@@ -124,7 +124,7 @@ class MediaShowController extends Controller
     {
         $userId = auth()->id();
         
-        $visualizated = p_visualized::where('id_user', $userId)
+        $visualizated = visualized::where('id_user', $userId)
                                      ->where('id_media_show', $mediaShowId)
                                      ->exists();
 
@@ -143,7 +143,7 @@ class MediaShowController extends Controller
     {
         $userId = auth()->id();
 
-        $existingVisualized = p_visualized::where('id_user', $userId)
+        $existingVisualized = visualized::where('id_user', $userId)
                                            ->where('id_media_show', $mediaShowId)
                                            ->first();
 
@@ -152,7 +152,7 @@ class MediaShowController extends Controller
             return response()->json(['message' => 'El media show se eliminó de tus visualizadas correctamente.'], 200);
         }
 
-        p_visualized::create([
+        visualized::create([
             'id_user' => $userId,
             'id_media_show' => $mediaShowId,
         ]);
@@ -161,19 +161,19 @@ class MediaShowController extends Controller
     }
 
     public function getMediaShowByMediaShowType(){
-        $media_show_type = p_media_show_type::with('mediaShowType')->get();
+        $media_show_type = media_show_type::with('mediaShowType')->get();
         return $media_show_type; 
     }
 
     public function index(){
-        $mediashow = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')->get();
+        $mediashow = media_show::with('country', 'mediaShowType', 'pemi', 'genres')->get();
         return MediaShowResource::collection($mediashow);
     }
 
     public function indexNew()
     {
         // Obtener las últimas 9 media shows ordenadas por el ID de forma descendente:
-        $mediashow = p_media_show::orderBy('id', 'desc')
+        $mediashow = media_show::orderBy('id', 'desc')
         ->take(9)
         ->get();
         return MediaShowResource::collection($mediashow);
@@ -181,7 +181,7 @@ class MediaShowController extends Controller
 
     public function show($id)
     {
-            $mediashow = p_media_show::findOrFail($id);
+            $mediashow = media_show::findOrFail($id);
             return new MediaShowResource($mediashow);
     }
 
@@ -190,7 +190,7 @@ class MediaShowController extends Controller
     {
         $search = $request->input('search');
     
-        $results = p_media_show::with('mediaShowType')
+        $results = media_show::with('mediaShowType')
             ->where('nombre', 'like', "%$search%")
             ->take(5)
             ->get();
@@ -229,13 +229,13 @@ class MediaShowController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
     
-        // Crear un nuevo registro de p_media_show con los datos proporcionados
+        // Crear un nuevo registro de media_show con los datos proporcionados
         $media = $request->all();
-        $mediaShow = p_media_show::create($media);
+        $mediaShow = media_show::create($media);
     
         // Adjuntar géneros al medio
         if ($request->has('genres')) {
-            $genres = p_genres::findMany(explode(',',$request->genres));
+            $genres = genres::findMany(explode(',',$request->genres));
             $mediaShow->genres()->sync($genres);
         }
 
@@ -257,7 +257,7 @@ class MediaShowController extends Controller
     public function update($id, $request)
     {
 
-        $mediaShow = p_media_show::find($id);
+        $mediaShow = media_show::find($id);
 
         if ($mediaShow->user_id !== auth()->id() && !auth()->user()->hasPermissionTo('media-edit')) {
             return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own mediashow']);
@@ -278,19 +278,19 @@ class MediaShowController extends Controller
     {
 
         // Eliminamos cada genero asociado a la media show en particular:
-        $genres = p_media_show_genres::where('id_media_show', $id)->get();
+        $genres = media_show_genres::where('id_media_show', $id)->get();
         foreach ($genres as $genre) {
             $genre->delete();
         }
 
-        $media = p_media_show::findOrFail($id);
+        $media = media_show::findOrFail($id);
         $media->delete();
         return response()->json(['success'=>true, 'data'=> 'Media show elimina']);
     }
 
     public function viewByGenreID($id){
-        // Buscar los registros de la tabla p_mediashow_genre donde genre_id coincida con $id
-        $media = p_media_show_genres::where('id_genre', $id)->get();
+        // Buscar los registros de la tabla mediashow_genre donde genre_id coincida con $id
+        $media = media_show_genres::where('id_genre', $id)->get();
     
         if($media->isEmpty()) {
             return response()->json([

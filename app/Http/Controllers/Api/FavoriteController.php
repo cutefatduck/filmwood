@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\p_favorite;
+use App\Models\favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +14,7 @@ class FavoriteController extends Controller
     {   
         $userId = auth()->id();
         // Busca las favoritas para el usuario en especifico
-        $favorites = p_favorite::where('id_user', $userId)
+        $favorites = favorite::where('id_user', $userId)
         ->where('id_media_show', $mediaId)
         ->get();
         return response()->json($favorites);

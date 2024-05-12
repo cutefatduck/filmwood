@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\p_media_show_type;
+use App\Models\media_show_type;
 
 class mediaShowTypeSeeder extends Seeder
 {
@@ -20,7 +20,7 @@ class mediaShowTypeSeeder extends Seeder
 
         foreach ($mediaShowTypes as $mediaShowType){
             
-            p_media_show_type::create($mediaShowType);
+            media_show_type::create($mediaShowType);
         }     
     }
 }

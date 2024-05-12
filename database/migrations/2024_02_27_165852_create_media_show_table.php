@@ -11,22 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_media_show', function (Blueprint $table) {
+        Schema::create('media_show', function (Blueprint $table) {
 
             // Creamos la clave primaria de la tabla:
             $table->id();
 
             // Creamos la clave foránea del país:
             $table->unsignedBigInteger('id_country');
-            $table->foreign('id_country')->references('id')->on('p_countries')->onDelete('cascade');
+            $table->foreign('id_country')->references('id')->on('countries')->onDelete('cascade');
 
             // Creamos la clave foránea del tipo de media show:
             $table->unsignedBigInteger('id_media_show_type');
-            $table->foreign('id_media_show_type')->references('id')->on('p_media_show_type')->onDelete('cascade');
+            $table->foreign('id_media_show_type')->references('id')->on('media_show_type')->onDelete('cascade');
 
             // Creamos la clave foránea del pemi:
             $table->unsignedBigInteger('id_pemi');
-            $table->foreign('id_pemi')->references('id')->on('p_pemis')->onDelete('cascade');
+            $table->foreign('id_pemi')->references('id')->on('pemis')->onDelete('cascade');
 
             // Creamos el resto de campos de la tabla:
             $table->string('nombre');
@@ -52,7 +52,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_media_show');
+        Schema::dropIfExists('media_show');
     }
 };
 

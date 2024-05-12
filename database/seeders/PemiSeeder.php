@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\p_pemi; 
+use App\Models\pemi; 
 
 class PemiSeeder extends Seeder
 {
@@ -23,7 +23,7 @@ class PemiSeeder extends Seeder
 
         foreach ($pemis as $pemi){
             
-            p_pemi::create($pemi);
+            pemi::create($pemi);
         }     
     }
 }

@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PemiSeeder::class);
         $this->call(GenreSeeder::class);
         $this->call(mediaShowTypeSeeder::class);
-        $this->call(roleSeeder::class);
         $this->call(MediaShowSeeder::class);
 
     }

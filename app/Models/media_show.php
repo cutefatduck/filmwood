@@ -8,7 +8,7 @@
     use Spatie\MediaLibrary\InteractsWithMedia;
     use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class p_media_show extends Model implements HasMedia
+class media_show extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
@@ -31,26 +31,26 @@ class p_media_show extends Model implements HasMedia
         'temporadas',
     ];
 
-    protected $table = 'p_media_show';
+    protected $table = 'media_show';
 
     public function country()
     {
-        return $this->belongsTo(p_country::class, 'id_country');
+        return $this->belongsTo(country::class, 'id_country');
     }
 
     public function mediaShowType()
     {
-        return $this->belongsTo(p_media_show_type::class, 'id_media_show_type');
+        return $this->belongsTo(media_show_type::class, 'id_media_show_type');
     }
 
     public function pemi()
     {
-        return $this->belongsTo(p_pemi::class, 'id_pemi');
+        return $this->belongsTo(pemi::class, 'id_pemi');
     }
 
     public function genres()
     {
-        return $this->belongsToMany(p_genres::class, 'p_media_show_genres', 'id_media_show', 'id_genre');
+        return $this->belongsToMany(genres::class, 'media_show_genres', 'id_media_show', 'id_genre');
     }
     
     // Define la colección de medios y su conversión

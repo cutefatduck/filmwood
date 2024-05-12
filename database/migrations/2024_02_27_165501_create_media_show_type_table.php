@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_pemis', function (Blueprint $table) {
+
+        Schema::create('media_show_type', function (Blueprint $table) {
 
             // Creamos la clave primaria de la tabla:
             $table->id();
 
-            // Creamos los otros campos de la tabla:
-            $table->string('number_pemi');
+            // Creamos el otro campo de la tabla:
+            $table->string('type');
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_pemis');
+        Schema::dropIfExists('media_show_type');
     }
 };

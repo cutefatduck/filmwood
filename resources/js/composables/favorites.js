@@ -36,10 +36,8 @@ export function useGetFavorites() {
   // Función para verificar la autenticación del usuario antes de ejecutar una acción
   const checkAuthentication = async (actionCallback) => {
     if (store.state.auth.authenticated) {
-      // Si está autenticado, realizamos la acción que desee:
       await actionCallback();
     } else {
-      // Si no, mostramos un mensaje indicando al usuario que inicie sesión
       loginRequired();
     }
   };
@@ -83,13 +81,9 @@ export function useGetFavorites() {
   const favoritesStatus = ref([]);
   const fetchMediaFavoriteStatusArray = async (mediaIds) => {
     try {
-      // Array para almacenar las promesas de las llamadas a la API
+
       const promises = mediaIds.map(mediaId => axios.get(`/api/favorites/${mediaId}`));
-  
-      // Esperar a que todas las promesas se resuelvan
       const responses = await Promise.all(promises);
-  
-      // Mapear las respuestas para obtener el estado de favoritos de cada elemento
       favoritesStatus.value = responses.map(response => response.data);
   
     } catch (error) {

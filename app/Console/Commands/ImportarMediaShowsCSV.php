@@ -48,7 +48,7 @@ class ImportarMediaShowsCSV extends Command
                 'episodios' => $episodios
             ];
             
-            // Llama a la API para crear el p_media_show
+            // Llama a la API para crear el media_show
             $response = Http::post('media/', $dataToSend);
 
             // Verifica la respuesta de la API y maneja errores si es necesario

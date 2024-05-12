@@ -1,4 +1,3 @@
-// composables/valorations.js
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
 

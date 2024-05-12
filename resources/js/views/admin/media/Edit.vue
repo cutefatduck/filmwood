@@ -15,13 +15,11 @@
                 <strong>{{ strError }}</strong>
             </div>
 
-            <form @submit.prevent="editMedia(media)" enctype="multipart/form-data">
-                {{ Getmedia }}
+            <form @submit.prevent="editMedia(Getmedia)" enctype="multipart/form-data">
                 <div class="form-group mb-2">
                     <label class="mb-3">Tipo de Media Show</label>
                     <Dropdown v-model="Getmedia.mediashowtype" :modelValue="selected" :options="mediaShowTypes" optionLabel="type" op placeholder="Escoge un genero" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
-                {{ Getmedia.genres }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Género</label>
                     <MultiSelect multiple v-model="Getmedia.genres" :options="GetGenres" filter optionLabel="name_genre" dataKey="id" placeholder="Select genres" :maxSelectedLabels="3" objeclass="w-full md:w-20rem" />
@@ -70,22 +68,22 @@
                 </div> -->
                 <div class="form-group mb-2">
                     <label class="mb-3">Fecha de estreno</label>
-                    <input v-model="media.fecha_media_show" class="input-formulario" type="text" name="release_date"/>
+                    <input v-model="Getmedia.fecha_media_show" class="input-formulario" type="date" name="release_date"/>
                 </div>
                 <div v-if="Getmedia.id_media_show_type === 'Pelicula'">
                     <div class="form-group mb-2">
                         <label class="mb-3">Saga</label>
-                        <input v-model="media.saga" class="input-formulario" type="text" name="saga"/>
+                        <input v-model="Getmedia.saga" class="input-formulario" type="text" name="saga"/>
                     </div>
                 </div>
                 <div v-else-if="Getmedia.id_media_show_type === 2">
                     <div class="form-group mb-2">
                         <label class="mb-3">Temporadas</label>
-                        <input v-model="media.temporadas" class="input-formulario" type="number" name="seasons"/>
+                        <input v-model="Getmedia.temporadas" class="input-formulario" type="number" name="seasons"/>
                     </div>
                     <div class="form-group mb-2">
                         <label class="mb-3">Episodios</label>
-                        <input v-model="media.episodios" class="input-formulario" type="number" name="episodes"/>
+                        <input v-model="Getmedia.episodios" class="input-formulario" type="number" name="episodes"/>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary boton-principal mt-4 mb-4">Edita esta media show</button>

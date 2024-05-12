@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\p_media_show;
+use App\Models\media_show;
 
 class MediaShowSeeder extends Seeder
 {
     public function run()
     {
-        $p_media_show = [
+        $media_show = [
 
             [
                 "id_country" => 65,
@@ -594,9 +594,9 @@ class MediaShowSeeder extends Seeder
 
         ];
 
-        foreach ($p_media_show as $mediaShowData) {
+        foreach ($media_show as $mediaShowData) {
             // Crear el MediaShow
-            $mediaShow = p_media_show::create([
+            $mediaShow = media_show::create([
                 'id_country' => $mediaShowData['id_country'],
                 'id_media_show_type' => $mediaShowData['id_media_show_type'],
                 'id_pemi' => $mediaShowData['id_pemi'],

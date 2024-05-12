@@ -1,4 +1,3 @@
-// composables/pemis.js
 import { ref } from 'vue';
 import axios from 'axios';
 
@@ -10,7 +9,6 @@ export function useGetPemi() {
         try {
             loading.value = true;
             const response = await axios.get('/api/pemis');
-            // Llama a la función formatPemi para formatear los datos antes de asignarlos a pemis.value
             pemis.value = response.data;
         } catch (error) {
             console.error('Error fetching pemis:', error);

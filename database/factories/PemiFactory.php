@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\p_valorations>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\pemi>
  */
-class PValorationsFactory extends Factory
+class PemiFactory extends Factory
 {
     /**
      * Define the model's default state.

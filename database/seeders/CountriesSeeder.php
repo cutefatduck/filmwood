@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-// Importamos la clase p_country donde se encuentran los atributos de los paises
-use App\Models\p_country; 
+// Importamos la clase country donde se encuentran los atributos de los paises
+use App\Models\country; 
 
 class CountriesSeeder extends Seeder
 {
@@ -267,7 +267,7 @@ class CountriesSeeder extends Seeder
 
         foreach ($countries as $country){
             
-            p_country::create($country);
+            country::create($country);
         }     
     }
 }

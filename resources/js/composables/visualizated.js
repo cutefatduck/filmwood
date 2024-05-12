@@ -33,7 +33,6 @@ export function useGetVisualizated() {
     }
   };
 
-
   // Función para verificar la autenticación del usuario antes de ejecutar una acción
   const checkAuthentication = async (actionCallback) => {
     if (store.state.auth.authenticated) {

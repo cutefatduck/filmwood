@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\p_visualized>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\favorite>
  */
-class PVisualizedFactory extends Factory
+class FavoriteFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('p_valorations', function (Blueprint $table) {
+        Schema::create('valorations', function (Blueprint $table) {
 
             // Creamos la clave primaria de la tabla:
             $table->id();
@@ -22,7 +22,7 @@ return new class extends Migration
 
             // Creamos la clave foránea del id de la media show:
             $table->unsignedBigInteger('id_media_show');
-            $table->foreign('id_media_show')->references('id')->on('p_media_show')->onDelete('cascade');
+            $table->foreign('id_media_show')->references('id')->on('media_show')->onDelete('cascade');
 
             // Creamos el resto de campos de la tabla:
             $table->integer('puntuacion');
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_valorations');
+        Schema::dropIfExists('valorations');
     }
 };

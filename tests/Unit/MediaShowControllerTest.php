@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\p_media_show;
+use App\Models\media_show;
 use App\Models\User;
 
 class MediaShowControllerTest extends TestCase

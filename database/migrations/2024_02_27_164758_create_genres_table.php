@@ -10,16 +10,15 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {   
+    {
 
-        Schema::create('p_countries', function (Blueprint $table) {
-            
+        Schema::create('genres', function (Blueprint $table) {
+
             // Creamos la clave primaria de la tabla:
             $table->id();
 
-            // Creamos el resto de campos de la tabla:
-            $table->string('nomenclature');
-            $table->string('name');
+            // Creamos el otro campo de la tabla:
+            $table->string('name_genre');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('p_countries');
+        Schema::dropIfExists('genres');
     }
 };
