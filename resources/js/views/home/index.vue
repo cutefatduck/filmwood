@@ -12,19 +12,30 @@
             <template #item="{ data }">
                 <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
                     <div class="mb-1">
-                        <div class="font-medium mt-1">
-                            <h3>{{ data.nombre }}</h3>
-                        </div>
-                        <div class="d-flex align-items-center mt-5">
-                            <router-link :to="{ name: 'media.view', params: { id: data.id } }">
-                                <img class="play-button me-3" src="/images/play-button.svg">
-                            </router-link>
-                            <span class="me-5 visitar">Visitar</span>
-                            <div class="ms-auto">
-                                <div v-if="data.genres && data.genres.length">
-                                    <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
-                                        <Tag value="secondary">{{ genre.name_genre }}</Tag>
-                                    </span>
+                        <div class="mb-1">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <div class="d-flex justify-content-center justify-content-md-start">
+                                        <router-link :to="{ name: 'media.view', params: { id: data.id } }">
+                                            <img :src="data?.portada_img" alt="Portada del Media Show" class="poster-image-home">
+                                        </router-link>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex flex-column justify-content-center mt-3">
+                                        <div class="titulo-card"><h3>{{ data.nombre }}</h3></div>
+                                        <div class="d-flex align-items-center mt-3 mb-3">
+                                            <router-link :to="{ name: 'media.view', params: { id: data.id } }">
+                                                <img class="play-button me-3" src="/images/play-button.svg">
+                                            </router-link>
+                                            <span class="me-4 visitar">Visitar</span>
+                                        </div>
+                                        <div v-if="data.genres && data.genres.length">
+                                            <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
+                                                <Tag value="secondary">{{ genre.name_genre }}</Tag>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -66,35 +77,44 @@
                 <template #item="{ data }">
                     <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
                         <div class="mb-1">
-                            <div class="font-medium mt-1">
-                                <h3>{{ data.nombre }}</h3>
-                            </div>
-                            <div class="d-flex align-items-center mt-5">
-                                <router-link :to="{ name: 'media.view', params: { id: data.id } }">
-                                    <img class="play-button me-3" src="/images/play-button.svg">
-                                </router-link>
-                                <span class="me-5 visitar">Visitar</span>
-                                <div class="ms-auto">
-                                    <div v-if="data.genres && data.genres.length">
-                                        <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
-                                            <Tag value="p-tag1 secondary">{{ genre.name_genre }}</Tag>
-                                        </span>
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <div class="d-flex justify-content-center justify-content-md-start">
+                                        <router-link :to="{ name: 'media.view', params: { id: data.id } }">
+                                            <img :src="data?.portada_img" alt="Portada del Media Show" class="poster-image-home">
+                                        </router-link>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex flex-column justify-content-center mt-3">
+                                        <div class="titulo-card"><h3>{{ data.nombre }}</h3></div>
+                                        <div class="d-flex align-items-center mt-3 mb-3">
+                                            <router-link :to="{ name: 'media.view', params: { id: data.id } }">
+                                                <img class="play-button me-3" src="/images/play-button.svg">
+                                            </router-link>
+                                            <span class="me-4 visitar">Visitar</span>
+                                        </div>
+                                        <div v-if="data.genres && data.genres.length">
+                                            <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
+                                                <Tag value="secondary">{{ genre.name_genre }}</Tag>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center mt-5">
-                                <div class="me-3">
-                                    <p>{{ data.fecha_media_show }}</p>
-                                </div>
-                                <div class="me-3">
-                                    <p>{{ formateoDuracion(data.duracion) }}</p>
-                                </div>
-                                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                                    <p class="m-0">+{{ data.pemi.number_pemi }}</p>
-                                </div>
-                            </div>
-                            <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
                         </div>
+                        <div class="d-flex align-items-center mt-5">
+                            <div class="me-3">
+                                <p>{{ data.fecha_media_show }}</p>
+                            </div>
+                            <div class="me-3">
+                                <p>{{ formateoDuracion(data.duracion) }}</p>
+                            </div>
+                            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                                <p class="m-0">+{{ data.pemi.number_pemi }}</p>
+                            </div>
+                        </div>
+                        <div class="mt-3"><p>{{ data.sinopsis_corta }}</p></div>
                     </div>
                 </template>
             </Carousel>
@@ -109,14 +129,9 @@
     import { ref, computed, onMounted, onUpdated, onBeforeUnmount } from 'vue';
     import { useGetMedia } from '@/composables/media';
     import { useGetGenres } from '@/composables/genres';
-    import { useGetFavorites } from '@/composables/favorites';
-    import { useGetVisualizated } from '@/composables/visualizated';
     import AppFooter from '@/layouts/AppFooter.vue';
     import { useRouter } from "vue-router";
-    import VueLazyload from 'vue-lazyload'
 
-    const { loading, fetchMediaFavoriteStatus, handleFavoriteAction, GetFavorites, favoritesStatus, fetchFavoritesByUserId } = useGetFavorites();
-    const { isWatched, getWatchedImageSrc, handleWatchedAction, fetchMediaVisualizedStatus, } = useGetVisualizated();
     const { Getmedias, loading: loadingMedia, fetchMediaIndex } = useGetMedia();
     const { GetMediaShowByGenre, fetchMediaShowByGenre, fetchGenres, GetGenres } = useGetGenres();
 
@@ -132,18 +147,6 @@
         showScrollButton.value = scrollPosition > 300;
     };
 
-    const getFavoriteImageSrc = async(mediaId) => {
-    try {
-      const isTrue = await fetchMediaFavoriteStatus(mediaId);
-      true1.push(isTrue);
-      return isTrue;
-    } catch (error) {
-      console.error('Error fetching image source:', error);
-      return ''; // Return default image source or handle error as needed
-    }
-  };
-
-  console.log(true1)
 
     // Función para hacer scroll hacia arriba
     const scrollToTop = () => {
@@ -188,11 +191,6 @@
             await fetchMediaIndex();
             await fetchGenres();
             await fetchMediaShowByGenre();
-            await fetchFavoritesByUserId();
-            //const mediaIds = extractMediaIds(Getmedias);
-            // const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
-            // isFavorite.value = favoriteStatus;
-            // isWatched.value = visualizatedStatus;
             window.addEventListener('scroll', handleScroll);
         } catch (error) {
             console.error('Error fetching media:', error);
@@ -201,11 +199,7 @@
 
     onUpdated( async() => {
       try {
-        // Controlaremos el estado de cada imagen a mostrar cada vez que cambiemos de media show:
-        // const favoriteStatus = await fetchMediaFavoriteStatus(mediaIdAux);
-        // const visualizatedStatus = await fetchMediaVisualizedStatus(mediaIdAux);
-        // isFavorite.value = favoriteStatus;
-        // isWatched.value = visualizatedStatus;
+
       } catch (error) {
         console.error('Error al cargar los datos del medio show:', error);
       }

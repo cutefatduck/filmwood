@@ -11,36 +11,44 @@
         <div v-if="activeTab === 'favoritos'" class="col-xxl-4 col-md-6 col-lg-6 d-flex contenedor-guardadas-visualizadas">
           <div class="card-slider p-5">
             <div class="mb-1">
-              <div class="font-medium mt-1">
-                <h3>{{ mediaShow.media_show.nombre }}</h3>
-              </div>
-              <div class="d-flex align-items-center mt-5">
-                <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
-                  <img class="play-button me-3" src="/images/play-button.svg">
-                </router-link>
-                <span class="me-5 visitar">Visitar</span>
-                <div class="ms-auto">
-                  <div v-if="mediaShow.media_show.genres && mediaShow.media_show.genres.length">
-                    <span class="visitar" v-for="(genre, index) in mediaShow.media_show.genres" :key="index">
-                      {{ genre.name_genre }}
-                      <span v-if="index !== mediaShow.media_show.genres.length - 1">, </span>
-                    </span>
-                  </div>
+              <div class="row align-items-center">
+                <div class="col-md-5">
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+                            <img :src="mediaShow.media_show?.portada_img" alt="Portada del Media Show" class="poster-image-home">
+                        </router-link>
+                    </div>
                 </div>
-              </div>
-              <div class="d-flex align-items-center mt-5">
-                <div class="me-3">
-                  <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+                <div class="col-md-7">
+                    <div class="d-flex flex-column justify-content-center mt-3">
+                        <div class="titulo-card"><h3>{{ mediaShow.media_show.nombre }}</h3></div>
+                        <div class="d-flex align-items-center mt-3 mb-3">
+                            <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+                                <img class="play-button me-3" src="/images/play-button.svg">
+                            </router-link>
+                            <span class="me-4 visitar">Visitar</span>
+                        </div>
+                        <div v-if="mediaShow.media_show.genres && mediaShow.media_show.genres.length">
+                            <span class="visitar movie-genre-details" v-for="(genre, index) in mediaShow.media_show.genres" :key="index">
+                                <Tag value="secondary">{{ genre.name_genre }}</Tag>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div class="me-3">
-                  <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
-                </div>
-                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                  <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
-                </div>
-              </div>
-              <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
             </div>
+        </div>
+        <div class="d-flex align-items-center mt-5">
+            <div class="me-3">
+                <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+            </div>
+            <div class="me-3">
+                <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
+            </div>
+            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
+            </div>
+            </div>
+            <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
           </div>
         </div> 
       </template>
@@ -59,36 +67,44 @@
         <div v-if="activeTab === 'visualizadas'" class="col-xxl-4 col-md-6 col-lg-6 d-flex contenedor-guardadas-visualizadas">
           <div class="card-slider p-5">
             <div class="mb-1">
-              <div class="font-medium mt-1">
-                <h3>{{ mediaShow.media_show.nombre }}</h3>
-              </div>
-              <div class="d-flex align-items-center mt-5">
-                <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
-                  <img class="play-button me-3" src="/images/play-button.svg">
-                </router-link>
-                <span class="me-5 visitar">Visitar</span>
-                <div class="ms-auto">
-                  <div v-if="mediaShow.media_show.genres && mediaShow.media_show.genres.length">
-                    <span class="visitar" v-for="(genre, index) in mediaShow.media_show.genres" :key="index">
-                      {{ genre.name_genre }}
-                      <span v-if="index !== mediaShow.media_show.genres.length - 1">, </span>
-                    </span>
-                  </div>
+              <div class="row align-items-center">
+                <div class="col-md-5">
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+                            <img :src="mediaShow.media_show?.portada_img" alt="Portada del Media Show" class="poster-image-home">
+                        </router-link>
+                    </div>
                 </div>
-              </div>
-              <div class="d-flex align-items-center mt-5">
-                <div class="me-3">
-                  <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+                <div class="col-md-7">
+                    <div class="d-flex flex-column justify-content-center mt-3">
+                        <div class="titulo-card"><h3>{{ mediaShow.media_show.nombre }}</h3></div>
+                        <div class="d-flex align-items-center mt-3 mb-3">
+                            <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
+                                <img class="play-button me-3" src="/images/play-button.svg">
+                            </router-link>
+                            <span class="me-4 visitar">Visitar</span>
+                        </div>
+                        <div v-if="mediaShow.media_show.genres && mediaShow.media_show.genres.length">
+                            <span class="visitar movie-genre-details" v-for="(genre, index) in mediaShow.media_show.genres" :key="index">
+                                <Tag value="secondary">{{ genre.name_genre }}</Tag>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div class="me-3">
-                  <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
-                </div>
-                <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                  <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
-                </div>
-              </div>
-              <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
             </div>
+        </div>
+        <div class="d-flex align-items-center mt-5">
+            <div class="me-3">
+                <p>{{ mediaShow.media_show.fecha_media_show }}</p>
+            </div>
+            <div class="me-3">
+                <p>{{ formateoDuracion(mediaShow.media_show.duracion) }}</p>
+            </div>
+            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                <p class="m-0">+{{ mediaShow.media_show.pemi.number_pemi }}</p>
+            </div>
+            </div>
+            <div class="mt-3"><p>{{ mediaShow.media_show.sinopsis_corta }}</p></div>
           </div>
         </div>
       </template>

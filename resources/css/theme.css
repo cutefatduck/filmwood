@@ -26,6 +26,9 @@
     overflow-x: hidden;
     background-color: var(--color-fondo-pagina) !important;
   }
+  .poster-image-home{
+    width: 100%
+  }
 
   a{
     /*color: var(--color-titulo-pagina);*/
@@ -546,6 +549,9 @@
     font-size: 40px;
   }
 
+  .titulo-card{
+    height: 60px;
+  }
   .card-slider {
     background-color: var(--color-fondo-pagina-difuminado-1);
     background-color: black;
