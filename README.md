@@ -2,27 +2,42 @@
 
 ### Clonar Repositorio
 
-`git clone ....`
+``` 
+git clone ....
+```
+
 ### Instalar vía Composer
 
-`composer install`
+``` 
+composer install
+``` 
 ### Copiar el fichero .env.example a .env edita las credenciales y la url
 
 ### Generar Application Key
 
-`php artisan key:generate`
+``` 
+php artisan key:generate
+``` 
 ### Migrar base de datos
 
-`php artisan migrate`
+```
+php artisan migrate
+``` 
 ### Lanzar Seeders
 
-`php artisan db:seed`
+```
+php artisan db:seed
+``` 
 ### Instalar las dependencias de Node
 
-`npm install  npm run dev`
+``` 
+npm install  npm run dev
+``` 
 ### Lanzar a producción
 
-`npm run build or yarn build`
+``` 
+npm run build or yarn build
+``` 
 ## ¿Cómo poner en marcha?
 
 Primero, deberemos abrir nuestro XAMPP e iniciar los servicios de:
