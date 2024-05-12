@@ -34,7 +34,7 @@ export function useGetValorations() {
       if (response.data.success) {
 
         // Daremos las gracias al usuario:
-        const nombreUsuario = user.value.name;
+        const nombreUsuario = user.value.name_user;
 
         // Clonar el array actual de valoraciones y agregar la nueva valoración
         const updatedValorations = [...GetValorations.value, valorationData];
