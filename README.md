@@ -11,7 +11,7 @@ git clone (repositorio)
 ``` bash
 composer install
 ``` 
-### Copiar el fichero .env.example a .env edita las credenciales y la url
+Copiar el fichero .env.example a .env edita las credenciales y la url
 
 ### Generar Application Key
 
