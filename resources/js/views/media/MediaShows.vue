@@ -3,7 +3,6 @@
         <div class="filtros">
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4 ms-lg-5 offset-sm-1" v-model="filters.selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" />
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4" v-model="filters.selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" />
-            <Dropdown class="filter-dropdown w-full md:w-14rem me-4" v-model="filters.selectedValoration" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" />
         </div>
         <div class="row"> 
             <div class="col-xxl-4 col-lg-6 col-sm-12" v-for="media in Getmedias" :key="media.id">
