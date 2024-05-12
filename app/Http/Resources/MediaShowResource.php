@@ -46,6 +46,7 @@ class MediaShowResource extends JsonResource
             'saga' => $this->saga,
             'episodios' => $this->episodios,
             'temporadas' => $this->temporadas,
+            'trailer' => $this->trailer,
             'genres' => $genresArray,
             'country' => $this->country['name'],
             'mediashowtype' => $this->mediaShowType['type'],
