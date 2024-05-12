@@ -91,7 +91,7 @@
       command: () => redirectToRandomView() 
     }
   ]);
-
+  
   // Esta función maneja el redireccionamiento a una vista aleatoria de película o serie
   async function redirectToRandomView() {
     fetchRandomMedia().then(() => {

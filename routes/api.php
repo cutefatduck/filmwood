@@ -71,9 +71,6 @@ Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);
 // Obtener los mediashow segun el tipo (Serie o película)
 Route::get('media_show_type/media', [MediaShowController::class, 'getMediaShowByMediaShowType']);
 
-// Modificar los datos del usuario:
-Route::put('/users/{user}', [UserController::class, 'update']);
-
 Route::post('/agregar-media', [MediaController::class, 'store'])->name('media.store');
 Route::get('countries', [CountryController::class, 'view']);
 Route::get('pemis', [PemiController::class, 'view']);
@@ -84,6 +81,8 @@ Route::get('mediaShowType', [TypeMediaShowController::class, 'view']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
     // Eliminar el usuario:
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    // Modificar los datos del usuario:
+    Route::put('/users/{user}', [UserController::class, 'update']);
 
     Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);

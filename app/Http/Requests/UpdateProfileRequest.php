@@ -25,7 +25,8 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5',
-            'email' => 'required|email|unique:users,email,'.$this->user()->id
+            'email' => 'required|email|unique:users,email,'.$this->user()->id,
+            // 'name_user' => 'required|name_user|unique:users,name_user,'.$this->user()->id
         ];
     }
 }

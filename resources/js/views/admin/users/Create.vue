@@ -72,10 +72,10 @@
 <script setup>
     import { onMounted, reactive } from "vue";
     import useRoles from "@/composables/roles";
-    import useUsers from "@/composables/users";
+    import useGetUser from "@/composables/users";
 
     const { roleList, getRoleList } = useRoles();
-    const { storeUser, validationErrors, isLoading } = useUsers();
+    const { storeUser, validationErrors, isLoading } = useGetUser();
 
     import { useForm, useField, defineRule } from "vee-validate";
     import { required, min } from "@/validation/rules";

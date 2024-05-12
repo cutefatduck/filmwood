@@ -1,6 +1,7 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
+import store from '../store'
 
 export function useGetUser() {
     const Getusers = ref([]);
@@ -32,11 +33,7 @@ export function useGetUser() {
         loading.value = false;
       }
     };
-  
-    return { Getusers, loading, fetchUser, fetchUserById };
-}
 
-export function useUsers() {
     const users = ref([])
     const user = ref({
         name: ''
@@ -124,7 +121,7 @@ export function useUsers() {
             .finally(() => isLoading.value = false)
     }
 
-    const deleteUser = async (id) => {
+const deleteUser = async (id) => {
         try {
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
@@ -134,27 +131,36 @@ export function useUsers() {
                 confirmButtonText: 'Sí, eliminar',
                 cancelButtonText: 'Cancelar'
             });
+
             if (result.isConfirmed) {
                 const response = await axios.delete(`/api/users/${id}`);
+                store.dispatch('auth/logout')
+                router.push({ name: 'auth.register' });
                 Swal.fire({
                     icon: 'success',
-                    title:'¡Tu cuenta se ha eliminado!', 
+                    title: '¡Tu cuenta ha sido eliminada!',
                     showConfirmButton: false,
                     timer: 1500
-                })
+                });
+            } else {
+
             }
         } catch (error) {
-            console.log(error)
+            console.error(error);
             Swal.fire({
                 icon: 'error',
-                title:'¡Tu cuenta no ha podido eliminarse!', 
+                title: '¡Tu cuenta no ha podido eliminarse!',
                 showConfirmButton: false,
                 timer: 1500
-            })
+            });
         }
-    }
+    };
 
     return {
+        Getusers, 
+        loading, 
+        fetchUser, 
+        fetchUserById,
         users,
         user,
         getUsers,
@@ -165,4 +171,6 @@ export function useUsers() {
         validationErrors,
         isLoading
     }
+
 }
+export default useGetUser;

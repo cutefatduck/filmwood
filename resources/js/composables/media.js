@@ -13,7 +13,7 @@ export function useGetMedia() {
     try {
       loading.value = true;
       const response = await axios.get('/api/media');
-      Getmedias.value = response.data;
+      Getmedias.value = response.data.data;
     } catch (error) {
       console.error('Error fetching media:', error);
     } finally {
@@ -75,11 +75,12 @@ export function useGetMedia() {
   const fetchRandomMedia = async () => {
     try {
       const response = await axios.get('/api/media');
-      if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+      const GetRandom = response.data.data;
+      if (GetRandom && Array.isArray(GetRandom) && GetRandom.length > 0) {
         // Obtenemos un ID aleatorio dentro del rango de la longitud del array de media shows
-        const randomIndex = Math.floor(Math.random() * response.data.length);
+        const randomIndex = Math.floor(Math.random() * GetRandom.length);
         // Obtenemos la media show aleatoria utilizando el ID aleatorio dentro
-        randomMedia.value = response.data[randomIndex];
+        randomMedia.value = GetRandom[randomIndex];
       } else {
         console.error('No se encontraron datos de media shows disponibles.');
       }
