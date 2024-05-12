@@ -13,9 +13,6 @@
                 <div class="card-slider p-5" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
                     <div class="mb-1">
                         <div class="font-medium mt-1">
-                            <div class="d-flex">
-                                <img :src="data?.portada_img" alt="Portada del Media Show" class="poster-image col-sm-4">
-                            </div>
                             <h3>{{ data.nombre }}</h3>
                         </div>
                         <div class="d-flex align-items-center mt-5">
