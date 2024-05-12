@@ -20,19 +20,13 @@
                                 <img class="play-button me-3" src="/images/play-button.svg">
                             </router-link>
                             <span class="me-5 visitar">Visitar</span>
-                            
                             <div class="ms-auto">
-                                <div v-if="getFavoriteImageSrc(data.id)">
-                                    <div v-if=" true1 ">
-                                        {{ 1 }}
-                                    </div>
-                                    
-                                    <img src="/images/like.svg"  alt="Toggle Favorite"/>
+                                <div v-if="data.genres && data.genres.length">
+                                    <span class="visitar" v-for="(genre, index) in data.genres" :key="index">
+                                        {{ genre.name_genre }}
+                                        <span v-if="index !== data.genres.length - 1">, </span>
+                                    </span>
                                 </div>
-                                <div v-else>
-                                    <img src="/images/no_like.svg"  alt="Toggle Favorite"/>
-                                </div>
-                                
                             </div>
                         </div>
                         <div class="d-flex align-items-center mt-5">
@@ -82,8 +76,12 @@
                                 </router-link>
                                 <span class="me-5 visitar">Visitar</span>
                                 <div class="ms-auto">
-                                    <img class="favorite-button me-3" src="/images/no_like_home.svg">
-                                    <img class="visualizated-button me-3" src="/images/no_visualization_home.svg">
+                                    <div v-if="data.genres && data.genres.length">
+                                        <span class="visitar" v-for="(genre, index) in data.genres" :key="index">
+                                            {{ genre.name_genre }}
+                                            <span v-if="index !== data.genres.length - 1">, </span>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center mt-5">
@@ -135,6 +133,7 @@
         // Mostrar el botón cuando el usuario ha scrollado más allá de cierta posición:
         showScrollButton.value = scrollPosition > 300;
     };
+
     const getFavoriteImageSrc = async(mediaId) => {
     try {
       const isTrue = await fetchMediaFavoriteStatus(mediaId);
@@ -145,8 +144,8 @@
       return ''; // Return default image source or handle error as needed
     }
   };
-  console.log(true1)
 
+  console.log(true1)
 
     // Función para hacer scroll hacia arriba
     const scrollToTop = () => {
@@ -156,8 +155,7 @@
         });
     };
 
-
-
+    // Función para hacer el responsive de los carruseles:
     const responsiveOptions = ref([
         {
             breakpoint: '1300px',
@@ -186,7 +184,6 @@
         }
         return formattedDuration.trim();
     };
-
     
     onMounted(async () => {
         try {
@@ -214,7 +211,6 @@
       } catch (error) {
         console.error('Error al cargar los datos del medio show:', error);
       }
-    
     });
 
     // Eliminaremos el listener del evento de scroll cuando el componente es destruido:

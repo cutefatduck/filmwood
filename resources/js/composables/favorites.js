@@ -21,7 +21,6 @@ export function useGetFavorites() {
     }
   };
 
-
   const fetchFavoritesByMedia = async () => {
     try {
       loading.value = true;
@@ -57,7 +56,6 @@ export function useGetFavorites() {
 
   // Variable para almacenar el estado del botón "Favoritos"
   const isFavorite = ref(false);
-  
 
   // Función para obtener la ruta de la imagen de favoritos
   const getFavoriteImageSrc = () => {
@@ -81,6 +79,7 @@ export function useGetFavorites() {
         loading.value = false;
       }
   };
+  
   const favoritesStatus = ref([]);
   const fetchMediaFavoriteStatusArray = async (mediaIds) => {
     try {

@@ -2,7 +2,6 @@
     <div class="card">
         <div class="card-body">
             <form>
-                {{ Getmedia }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Titulo</label>
                     <input :value="Getmedia.nombre" type="text" class="input-formulario" disabled>

@@ -12,7 +12,7 @@
           <div class="card-slider p-5">
             <div class="mb-1">
               <div class="font-medium mt-1">
-                <h3>{{mediaShow.media_show.nombre}}</h3>
+                <h3>{{ mediaShow.media_show.nombre }}</h3>
               </div>
               <div class="d-flex align-items-center mt-5">
                 <router-link :to="{ name: 'media.view', params: { id: mediaShow.media_show.id } }">
@@ -20,8 +20,12 @@
                 </router-link>
                 <span class="me-5 visitar">Visitar</span>
                 <div class="ms-auto">
-                  <img class="favorite-button me-3" src="/images/no_like_home.svg">
-                  <img class="visualizated-button me-3" src="/images/no_visualization_home.svg">
+                  <div v-if="mediaShow.media_show.genres && mediaShow.media_show.genres.length">
+                    <span class="visitar" v-for="(genre, index) in mediaShow.media_show.genres" :key="index">
+                      {{ genre.name_genre }}
+                      <span v-if="index !== mediaShow.media_show.genres.length - 1">, </span>
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center mt-5">
@@ -64,8 +68,12 @@
                 </router-link>
                 <span class="me-5 visitar">Visitar</span>
                 <div class="ms-auto">
-                  <img class="favorite-button me-3" src="/images/no_like_home.svg">
-                  <img class="visualizated-button me-3" src="/images/no_visualization_home.svg">
+                  <div v-if="mediaShow.media_show.genres && mediaShow.media_show.genres.length">
+                    <span class="visitar" v-for="(genre, index) in mediaShow.media_show.genres" :key="index">
+                      {{ genre.name_genre }}
+                      <span v-if="index !== mediaShow.media_show.genres.length - 1">, </span>
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center mt-5">
@@ -100,7 +108,7 @@
 
 <script setup>
 
-  import { ref, onMounted, onUpdated, computed } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import { useGetFavorites } from '@/composables/favorites';
   import { useGetVisualizated } from '@/composables/visualizated';

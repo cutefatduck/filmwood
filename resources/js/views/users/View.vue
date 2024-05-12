@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
           <ul class="list-unstyled row col-lg-12 mb-5">
-            <h2 class="subtitulo-datos col-xxl-3">DATOS</h2>
+            <h2 class="subtitulo-datos col-xxl-4">DATOS</h2>
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
                 <input  v-model="information.email" class="dato col-md-6 input-formulario-user" type="text" :disabled="!emailFieldEnabled" />
@@ -35,7 +35,7 @@
           </ul>
           <hr>
           <ul class="list-unstyled row mb-3 mt-5 mb-5">
-            <h2 class="subtitulo-datos col-xxl-3">PERFIL SOCIAL</h2>
+            <h2 class="subtitulo-datos col-xxl-4">PERFIL SOCIAL</h2>
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
                 <input v-model="information.name_user" class="dato col-md-6 input-formulario-user" type="text" :disabled="!nameUserFieldEnabled" />
@@ -46,7 +46,7 @@
               </li>
             </div>
           </ul>
-          <div class="container-button">
+          <div class="container-button justify-content-center mt-2 mb-4">
             <button class="btn btn-primary boton-principal buton-guardar" @click="updateUser">Guardar Cambios</button>
           </div>
           
@@ -55,7 +55,7 @@
             <h2 class="subtitulo-datos col-xxl-3">CONFIGURACIÓN</h2>
             <div class="col-xxl-8">
               <li class="row justify-content-between align-items-center">
-                <button class="eliminar-cuenta col-4" @click="deleteUserAccount(user.id)">Eliminar cuenta</button>
+                <button class="eliminar-cuenta col-4" @click="deleteUserAccount()">Eliminar cuenta</button>
               </li>
             </div>
           </ul>
@@ -71,14 +71,11 @@
   import { ref, onMounted, computed } from 'vue';
   import { useStore } from "vuex";
   import { useRouter } from 'vue-router';
-  import useAuth from "@/composables/auth";
-  import { useGetUser, useUsers } from '@/composables/users';
+  import { useGetUser} from '@/composables/users';
   import AppFooter from '@/layouts/AppFooter.vue';
   import Swal from 'sweetalert2';
-
-  const { Getusers, loading, fetchUser, fetchUserById } = useGetUser();
-  const { deleteUser } = useUsers();
-  const { logoutDeleteAccount } = useAuth();
+ 
+  const { Getusers, loading, fetchUser, fetchUserById,deleteUser } = useGetUser();
   const router = useRouter();
   const store = useStore();
   const userId = router.currentRoute.value.params.userId;
@@ -89,34 +86,33 @@
   const passwordFieldEnabled = ref(false);
   const nameUserFieldEnabled = ref(false);
 
-
   const emailUsuario = user.value.email;
   const nombreUsuario = user.value.name;
   const passwordUsuario = user.value.password;
   const perfilUsuario = user.value.name_user;
 
   const cancelar = (campo) => {
-  switch (campo) {
-    case "email":
-      information.value.email = emailUsuario;
-      emailFieldEnabled.value = false;
-      break;
-    case "name":
-      information.value.name = nombreUsuario;
-      nameFieldEnabled.value = false;
-      break;
-    case "password":
-      information.value.password = passwordUsuario;
-      passwordFieldEnabled.value = false;
-      break;
-    case "name_user":
-      information.value.name_user = perfilUsuario;
-      nameUserFieldEnabled.value = false;
-      break;
-    default:
-      break;
-  }
-};
+    switch (campo) {
+      case "email":
+        information.value.email = emailUsuario;
+        emailFieldEnabled.value = false;
+        break;
+      case "name":
+        information.value.name = nombreUsuario;
+        nameFieldEnabled.value = false;
+        break;
+      case "password":
+        information.value.password = passwordUsuario;
+        passwordFieldEnabled.value = false;
+        break;
+      case "name_user":
+        information.value.name_user = perfilUsuario;
+        nameUserFieldEnabled.value = false;
+        break;
+      default:
+        break;
+    }
+  };
 
   const information = ref({ 
     email: emailUsuario, 
@@ -125,37 +121,34 @@
     name_user: perfilUsuario,
   });
 
-  
   // Crearemos una función para controlar que campo está activo:
   const activeField = (field) => {
-  // Activar solo el campo seleccionado
-  switch (field) {
-    case 'email':
-      emailFieldEnabled.value = true;
-      break;
-    case 'name':
-      nameFieldEnabled.value = true;
-      break;
-    case 'password':
-      passwordFieldEnabled.value = true;
-      break;
-    case 'name_user':
-      nameUserFieldEnabled.value = true;
-      break;
-    default:
-      break;
-  }
-};
-
-const deleteUserAccount = async (user) => {
-    try {
-        await deleteUser(user);
-        await logoutDeleteAccount();
-        router.push({ name: 'auth.register' });
-    } catch (error) {
-        console.error('Error al eliminar la cuenta:', error);
+    // Activar solo el campo seleccionado
+    switch (field) {
+      case 'email':
+        emailFieldEnabled.value = true;
+        break;
+      case 'name':
+        nameFieldEnabled.value = true;
+        break;
+      case 'password':
+        passwordFieldEnabled.value = true;
+        break;
+      case 'name_user':
+        nameUserFieldEnabled.value = true;
+        break;
+      default:
+        break;
     }
-};
+  };
+
+  const deleteUserAccount = async () => {
+    try {
+      await deleteUser(user.value.id);
+    } catch (error) {
+      console.error('Error al eliminar la cuenta:', error);
+    }
+  };
 
   const updateUser = async () => {
     await axios.put('/api/user', information.value);
@@ -164,11 +157,8 @@ const deleteUserAccount = async (user) => {
     passwordFieldEnabled.value = false;
     nameUserFieldEnabled.value = false;
     Swal.fire('Guardado!', 'Se han guardado los cambios correctamente.', 'success');
-    
-    
   };
 
-  // Función para obtener el ID del usuario desde la ruta:
   onMounted(async () => {
     try {
       await fetchUserById(userId);
@@ -178,5 +168,4 @@ const deleteUserAccount = async (user) => {
     }
   });
   
-
 </script>

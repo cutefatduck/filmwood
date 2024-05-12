@@ -33,7 +33,7 @@ class MediaShowController extends Controller
     {
         $userId = auth()->id();
         // Busca las favoritas para el usuario en especifico
-        $favorites = p_favorite::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userId)->get();
+        $favorites = p_favorite::with('mediaShow', 'mediaShow.pemi', 'mediaShow.genres')->where('id_user', $userId)->get();
         return response()->json($favorites);
     }
 
@@ -42,10 +42,9 @@ class MediaShowController extends Controller
     {   
         $userId = auth()->id();
         // Busca las visualizadas para el usuario en especifico
-        $visualizated = p_visualized::with('mediaShow', 'mediaShow.pemi')->where('id_user', $userId)->get();
+        $visualizated = p_visualized::with('mediaShow', 'mediaShow.pemi', 'mediaShow.genres')->where('id_user', $userId)->get();
         return response()->json($visualizated);
     }
-
 
     // Verificar si el usuario ha creado una valoración para un medio específico
     public function checkIfValuated($mediaShowId)
@@ -173,7 +172,7 @@ class MediaShowController extends Controller
 
     public function index(){
         $mediashow = p_media_show::with('country', 'mediaShowType', 'pemi', 'genres')->get();
-        return $mediashow;
+        return MediaShowResource::collection($mediashow);
     }
 
     public function indexNew()

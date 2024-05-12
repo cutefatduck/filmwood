@@ -49,7 +49,7 @@ class MediaShowSeeder extends Seeder
                 "saga" => null,
                 "episodios" => 133,
                 "temporadas" => 7,
-                "genres" => [1,2,3]
+                "genres" => [1,3]
             ],
 
             [
@@ -189,7 +189,7 @@ class MediaShowSeeder extends Seeder
                 "saga" => null,
                 "episodios" => 177,
                 "temporadas" => 10,
-                "genres" => [7, 4, 11]
+                "genres" => [7, 4]
             ],
 
             [
@@ -209,7 +209,7 @@ class MediaShowSeeder extends Seeder
                 "saga" => null,
                 "episodios" => 89,
                 "temporadas" => 6,
-                "genres" => [1,2,8]
+                "genres" => [2,8]
             ],
 
             [
@@ -529,7 +529,7 @@ class MediaShowSeeder extends Seeder
                 "saga" => null,
                 "episodios" => 73,
                 "temporadas" => 8,
-                "genres" => [1, 5, 8]
+                "genres" => [1, 8]
             ],
 
             [

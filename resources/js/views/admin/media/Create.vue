@@ -38,17 +38,17 @@
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Pemi</label>
-                    <select v-model="media.id_pemi">
+                    <select v-model="media.id_pemi" class="desplegables">
                         <option v-for="pemi in pemis" :key="pemi.id" :value="pemi.id">{{ pemi.number_pemi }}</option>
                     </select>
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Género</label>
-                    <MultiSelect multiple v-model="selectedGenres" :options="genres" filter optionLabel="name_genre" optionValue="id" placeholder="Select genres" :maxSelectedLabels="3" class="w-full md:w-20rem" />
+                    <MultiSelect multiple v-model="selectedGenres" :options="genres" filter optionLabel="name_genre" optionValue="id" placeholder="Select genres" :maxSelectedLabels="2" class="w-full md:w-20rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">País de origen</label>
-                    <select v-model="media.id_country" class="mb-2">
+                    <select v-model="media.id_country" class="mb-2 w-full md:w-20rem desplegables">
                         <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
                     </select>
                 </div>

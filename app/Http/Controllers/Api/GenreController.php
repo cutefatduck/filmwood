@@ -15,7 +15,7 @@ class GenreController extends Controller
     }
 
     public function getMediaShowByGenre(){
-        $genre = p_genres::with('mediaShows.pemi')->get();
+        $genre = p_genres::with('mediaShows.pemi', 'mediaShows.genres')->get();
         return $genre; 
     }
     

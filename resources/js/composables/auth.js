@@ -203,30 +203,7 @@ export default function useAuth() {
             })
     }
 
-    const logoutDeleteAccount = async () => {
-        if (processing.value) return
-
-        processing.value = true
-
-        axios.post('/logout')
-            .then(response => {
-                user.name = ''
-                user.email = ''
-                store.dispatch('auth/logout')
-                router.push({ name: 'auth.register' })
-            })
-            .catch(error => {
-                // swal({
-                //     icon: 'error',
-                //     title: error.response.status,
-                //     text: error.response.statusText
-                // })
-            })
-            .finally(() => {
-                processing.value = false
-                // Cookies.remove('loggedIn')
-            })
-    }
+    
 
     const getAbilities = async() => {
         await axios.get('/api/abilities')
@@ -255,6 +232,5 @@ export default function useAuth() {
         getUser,
         logout,
         getAbilities,
-        logoutDeleteAccount
     }
 }

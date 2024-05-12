@@ -7,36 +7,40 @@
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4" v-model="filters.selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" />
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4" v-model="filters.selectedValoration" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" />
         </div>
-        <div class="row">
+        <div class="row"> 
             <div class="col-xxl-4 col-lg-6 col-sm-12" v-for="media in Getmedias" :key="media.id">
                 <div class="card-slider p-5">
                     <div class="mb-1">
                         <div class="font-medium mt-1">
-                        <h3>{{ media.nombre }}</h3>
+                            <h3>{{ media.nombre }}</h3>
                         </div>
                         <div class="d-flex align-items-center mt-5">
-                        <router-link :to="{ name: 'media.view', params: { id: media.id } }">
-                            <img class="play-button me-3" src="/images/play-button.svg">
-                        </router-link>
-                        <span class="me-5 visitar">Visitar</span>
-                        <div class="ms-auto">
-                            <img class="favorite-button me-3" src="/images/no_like_home.svg">
-                            <img class="visualizated-button me-3" src="/images/no_visualization_home.svg">
-                        </div>
+                            <router-link :to="{ name: 'media.view', params: { id: media.id } }">
+                                <img class="play-button me-3" src="/images/play-button.svg">
+                            </router-link>
+                            <span class="me-5 visitar">Visitar</span>
+                            <div class="ms-auto">
+                                <div v-if="media.genres && media.genres.length">
+                                    <span class="visitar" v-for="(genre, index) in media.genres" :key="index">
+                                        {{ genre.name_genre }}
+                                        <span v-if="index !== media.genres.length - 1">, </span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="d-flex align-items-center mt-5">
-                        <div class="me-3">
-                            <p>{{ media.fecha_media_show }}</p>
-                        </div>
-                        <div class="me-3">
-                            <p>{{ formateoDuracion(media.duracion) }}</p>
-                        </div>
-                        <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                            <p class="m-0">+{{ media.pemi.number_pemi }}</p>
-                        </div>
+                            <div class="me-3">
+                                <p>{{ media.fecha_media_show }}</p>
+                            </div>
+                            <div class="me-3">
+                                <p>{{ formateoDuracion(media.duracion) }}</p>
+                            </div>
+                            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                                <p class="m-0">+{{ media.pemi.number_pemi }}</p>
+                            </div>
                         </div>
                         <div class="mt-3">
-                        <p>{{ media.sinopsis_corta }}</p>
+                            <p>{{ media.sinopsis_corta }}</p>
                         </div>
                     </div>
                 </div>
