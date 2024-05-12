@@ -157,7 +157,6 @@
   const store = useStore();
   const router = useRouter();
   const user = computed(() => store.getters["auth/user"]);
-  const userID = user.value.id;
 
   // Formateamos la duración que mostraremos:
   const formateoDuracion = (duration) => {

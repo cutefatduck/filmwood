@@ -18,10 +18,8 @@ class MediaShowResource extends JsonResource
     
         $resized_image="";
         try {
-            $resized_image = $this->getMedia('*');//[0]->getUrl('resized-image');
-           // return resized_image;
+            $resized_image = $this->getMedia('*');
             if(count($resized_image) != 0){
-               // $resized_image = $resized_image[0]->getUrl('resized-image');
             }
         } catch (Exception $e) {
             $resized_image="";

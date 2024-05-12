@@ -14,9 +14,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <strong>{{ strError }}</strong>
             </div>
-
-            <!-- <p>{{ media }}</p> -->
-
             <form @submit.prevent="addMedia(media)" enctype="multipart/form-data">
                 <div class="form-group mb-2">
                     <label class="mb-3">Tipo de Media Show</label>

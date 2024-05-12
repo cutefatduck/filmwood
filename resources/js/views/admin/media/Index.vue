@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useGetMedia } from '@/composables/media';
 

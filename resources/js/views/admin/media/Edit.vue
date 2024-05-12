@@ -19,22 +19,20 @@
                 {{ Getmedia }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Tipo de Media Show</label>
-                    <Dropdown v-model="Getmedia.mediashowtype" :modelValue="selected" :options="mediaShowTypes" optionLabel="type" op placeholder="Select a City" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
+                    <Dropdown v-model="Getmedia.mediashowtype" :modelValue="selected" :options="mediaShowTypes" optionLabel="type" op placeholder="Escoge un genero" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
                 {{ Getmedia.genres }}
                 <div class="form-group mb-2">
                     <label class="mb-3">Género</label>
-
-                    <!--optionValue="id"-->
                     <MultiSelect multiple v-model="Getmedia.genres" :options="GetGenres" filter optionLabel="name_genre" dataKey="id" placeholder="Select genres" :maxSelectedLabels="3" objeclass="w-full md:w-20rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">País de origen</label>
-                    <Dropdown v-model="Getmedia.country" :options="countries" optionLabel="name" op placeholder="Select a City" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
+                    <Dropdown v-model="Getmedia.country" :options="countries" optionLabel="name" op placeholder="País de origen" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Pemi</label>
-                    <Dropdown v-model="Getmedia.pemi" :options="pemis" optionLabel="number_pemi" op placeholder="Select a City" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
+                    <Dropdown v-model="Getmedia.pemi" :options="pemis" optionLabel="number_pemi" op placeholder="Pemi" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
                 <div class="form-group mb-2">
                     <label class="mb-3">Sinopsis corta</label>

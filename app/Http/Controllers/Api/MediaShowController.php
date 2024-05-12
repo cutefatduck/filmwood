@@ -78,8 +78,7 @@ class MediaShowController extends Controller
             'valoracion' => 'required|string',
             'recomendacion' => 'required|boolean'
         ]);
-
-        // Si la validación falla, retorna un error con los mensajes correspondientes
+        
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
@@ -142,21 +141,17 @@ class MediaShowController extends Controller
 
     public function manageToVisualizated(Request $request, $mediaShowId)
     {
-        // Recogemos el ID del usuario actual para añadirlo a la base de datos:
         $userId = auth()->id();
 
-        // Verificar si ya existe la entrada previamente:
         $existingVisualized = p_visualized::where('id_user', $userId)
                                            ->where('id_media_show', $mediaShowId)
                                            ->first();
 
-        // Si ya existe la misma entrada, la eliminamos:
         if ($existingVisualized) {
             $existingVisualized->delete();
             return response()->json(['message' => 'El media show se eliminó de tus visualizadas correctamente.'], 200);
         }
 
-        // Si no, creamos una nueva entrada en favoritos:
         p_visualized::create([
             'id_user' => $userId,
             'id_media_show' => $mediaShowId,
@@ -190,6 +185,7 @@ class MediaShowController extends Controller
             return new MediaShowResource($mediashow);
     }
 
+    /*Buscador integrado en la web*/
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -251,7 +247,6 @@ class MediaShowController extends Controller
         // Obtener los géneros asociados al medio recién creado
         $mediaShowGenres = $mediaShow->genres()->pluck('name_genre')->toArray();
 
-        // Devolver una respuesta JSON con éxito y los datos del medio y sus géneros asociados
         return response()->json([
             'success' => true, 
             'data' => $mediaShow->fresh(), 
@@ -268,7 +263,6 @@ class MediaShowController extends Controller
             return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own mediashow']);
         } else {
             $mediaShow->update($request->validated());
-            // $category = Category::findMany($request->categories);
             $mediaShow->genres()->sync($genres);
     
             if($request->hasFile('thumbnail')) {
@@ -299,7 +293,6 @@ class MediaShowController extends Controller
         $media = p_media_show_genres::where('id_genre', $id)->get();
     
         if($media->isEmpty()) {
-            // Manejar el caso en el que no se encuentren registros para el genre_id dado
             return response()->json([
                 'success' => false,
                 'message' => 'No se encontraron registros para el genre_id proporcionado.',
@@ -315,31 +308,31 @@ class MediaShowController extends Controller
         
     }
 
-    public function getFilteredMedia(Request $request)
-    {
-            $query = Media::query();
+    // public function getFilteredMedia(Request $request)
+    // {
+    //         $query = Media::query();
 
-            // Aplicar filtro por género si está presente en la solicitud
-            if ($request->has('selectedGenre')) {
-                $query->where('genre', $request->input('selectedGenre'));
-            }
+    //         // Aplicar filtro por género si está presente en la solicitud
+    //         if ($request->has('selectedGenre')) {
+    //             $query->where('genre', $request->input('selectedGenre'));
+    //         }
 
-            // Aplicar filtro por tipo si está presente en la solicitud
-            if ($request->has('selectedType')) {
-                $query->where('type', $request->input('selectedType'));
-            }
+    //         // Aplicar filtro por tipo si está presente en la solicitud
+    //         if ($request->has('selectedType')) {
+    //             $query->where('type', $request->input('selectedType'));
+    //         }
 
-            // Aplicar filtro por rango de fechas si están presentes en la solicitud
-            if ($request->has('selectedDate')) {
-                $dates = explode(',', $request->input('selectedDate'));
-                $startDate = $dates[0];
-                $endDate = $dates[1];
-                $query->whereBetween('created_at', [$startDate, $endDate]);
-            }
+    //         // Aplicar filtro por rango de fechas si están presentes en la solicitud
+    //         if ($request->has('selectedDate')) {
+    //             $dates = explode(',', $request->input('selectedDate'));
+    //             $startDate = $dates[0];
+    //             $endDate = $dates[1];
+    //             $query->whereBetween('created_at', [$startDate, $endDate]);
+    //         }
 
-            // Obtener los resultados finales de la consulta
-            $filteredMedia = $query->get();
+    //         // Obtener los resultados finales de la consulta
+    //         $filteredMedia = $query->get();
 
-        return response()->json(['filteredMedia' => $filteredMedia]);
-    }
+    //     return response()->json(['filteredMedia' => $filteredMedia]);
+    // }
 }

@@ -23,12 +23,5 @@ class DatabaseSeeder extends Seeder
         $this->call(roleSeeder::class);
         $this->call(MediaShowSeeder::class);
 
-//        $this->call(RoleSeeder::class);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

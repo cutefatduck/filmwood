@@ -22,22 +22,18 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
-// Route::get('/peliculas', [PeliculasController::class, 'index'])->name('peliculas.index');
-// Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
+
+// Muestra todos los media shows
 Route::get('media', [MediaShowController::class, 'index']);
+
+// Mostrar solo 9 ultimas media show
 Route::get('mediaIndex', [MediaShowController::class, 'indexNew']);
+
+// Buscador media show
 Route::get('media/search' , [MediaShowController::class, 'search']);
+
 // Mostrar una media show:
 Route::get('/media/{id}', [MediaShowController::class, 'show']);
-// Eliminar una media show en concreto en el panel de administrador:
-Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
-// Crear una nueva media show:
-Route::post('media/', [MediaShowController::class, 'store']);
-
-// Route::get('/media/genre/{id}', [MediaShowController::class, 'viewByGenreID']);
-
-// Agregar una valoracion a una media show:
-Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
 
 // Verificar si la media show ya ha sido valorada por el usuario actual
 Route::get('/valorations/{id}', [MediaShowController::class, 'checkIfValuated']);
@@ -55,12 +51,7 @@ Route::get('/favorites/{id}', [FavoriteController::class, 'getCheckFavorites']);
 Route::get('user/favorites', [MediaShowController::class, 'getMediaShowFavorites']);
 
 // Obtenemos los media shows visualizadas de un user en concreto:
-// Route::get('user/visualizated/{id}', [MediaShowController::class, 'getMediaShowVisualizated']);
 Route::get('user/visualizated', [MediaShowController::class, 'getMediaShowVisualizated']);
-
-
-// Agregar una media show a visualizadas:
-Route::post('/visualizated/{id}', [MediaShowController::class, 'manageToVisualizated']);
 
 // Verificar si la media show ya está en visualizadas para mostrar una imagen de visualizada u otra:
 Route::get('/visualizated/{id}', [MediaShowController::class, 'checkIfVisualizated']);
@@ -71,7 +62,6 @@ Route::get('genres/media', [GenreController::class, 'getMediaShowByGenre']);
 // Obtener los mediashow segun el tipo (Serie o película)
 Route::get('media_show_type/media', [MediaShowController::class, 'getMediaShowByMediaShowType']);
 
-Route::post('/agregar-media', [MediaController::class, 'store'])->name('media.store');
 Route::get('countries', [CountryController::class, 'view']);
 Route::get('pemis', [PemiController::class, 'view']);
 Route::get('/pemis', [PemiController::class, 'view']);
@@ -83,6 +73,15 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
     // Modificar los datos del usuario:
     Route::put('/users/{user}', [UserController::class, 'update']);
+    // Agregar una media show a visualizadas:
+    Route::post('/visualizated/{id}', [MediaShowController::class, 'manageToVisualizated']);
+    // Crear una nueva media show:
+    Route::post('media/', [MediaShowController::class, 'store']);
+    // Eliminar una media show en concreto en el panel de administrador:
+    Route::delete('/media/{id}', [MediaShowController::class, 'destroy']);
+
+    // Agregar una valoracion a una media show:
+    Route::post('media/valoration', [MediaShowController::class, 'addValorations']);
 
     Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);

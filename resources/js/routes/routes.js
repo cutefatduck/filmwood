@@ -4,12 +4,6 @@ import store from "../store";
 const AuthenticatedLayout = () => import('../layouts/Authenticated.vue')
 const GuestLayout = ()  => import('../layouts/Guest.vue');
 
-const PostsIndex  = ()  => import('../views/admin/posts/Index.vue');
-const PostsCreate  = ()  => import('../views/admin/posts/Create.vue');
-const PostsEdit  = ()  => import('../views/admin/posts/Edit.vue');
-const ExercisesIndex  = ()  => import('../views/admin/exercises/Index.vue');
-const ExercisesCreate  = ()  => import('../views/admin/exercises/Create.vue');
-const ExercisesEdit  = ()  => import('../views/admin/exercises/Edit.vue');
 const MediaIndex = () => import('../views/admin/media/Index.vue')
 const MediaShows = () => import('../views/media/MediaShows.vue')
 const MediaCreate = () => import('../views/admin/media/Create.vue')
@@ -80,22 +74,6 @@ export default [
                 meta: { breadCrumb: 'Ver el media show', linked: false },
                 component: MediaView,
             },
-            
-            {
-                path: 'posts',
-                name: 'public-posts.index',
-                component: () => import('../views/posts/index.vue'),
-            },
-            {
-                path: 'posts/:id',
-                name: 'public-posts.details',
-                component: () => import('../views/posts/details.vue'),
-            },
-            {
-                path: 'category/:id',
-                name: 'category-posts.index',
-                component: () => import('../views/category/posts.vue'),
-            },
             {
                 path: 'login',
                 name: 'auth.login',
@@ -143,7 +121,6 @@ export default [
                 component: () => import('../views/admin/profile/index.vue'),
                 meta: { breadCrumb: 'Profile' }
             },
-
             {
                 name: 'media',
                 path: 'media',
@@ -163,7 +140,6 @@ export default [
                         meta: { breadCrumb: 'Ver el media show', linked: false },
                         component: MediaAdminView
                     },
-                    
         
                     {
                         name: 'media.create',
@@ -182,87 +158,6 @@ export default [
                     }
                 ]
             },
-
-            {
-                name: 'posts.index',
-                path: 'posts',
-                component: PostsIndex,
-                meta: { breadCrumb: 'Posts' }
-            },
-            {
-                name: 'posts.create',
-                path: 'posts/create',
-                component: PostsCreate,
-                meta: { breadCrumb: 'Add new post' }
-            },
-            {
-                name: 'posts.edit',
-                path: 'posts/edit/:id',
-                component: PostsEdit,
-                meta: { breadCrumb: 'Edit post' }
-            },
-            {
-                name: 'exercises',
-                path: 'exercises',
-                meta: { breadCrumb: 'Exercises'},
-                children: [
-                    {
-                        name: 'exercises.index',
-                        path: '',
-                        component: ExercisesIndex,
-                        meta: { breadCrumb: 'View' }
-                    },
-                    {
-                        name: 'exercises.create',
-                        path: 'create',
-                        component: ExercisesCreate,
-                        meta: { breadCrumb: 'Add new exercise' ,
-                        linked: false, }
-                    },
-                    {
-                        name: 'exercises.edit',
-                        path: 'edit/:id',
-                        component: ExercisesEdit,
-                        meta: {
-                            breadCrumb: 'Edit exercise',
-                            linked: false,
-                        }
-                    }
-                ]
-            },
-        
-            {
-                name: 'categories',
-                path: 'categories',
-                meta: { breadCrumb: 'Categories'},
-                children: [
-                    {
-                        name: 'categories.index',
-                        path: '',
-                        component: () => import('../views/admin/categories/Index.vue'),
-                        meta: { breadCrumb: 'View category' }
-                    },
-                    {
-                        name: 'categories.create',
-                        path: 'create',
-                        component: () => import('../views/admin/categories/Create.vue'),
-                        meta: { 
-                            breadCrumb: 'Add new category' ,
-                            linked: false, 
-                        }
-                    },
-                    {
-                        name: 'categories.edit',
-                        path: 'edit/:id',
-                        component: () => import('../views/admin/categories/Edit.vue'),
-                        meta: {
-                            breadCrumb: 'Edit category',
-                            linked: false,
-                        }
-                    }
-                ]
-            },
-
             {
                 name: 'permissions',
                 path: 'permissions',

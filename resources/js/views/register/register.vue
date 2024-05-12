@@ -65,7 +65,6 @@
   
 <script setup>
 
-    import axios from 'axios';
     import useAuth from '@/composables/auth'
 
     const { registerForm, validationErrors, processing, submitRegister } = useAuth();

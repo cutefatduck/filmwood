@@ -9,44 +9,44 @@
                 <div class="card-slider p-5">
                     <div class="mb-1">
                         <div class="row align-items-center">
-                                <div class="col-md-5">
-                                    <div class="d-flex justify-content-center justify-content-md-start">
+                            <div class="col-md-5">
+                                <div class="d-flex justify-content-center justify-content-md-start">
+                                    <router-link :to="{ name: 'media.view', params: { id: media.id } }">
+                                        <img :src="media?.portada_img" alt="Portada del Media Show" class="poster-image-home">
+                                    </router-link>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="d-flex flex-column justify-content-center mt-3">
+                                    <div class="titulo-card"><h3>{{ media.nombre }}</h3></div>
+                                    <div class="d-flex align-items-center mt-3 mb-3">
                                         <router-link :to="{ name: 'media.view', params: { id: media.id } }">
-                                            <img :src="media?.portada_img" alt="Portada del Media Show" class="poster-image-home">
+                                            <img class="play-button me-3" src="/images/play-button.svg">
                                         </router-link>
+                                        <span class="me-4 visitar">Visitar</span>
                                     </div>
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="d-flex flex-column justify-content-center mt-3">
-                                        <div class="titulo-card"><h3>{{ media.nombre }}</h3></div>
-                                        <div class="d-flex align-items-center mt-3 mb-3">
-                                            <router-link :to="{ name: 'media.view', params: { id: media.id } }">
-                                                <img class="play-button me-3" src="/images/play-button.svg">
-                                            </router-link>
-                                            <span class="me-4 visitar">Visitar</span>
-                                        </div>
-                                        <div v-if="media.genres && media.genres.length">
-                                            <span class="visitar movie-genre-details" v-for="(genre, index) in media.genres" :key="index">
-                                                <Tag value="secondary">{{ genre.name_genre }}</Tag>
-                                            </span>
-                                        </div>
+                                    <div v-if="media.genres && media.genres.length">
+                                        <span class="visitar movie-genre-details" v-for="(genre, index) in media.genres" :key="index">
+                                            <Tag value="secondary">{{ genre.name_genre }}</Tag>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center mt-5">
-                            <div class="me-3">
-                                <p>{{ media.fecha_media_show }}</p>
-                            </div>
-                            <div class="me-3">
-                                <p>{{ formateoDuracion(media.duracion) }}</p>
-                            </div>
-                            <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
-                                <p class="m-0">+{{ media.pemi }}</p>
-                            </div>
-                        </div>
-                        <div class="mt-3"><p>{{ media.sinopsis_corta }}</p></div>
                     </div>
+                    <div class="d-flex align-items-center mt-5">
+                        <div class="me-3">
+                            <p>{{ media.fecha_media_show }}</p>
+                        </div>
+                        <div class="me-3">
+                            <p>{{ formateoDuracion(media.duracion) }}</p>
+                        </div>
+                        <div class="id-pemi-box color-pemi text-light px-2 py-1 rounded">
+                            <p class="m-0">+{{ media.pemi }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-3"><p>{{ media.sinopsis_corta }}</p></div>
+                </div>
             </div>
         </div>
         <AppFooter />
@@ -55,23 +55,15 @@
 
 <script setup>
 
-    import { ref, onMounted, watch, computed } from 'vue';
+    import { ref, onMounted } from 'vue';
     import AppFooter from '@/layouts/AppFooter.vue';
     import { useGetMedia } from '@/composables/media';
     import { useGetMediaShowType } from '@/composables/mediaShowType';
     import { useGetGenres } from '@/composables/genres';
 
-    const { GetGenres, loading: loadingGenre, fetchGenres } = useGetGenres();
-    const { Getmedias, loading: loadingMedia, fetchMedia } = useGetMedia();
-    const { mediaShowTypes, loading: loadingTypes, fetchMediaShowType } = useGetMediaShowType();
-
-    // const selectedGenre = ref();
-    // const selectedType = ref();
-    // const selectedDate = ref([new Date().getFullYear(), new Date().getFullYear()]); // Rango de fechas por defecto
-
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const lastYear = 1910;
+    const { GetGenres, fetchGenres } = useGetGenres();
+    const { Getmedias, fetchMedia } = useGetMedia();
+    const { mediaShowTypes, fetchMediaShowType } = useGetMediaShowType();
 
     const formateoDuracion = (duration) => {
         if (!duration) return '';

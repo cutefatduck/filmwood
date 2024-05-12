@@ -129,7 +129,6 @@
           <p>Edad: {{ Getmedia.pemi }} años</p>
         </div>
       </div>
-      
       <div v-if="showReviewsTab" class="row justify-content-between">
         <div :class="{ 'details': showDetailsTab, 'valorations': !showDetailsTab }" class="col-lg-12">
           <div class="reviews-container row">
@@ -176,7 +175,7 @@
 
   const { isFavorite, getFavoriteImageSrc, handleFavoriteAction, fetchMediaFavoriteStatus } = useGetFavorites();
   const { isWatched, getWatchedImageSrc, handleWatchedAction, fetchMediaVisualizedStatus } = useGetVisualizated();
-  const { isValoration, GetValorations, getValorationImageSrc, handleValorationAction, fetchMediaValorationStatus, fetchValorationsByMediaId, closeDialog, handlePopState, getStarImage, visible, submitValoration } = useGetValorations();
+  const { isValoration, GetValorations, getValorationImageSrc, handleValorationAction, fetchMediaValorationStatus, fetchValorationsByMediaId, handlePopState, getStarImage, visible, submitValoration } = useGetValorations();
   const { Getmedia, fetchMediaById } = useGetMedia();
   const { copyURL } = useGetShare();
   

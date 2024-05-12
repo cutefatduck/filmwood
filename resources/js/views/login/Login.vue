@@ -34,7 +34,6 @@
 
 <script setup>
 
-    import { ref } from 'vue';
     import useAuth from '@/composables/auth'
     import InputText from 'primevue/inputtext';
 

@@ -75,7 +75,7 @@
   import AppFooter from '@/layouts/AppFooter.vue';
   import Swal from 'sweetalert2';
  
-  const { Getusers, loading, fetchUser, fetchUserById,deleteUser } = useGetUser();
+  const { fetchUserById,deleteUser } = useGetUser();
   const router = useRouter();
   const store = useStore();
   const userId = router.currentRoute.value.params.userId;

@@ -30,25 +30,13 @@ const model = ref([
         ]
     },
     {
-        label: 'Ejercicios',
-        items: [
-            { label: 'Ejercicios', icon: 'pi pi-fw pi-id-card', to: '/admin/exercises', permision: 'exercise-list' },
-            { label: 'Categorias', icon: 'pi pi-fw pi-id-card', to: '/admin/categories', permision: 'category-list' }
-        ]
-    },
-    {
         label: 'Media',
         items: [
             { label: 'Multimedia ', icon: 'pi pi-fw pi-id-card', to: '/admin/media', permision: 'post-list' },
         ]
         
     },
-    {
-        label: 'Posts',
-        items: [
-            { label: 'Posts', icon: 'pi pi-fw pi-id-card', to: '/admin/posts', permision: 'post-list' }
-        ]
-    }
+
 ]);
 </script>
 
