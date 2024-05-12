@@ -9,7 +9,7 @@
             <span v-for="genre in Getmedia.genres" class="movie-genre-details">
               <Tag value="secondary">{{ genre.name_genre }}</Tag>
             </span>
-            <div class="meta-container">
+            <div class="meta-container mt-2">
               <p class="meta-item">{{Getmedia.fecha_media_show}}</p>
               <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.temporadas}} temporadas</p>
               <p class="meta-item" v-if="Getmedia.mediashowtype_name == 'Serie'">{{Getmedia.episodios}} episodios</p>

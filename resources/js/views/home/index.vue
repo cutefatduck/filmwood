@@ -23,7 +23,7 @@
                             <div class="ms-auto">
                                 <div v-if="data.genres && data.genres.length">
                                     <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
-                                        <Tag value="p-tag1 secondary">{{ genre.name_genre }}</Tag>
+                                        <Tag value="secondary">{{ genre.name_genre }}</Tag>
                                     </span>
                                 </div>
                             </div>

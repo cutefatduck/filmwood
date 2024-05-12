@@ -923,7 +923,7 @@
 
   .p-tag{
     font-size: 17px;
-    margin-bottom: 20px;
+  
   }
   
   .movie-trailer {
@@ -1244,7 +1244,7 @@
 
   .p-tag{
     font-size: 13px;
-    margin-bottom: 20px;
+    margin-top: 10px;
   }
 }
 
@@ -1375,7 +1375,7 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      width: 50%;
+      /* width: 50%; */
     }
 
     .movie-genre {
@@ -1445,6 +1445,7 @@
 
     .movie-details {
       align-items: stretch;
+      justify-content: center;
     }
 
     .details-right {
