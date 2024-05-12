@@ -10,7 +10,8 @@
         <a :class="{ 'active-link': $route.path === item.to }" class="flex align-items-center" v-bind="props.action" :href="item.to">
           <span class="ml-2">{{ item.label }}</span>
           <!-- <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" /> -->
-          <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
+          <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}
+          </span>
           <i v-if="hasSubmenu" :class="['pi pi-angle-down', { 'pi-angle-down ml-2': root, 'pi-angle-right ml-auto': !root }]"></i>
         </a>
       </template>
@@ -19,7 +20,7 @@
         <div class="flex align-items-center gap-2">
           <template v-if="user?.name">
             <li class="nav-item lista">
-              <router-link class="nav-boton nav-link" to="/user/saved" >Mi lista</router-link>
+              <router-link class="nav-boton" to="/user/saved" >Mi lista</router-link>
             </li>
           </template>
           <template v-if="!user?.name">
@@ -66,7 +67,7 @@
 
   const isHomePage = computed(() => router.currentRoute.value.name === 'home');
 
-  const { randomMedia, fetchRandomMedia } = useGetMedia();
+  const { randomMedia,  fetchRandomMedia } = useGetMedia();
   const router = useRouter();
   const store = useStore();
   const user = computed(() => store.getters["auth/user"]);
@@ -90,7 +91,7 @@
       command: () => redirectToRandomView() 
     }
   ]);
-
+  
   // Esta función maneja el redireccionamiento a una vista aleatoria de película o serie
   async function redirectToRandomView() {
     fetchRandomMedia().then(() => {
@@ -101,7 +102,7 @@
       }
     }).catch((error) => {
       console.error('Error al consultar la base de datos:', error);
-  });
-}
+    });
+  }
 
 </script>

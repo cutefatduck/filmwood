@@ -41,7 +41,7 @@
           </template>
           <template v-if="user?.name" class="nav-item dropdown">
             <div class="username-dropdown">
-              <span class="mr-2 username">{{ user.name }}</span>
+              <span class="mr-2 username">{{ user.name_user }}</span>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><router-link class="dropdown-item" to="/user/perfil" >Perfil</router-link></li>
                 <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
