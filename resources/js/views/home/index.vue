@@ -22,9 +22,8 @@
                             <span class="me-5 visitar">Visitar</span>
                             <div class="ms-auto">
                                 <div v-if="data.genres && data.genres.length">
-                                    <span class="visitar" v-for="(genre, index) in data.genres" :key="index">
-                                        {{ genre.name_genre }}
-                                        <span v-if="index !== data.genres.length - 1">, </span>
+                                    <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
+                                        <Tag value="p-tag1 secondary">{{ genre.name_genre }}</Tag>
                                     </span>
                                 </div>
                             </div>
@@ -77,9 +76,8 @@
                                 <span class="me-5 visitar">Visitar</span>
                                 <div class="ms-auto">
                                     <div v-if="data.genres && data.genres.length">
-                                        <span class="visitar" v-for="(genre, index) in data.genres" :key="index">
-                                            {{ genre.name_genre }}
-                                            <span v-if="index !== data.genres.length - 1">, </span>
+                                        <span class="visitar movie-genre-details" v-for="(genre, index) in data.genres" :key="index">
+                                            <Tag value="p-tag1 secondary">{{ genre.name_genre }}</Tag>
                                         </span>
                                     </div>
                                 </div>

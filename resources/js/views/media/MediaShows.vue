@@ -1,8 +1,6 @@
 <template>
     <div class="contenedor-general-movie">
         <div class="filtros">
-            {{ filters.selectedType }}
-            {{ filters.selectedGenre }}
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4 ms-lg-5 offset-sm-1" v-model="filters.selectedType" :options="mediaShowTypes" optionLabel="type" placeholder="Tipo" />
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4" v-model="filters.selectedGenre" filter :options="GetGenres" optionLabel="name_genre" placeholder="Genero" />
             <Dropdown class="filter-dropdown w-full md:w-14rem me-4" v-model="filters.selectedValoration" filter :options="GetGenres" optionLabel="name_genre" placeholder="Valoraciones" />
@@ -21,10 +19,9 @@
                             <span class="me-5 visitar">Visitar</span>
                             <div class="ms-auto">
                                 <div v-if="media.genres && media.genres.length">
-                                    <span class="visitar" v-for="(genre, index) in media.genres" :key="index">
-                                        {{ genre.name_genre }}
-                                        <span v-if="index !== media.genres.length - 1">, </span>
-                                    </span>
+                                    <span class="visitar movie-genre-details" v-for="(genre, index) in media.genres" :key="index">
+                                        <Tag value="p-tag2 secondary">{{ genre.name_genre }}</Tag>
+                                     </span>
                                 </div>
                             </div>
                         </div>
