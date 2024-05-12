@@ -82,6 +82,18 @@ class MediaShowControllerTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+
+    public function testGetMediaShowByID()
+    {
+        // Supongamos que tienes un ID de media show válido
+        $mediaShowId = 1;
+
+        // Realizar la solicitud GET para obtener las valoraciones
+        $response = $this->get("api/media/{$mediaShowId}");
+
+        $response->assertStatus(200);
+    }
     
     public function testGetMediaShowByGenre()
     {
